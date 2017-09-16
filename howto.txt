@@ -1,0 +1,9 @@
+1. ajustar ip do arquivo P2P.py
+2. sudo python3 P2P.py (erro [Errno 98] é normal)
+3. sudo ./sendRequest.sh
+4. opção 5, inserir ip
+5. opção 7
+6. opção 1
+7. opção 2
+8. opção 8 p/ listar as infos
+9. repetir passos 6 e 7 de acordo com necessidade

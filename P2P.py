@@ -1,0 +1,360 @@
+import socket
+from threading import *
+from flask import Flask, request
+import chainFunctions
+from os import listdir
+from os.path import isfile, join
+import criptoFunctions
+from Crypto import Random
+import os
+import Info
+import threading
+import Block
+from Crypto.Cipher import AES
+import time
+import timeit
+import base64
+from Crypto.Hash import SHA256
+from Crypto.PublicKey import RSA
+from Crypto.Signature import PKCS1_v1_5
+
+app = Flask(__name__)
+peers = []
+blockchain = []
+lock = threading.Lock()
+
+blockchain.append(chainFunctions.getGenesisBlock())
+
+#gwPrv, gwPub, fileList = bootstrapChain()
+gwPvt = ""
+gwPub = ""
+
+#DEBUG Stuff
+# variaveis temporarias para armazenar o dado, a chave a a assinatura.                   pyChain.py:31
+tempDEBUGData = ""
+tempDEBUGKey = ""
+tempDEBUGSinature = ""
+
+def bootstrapChain():
+
+    folder = "./keys/"
+    publicK = []
+
+    for f in listdir(folder):
+        if isfile(join(folder, f)):
+            if f.startswith("public"):
+                publicK.append(folder+f)
+                fl = open(folder+f, 'r')
+                key = fl.read()
+                newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock())
+                addBlock(newBlock)
+
+            if f.startswith("Gateway_private"):
+                fl = open(folder+f, 'r')
+                gwPvt = fl.read()
+
+            if f.startswith("Gateway_public"):
+                fl = open(folder+f, 'r')
+                gwPub = fl.read()
+
+def addBlock(newBlock):
+    global blockchain
+    # if (isValidNewBlock(newBlock, getLatestBlock())):
+    blockchain.append(newBlock)
+
+# def addBlock(newBlock):
+#     if (isValidNewBlock(newBlock, getLatestBlock())):
+#         blockchain.append(newBlock)
+
+def isValidNewBlock(newBlock, previousBlock):
+    if(previousBlock.index+1 != newBlock.index):
+        print("Invalid index block")
+        return False
+    elif(previousBlock.hash != newBlock.previousHash):
+        print("Invalid previousHash")
+        return False
+    elif(criptoFunctions.calculateHashForBlock(newBlock) != newBlock.hash):
+        print("Calculated new Block hash invalid")
+        return False
+    return True
+
+def getLatestBlock():
+    global blockchain
+    return blockchain[len(blockchain) - 1]
+
+def findBlock(key):
+    global blockchain
+    for b in blockchain:
+        if(b.publicKey == key):
+            # print(b.publicKey + ', ' + key)
+            #print "key found"
+            return b
+
+    return False
+
+@app.route('/listPeers', methods=['POST'])
+def listPeers():
+    print(str(peers))
+    return str(peers)
+
+@app.route('/addPeer', methods=['POST'])
+def addPeer():
+    peer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    content = request.get_json()
+    peer.connect((content['host'], int(content['port'])))
+    peers.append(peer)
+    # print("connected to host")
+    # data = content['msg']
+    # # msg = { 0, "0", 1465154705, "my genesis block!!", "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7" }
+    # for peer in peers:
+    #     # print(str(peer))
+    #     peer.send((data).encode("UTF-8"))
+
+    return 'added\n'
+
+# encrypted data returns in base64
+def encryptRSA2(key, text):
+    k = RSA.importKey(key)
+    enc = k.encrypt(text, 42)[0]
+    enc64 = base64.b64encode(enc)
+    return enc64
+
+# data should be sent in base64
+def decryptRSA2(key, text):
+    k = RSA.importKey(key)
+    deb = base64.b64decode(text)
+    data = k.decrypt(deb)
+    return data
+
+def encryptAES(text, k):
+    #4242424242424242
+    cypher = AES.new(k, AES.MODE_ECB, "4242424242424242")
+    cy = cypher.encrypt(text)
+    enc64 = base64.b64encode(cy)
+    return enc64
+
+def decryptAES(text, k):
+    enc = base64.b64decode(text)
+    #print "key:"+k
+    decryption_suite = AES.new(k, AES.MODE_ECB, "4242424242424242")
+    plain_text = decryption_suite.decrypt(enc)
+    return plain_text
+
+def authenticate(publicKey, somedata):
+    global tempDEBUGKey
+    randomKey = os.urandom(32)
+    tempDEBUGKey = randomKey #Salva a chave que foi gerada randomicamente para uso posterior
+    encKey = encryptRSA2(publicKey, randomKey)
+    return encKey
+
+def signInfo(gwPvtKey, data):
+    signer = PKCS1_v1_5.new(gwPvtKey)
+    digest = SHA256.new()
+    digest.update(data)
+    s = signer.sign(digest)
+    sinature = base64.b64encode(s)
+    return sinature
+
+def signVerify(data, signature, gwPubKey):
+    signer = PKCS1_v1_5.new(gwPubKey)
+    digest = SHA256.new()
+    digest.update(data)
+    signaturerOr = base64.b64decode(signature)
+    result = signer.verify(digest, signaturerOr)
+    return result
+
+#metodo que recebe dados e uma chave publica
+# atraves da chave publica, busca na chain o bloco, e a chave publica que esta no bloco
+# utliza a chave encontrada no bloco da chain para encriptar o dado.
+@app.route('/auth', methods=['POST'])
+def auth():
+    global tempDEBUGKey
+    info = ''
+    t1 = time.time()
+    content = request.get_json()
+    data = content['data']
+    devPubKey = content['publicKey']
+    #print  "received key: "+devPubKey
+    blk = findBlock(devPubKey)
+    if(blk != False and blk.index > 0):
+        info = authenticate(blk.publicKey, data)
+
+    t2 = time.time()
+    print("=====1=====>time to generate key: "+'{0:.12f}'.format((t2-t1)*1000))
+    #print("Random key:"+base64.b64encode(tempDEBUGKey))
+
+#DEBUG
+    global gwPvt
+    random_generator = Random.new().read
+    key = RSA.generate(1024, random_generator)
+    gwPvt, public = key, key.publickey()
+#DEBUG
+    return info
+
+# funcao que recebe um dado encryptado, a chave publica e a assinatura do dispositivo.
+# busca o bloco identificado pela chave publica
+# decripta o dado (com a chave publica busca no bloco)
+# decripta a assinatura (com a chave publica do bloco)
+# cria um novo "bloco" de informacacao
+# assina o bloco de informacao primeiro com a chave do device depois com a chave do gateway
+# append o bloco de informacao ao Bloco da blockchain.
+@app.route('/info', methods=['POST'])
+def info():
+    global tempDEBUGData
+    global tempDEBUGKey
+    ti = time.time()
+    content = request.get_json()
+    encryptedData = content['data']
+    devPubKey = content['publicKey']
+    deviceSignatureCrypt = content['signature']
+    blk = findBlock(devPubKey)
+#DEBUG Sector
+    encryptedData = tempDEBUGData
+    deviceSignatureCrypt = tempDEBUGData
+    devPubKey = tempDEBUGKey
+#DEBUG
+    tinit = time.time()
+
+    if(blk != False and blk.index > 0):
+        plainData = decryptAES(encryptedData, devPubKey) # decripta o dado recebido
+        plainSign = decryptAES(deviceSignatureCrypt, devPubKey) # decripta a assinatura recebida
+        tdec = time.time()
+        print(blk.info[len(blk.info) - 1].index)
+        nextInt = blk.info[len(blk.info) - 1].index + 1
+        deviceInfo = Info.Info(nextInt, plainData, plainSign) # gera um pacote do tipo Info com o painData como conteudo
+        signData = signInfo(gwPvt, str(deviceInfo))
+        gatewayInfo = Info.Info(nextInt, deviceInfo, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
+        blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
+
+        tf = time.time()
+        print("=====2=====>time to add block: " + '{0:.12f}'.format((tf - ti) * 1000))
+        file = open("Chain.txt", 'w')
+        file.seek(0)
+        file.truncate()
+        file.write(str(blockchain))
+        file.close()
+        #print "==time to init: " + '{0:.12f}'.format((tinit - ti) * 1000)
+        #print "==time to decrypt: " + '{0:.12f}'.format((tdec - tinit) * 1000)
+        #print "==time to sign: " + '{0:.12f}'.format((tf - tdec) * 1000)
+        return signData
+
+# este metodo serve basicamente para simular o dispositivo que recebe a chave gerada randomincamente e encriptar alguma informacao.
+@app.route('/debugEncAES', methods=['POST'])
+def debugEncAES():
+    global tempDEBUGKey
+    global tempDEBUGData
+    global tempDEBUGSinature
+    content = request.get_json()
+    data = content['data']  #pega o dado que sera encriptado
+    d = encryptAES(data, tempDEBUGKey)   #encripta o dado com a chave que foi gerada no metodo de autenticacao (1)
+    tempDEBUGData = d    # guarda o dado encriptado para posteriormente ser inserido na blockchain
+    tempDEBUGSinature = signInfo(gwPvt, d)   # assina o dado gerado para mandar para o metodo de insercao no bloco da blockchain (3)
+    print("Your encrypted data is:"+d)
+    print("Your siganture is:" + tempDEBUGSinature)
+    return tempDEBUGData
+
+@app.route('/debugDecAES', methods=['POST'])
+def debugDecAES():
+    global tempDEBUGKey
+    global tempDEBUGData
+    d = decryptAES(tempDEBUGData, tempDEBUGKey)
+    print("Your plain data is:"+d)
+    return d
+
+@app.route('/listBlocks', methods=['POST'])
+def listBlocks():
+    global blockchain
+    print(blockchain)
+    file = open("Chain.txt")
+    chain = file.read()
+    file.close()
+    return chain
+
+@app.route('/listInfos', methods=['POST'])
+def listInfos():
+    global blockchain
+    infos = []
+    for block in blockchain:
+        infos.append(block.info)
+    return str(infos)
+
+@app.route('/startBootStrap', methods=['POST'])
+def startBootStrap():
+    global blockchain
+    bootstrapChain()
+    file = open("Chain.txt", 'w')
+    file.seek(0)
+    file.truncate()
+    file.write(str(blockchain))
+    file.close()
+    # aux = str(blockchain[0]).split(',')
+    # info = Info.Info(aux[3], aux[4], aux[5])
+    # blk = Block.Block(aux[0], aux[1], aux[2], info, aux[6], aux[7])
+    # if(findBlock(blk.publicKey) == False):
+    #     blockchain.append(blk)
+
+    # print(blockchain)
+    for peer in peers:
+        for block in blockchain:
+            peer.send(str(block).encode("UTF-8"))
+            # time.sleep(0.5)
+            # print(block)
+
+    return ""
+
+def main():
+    def runApp():
+        app.run(host='192.168.0.202', port=3001, debug=True)
+
+    def server():
+        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.bind(('192.168.0.202', 6001))
+        s.listen(1)
+        # print("listening")
+
+        def clienthandler(c):
+            global blockchain
+            try:
+                while True:
+                    data = c.recv(1024).decode("UTF-8")
+                    if not data:
+                        break
+                    else:
+                        # tempo = open("Tempo.txt", 'w')
+                        t0 = time.time()
+                        # print('recebi: ' + str(t0))
+                        # tempo.close()
+                        aux = str(data).split(',')
+                        info = Info.Info(aux[3], aux[4], aux[5])
+                        blk = Block.Block(aux[0], aux[1], aux[2], info, aux[6], aux[7])
+                        if (findBlock(blk.publicKey) == False):
+                            addBlock(blk)
+                            # tempo = open("Tempo.txt", 'w')
+                            print('inclui: ' + str(time.time() - t0))
+                            # tempo.close()
+                            file = open("Chain.txt", 'w')
+                            file.seek(0)
+                            file.truncate()
+                            file.write(str(blockchain))
+                            file.close()
+                            for peer in peers:
+                                for block in blockchain:
+                                    peer.send(str(block).encode("UTF-8"))
+                                    # print(block)
+                            # print(listBlocks())
+                        else:
+                            # tempo = open("Tempo.txt", 'w')
+                            print('n inclui: ' + str(time.time() - t0))
+                            # tempo.close()
+            except:
+                c.close()
+
+        while True:
+            c, addr = s.accept()
+            Thread(target=clienthandler, args=(c,)).start()
+
+    Thread(target=server).start()
+    runApp()
+
+if __name__ == '__main__':
+    main()
