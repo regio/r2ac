@@ -1,6 +1,7 @@
 #!/bin/bash
-server = ''
+
 while true; do
+    
 	echo "Choose your option:"
 	echo "[0] - Exit"
 	echo "[1] - Begin transaction"
@@ -13,9 +14,32 @@ while true; do
     echo "[8] - List all blocks infos"
     read -p "=>" yn
     case $yn in
-        [1]* ) curl -H "Content-type:application/json" --data '{"data" : "information", "publicKey": "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"}' http://$server:3001/auth;;
+        [1]* ) 
+                t1=`date +%s%N`
+                curl -H "Content-type:application/json" --data '{"data" : "information", "publicKey": "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"}' http://$server:3001/auth
+                t2=`date +%s%N`
+                t3=$((t2 - t1))
+                tn=$((t3 / 1000000))
+                echo "Time in mili to send request: $tn" ;;
 
-		[2]* ) curl -H "Content-type:application/json" --data '{"data" : "information", "publicKey": "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n", "signature": "ss"}' http://$server:3001/info;;
+		[2]* ) echo "How many requests:"
+                read -p "==>" rep 
+                i=1 
+                while [ "$i" -le "$rep" ] 
+                do                    
+                    echo "Sending $i request"
+                    t1=`date +%s%N`
+                    curl -H "Content-type:application/json" --data '{"data" : "information", "publicKey": "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n", "signature": "ss"}' http://$server:3001/info
+                    t2=`date +%s%N`
+                    echo "end $t2"
+                    i=$((i + 1 ))
+                    t3=$((t2 - t1))
+                    tn=$((t3 / 1000000))
+                    #echo "Time in nano to send request: $t3"
+                    echo "Time in mili to send request: $tn"
+                    sleep 1
+                done 
+                echo "ok" ;;
 
         [3]* ) curl -H "Content-type:application/json" --data '{"data" : "1234567890123456"}' http://$server:3001/debugEncAES;;
 
