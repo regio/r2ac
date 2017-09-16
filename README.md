@@ -8,3 +8,10 @@ Dependencies:
 
 
 The key folder is just a bunch of random public and private keys created for tests purpose.
+
+
+TODO List:
+- implement an consensus algorithm
+- improve the REST methods
+- auto-generate the keys (for test purpouses only)
+- instrumentalize code and parametrize its time collect
