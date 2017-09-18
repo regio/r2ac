@@ -181,7 +181,7 @@ def auth():
 
     t2 = time.time()
     print("=====1=====>time to generate key: "+'{0:.12f}'.format((t2-t1)*1000))
-    #print("Random key:"+base64.b64encode(tempDEBUGKey))
+    print("Random key:"+base64.b64encode(tempDEBUGKey))
 
 #DEBUG
     global gwPvt
@@ -202,7 +202,7 @@ def auth():
 def info():
     global tempDEBUGData
     global tempDEBUGKey
-    ti = time.time()
+    # ti = time.time()
     content = request.get_json()
     encryptedData = content['data']
     devPubKey = content['publicKey']
@@ -218,21 +218,20 @@ def info():
     if(blk != False and blk.index > 0):
         plainData = decryptAES(encryptedData, devPubKey) # decripta o dado recebido
         plainSign = decryptAES(deviceSignatureCrypt, devPubKey) # decripta a assinatura recebida
-        tdec = time.time()
+        # tdec = time.time()
         print(blk.info[len(blk.info) - 1].index)
         nextInt = blk.info[len(blk.info) - 1].index + 1
-        deviceInfo = Info.Info(nextInt, plainData, plainSign) # gera um pacote do tipo Info com o painData como conteudo
-        signData = signInfo(gwPvt, str(deviceInfo))
-        gatewayInfo = Info.Info(nextInt, deviceInfo, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
+        # deviceInfo = Info.Info(nextInt, plainData, plainSign) # gera um pacote do tipo Info com o painData como conteudo
+        signData = signInfo(gwPvt, plainData)
+        gatewayInfo = Info.Info(nextInt, plainData, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
         blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
 
-        tf = time.time()
-        print("=====2=====>time to add block: " + '{0:.12f}'.format((tf - ti) * 1000))
-        file = open("Chain.txt", 'w')
-        file.seek(0)
-        file.truncate()
-        file.write(str(blockchain))
-        file.close()
+        for peer in peers:
+            peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
+
+        # tf = time.time()
+        # print("=====2=====>time to add block: " + '{0:.12f}'.format((tf - ti) * 1000))
+        updateChain()
         #print "==time to init: " + '{0:.12f}'.format((tinit - ti) * 1000)
         #print "==time to decrypt: " + '{0:.12f}'.format((tdec - tinit) * 1000)
         #print "==time to sign: " + '{0:.12f}'.format((tf - tdec) * 1000)
@@ -282,70 +281,74 @@ def listInfos():
 def startBootStrap():
     global blockchain
     bootstrapChain()
+    updateChain()
+    for peer in peers:
+        for block in blockchain:
+            peer.send(str(block).encode("UTF-8"))
+
+    return ""
+
+def updateChain():
+    global blockchain
     file = open("Chain.txt", 'w')
     file.seek(0)
     file.truncate()
     file.write(str(blockchain))
     file.close()
-    # aux = str(blockchain[0]).split(',')
-    # info = Info.Info(aux[3], aux[4], aux[5])
-    # blk = Block.Block(aux[0], aux[1], aux[2], info, aux[6], aux[7])
-    # if(findBlock(blk.publicKey) == False):
-    #     blockchain.append(blk)
 
-    # print(blockchain)
-    for peer in peers:
-        for block in blockchain:
-            peer.send(str(block).encode("UTF-8"))
-            # time.sleep(0.5)
-            # print(block)
+def newBlock(data):
+    global blockchain
+    info = Info.Info(data[3], data[4], data[5])
+    blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
+    if (findBlock(blk.publicKey) == False):
+        addBlock(blk)
+        updateChain()
+        for peer in peers:
+            for block in blockchain:
+                peer.send(str(block).encode("UTF-8"))
 
-    return ""
+def newInfo(data, t1):
+    check = False
+    blk = findBlock(data[0])
+    if(blk != False):
+        newInfo = Info.Info(data[1], data[2], data[3])
+        for info in blk.info:
+            if(info.index == newInfo.index):
+                check = True
+                break
+
+        if(check == False):
+            blk.info.append(newInfo)
+            print("time to add new info: " + '{0:.12f}'.format((time.time() - t1) * 1000))
+            updateChain()
+
+        for peer in peers:
+            peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
 
 def main():
     def runApp():
-        app.run(host='192.168.0.202', port=3001, debug=True)
+        app.run(host='10.32.175.75', port=3001, debug=True)
 
     def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('192.168.0.202', 6001))
+        s.bind(('10.32.175.75', 6001))
         s.listen(1)
-        # print("listening")
 
         def clienthandler(c):
             global blockchain
             try:
                 while True:
                     data = c.recv(1024).decode("UTF-8")
+                    t1 = time.time()
                     if not data:
                         break
                     else:
-                        # tempo = open("Tempo.txt", 'w')
-                        t0 = time.time()
-                        # print('recebi: ' + str(t0))
-                        # tempo.close()
                         aux = str(data).split(',')
-                        info = Info.Info(aux[3], aux[4], aux[5])
-                        blk = Block.Block(aux[0], aux[1], aux[2], info, aux[6], aux[7])
-                        if (findBlock(blk.publicKey) == False):
-                            addBlock(blk)
-                            # tempo = open("Tempo.txt", 'w')
-                            print('inclui: ' + str(time.time() - t0))
-                            # tempo.close()
-                            file = open("Chain.txt", 'w')
-                            file.seek(0)
-                            file.truncate()
-                            file.write(str(blockchain))
-                            file.close()
-                            for peer in peers:
-                                for block in blockchain:
-                                    peer.send(str(block).encode("UTF-8"))
-                                    # print(block)
-                            # print(listBlocks())
+                        if(len(aux) == 8):
+                            newBlock(aux)
                         else:
-                            # tempo = open("Tempo.txt", 'w')
-                            print('n inclui: ' + str(time.time() - t0))
-                            # tempo.close()
+                            newInfo(aux, t1)
+
             except:
                 c.close()
 
