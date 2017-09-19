@@ -9,7 +9,7 @@ class Block:
         self.publicKey = publicKey
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s,%s" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.info), str(self.hash), str(self.publicKey))
+        return "%s,%s,%s,%s,%s" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.hash), str(self.publicKey))
 
     def __repr__(self):
-        return "<%s, %s, %s, %s, %s, %s>" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.info), str(self.hash), str(self.publicKey))
+        return "<%s, %s, %s, %s, %s>" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.hash), str(self.publicKey))

@@ -34,6 +34,7 @@ gwPub = ""
 tempDEBUGData = ""
 tempDEBUGKey = ""
 tempDEBUGSinature = ""
+tempDEBUGTimestamp = ""
 
 def bootstrapChain():
 
@@ -81,6 +82,10 @@ def isValidNewBlock(newBlock, previousBlock):
 def getLatestBlock():
     global blockchain
     return blockchain[len(blockchain) - 1]
+
+def getLatestInfo(blk):
+        return blk.info[len(blk.info) - 1]
+
 
 def findBlock(key):
     global blockchain
@@ -202,6 +207,7 @@ def auth():
 def info():
     global tempDEBUGData
     global tempDEBUGKey
+    global tempDEBUGTimestamp
     # ti = time.time()
     content = request.get_json()
     encryptedData = content['data']
@@ -212,6 +218,7 @@ def info():
     encryptedData = tempDEBUGData
     deviceSignatureCrypt = tempDEBUGData
     devPubKey = tempDEBUGKey
+    devDataTimeStamp = tempDEBUGTimestamp
 #DEBUG
     tinit = time.time()
 
@@ -223,7 +230,11 @@ def info():
         nextInt = blk.info[len(blk.info) - 1].index + 1
         # deviceInfo = Info.Info(nextInt, plainData, plainSign) # gera um pacote do tipo Info com o painData como conteudo
         signData = signInfo(gwPvt, plainData)
-        gatewayInfo = Info.Info(nextInt, plainData, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
+
+        #code responsible to create the hash between Info nodes.
+        prevInfoHash = criptoFunctions.calculateHashForInfo(getLatestInfo(blk))
+        gatewayInfo = Info.Info(nextInt, prevInfoHash, devDataTimeStamp, plainData, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
+        #gatewayInfo = Info.Info(nextInt, plainData, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
         blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
 
         for peer in peers:
@@ -243,11 +254,13 @@ def debugEncAES():
     global tempDEBUGKey
     global tempDEBUGData
     global tempDEBUGSinature
+    global tempDEBUGTimestamp
     content = request.get_json()
     data = content['data']  #pega o dado que sera encriptado
     d = encryptAES(data, tempDEBUGKey)   #encripta o dado com a chave que foi gerada no metodo de autenticacao (1)
     tempDEBUGData = d    # guarda o dado encriptado para posteriormente ser inserido na blockchain
     tempDEBUGSinature = signInfo(gwPvt, d)   # assina o dado gerado para mandar para o metodo de insercao no bloco da blockchain (3)
+    tempDEBUGTimestamp = time.time()
     print("Your encrypted data is:"+d)
     print("Your siganture is:" + tempDEBUGSinature)
     return tempDEBUGData
@@ -327,11 +340,11 @@ def newInfo(data, t1):
 
 def main():
     def runApp():
-        app.run(host='10.32.175.75', port=3001, debug=True)
+        app.run(host='10.32.175.144', port=3001, debug=True)
 
     def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('10.32.175.75', 6001))
+        s.bind(('10.32.175.144', 6001))
         s.listen(1)
 
         def clienthandler(c):

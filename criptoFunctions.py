@@ -9,3 +9,9 @@ def calculateHash(index, previousHash, timestamp, key):
 
 def calculateHashForBlock(block):
     return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey)
+
+def calculateHashForInfo(info):
+	shaFunc = hashlib.sha256()
+	shaFunc.update((str(info.index)+str(info.previousHash)+str(info.timestamp)+str(info.data)+str(info.signature)).encode('utf-8'))
+	val = shaFunc.hexdigest()
+	return val
