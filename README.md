@@ -15,3 +15,4 @@ TODO List:
 - improve the REST methods
 - auto-generate the keys (for test purpouses only)
 - instrumentalize code and parametrize its time collect
+- change the info genesis block hash to point to the block header hash
