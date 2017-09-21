@@ -350,7 +350,7 @@ def main():
 
     def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((sys.argv[1], sys.argv[2]))
+        s.bind((sys.argv[1], int(sys.argv[2])))
         s.listen(1)
 
         def clienthandler(c):
@@ -382,7 +382,7 @@ if __name__ == '__main__':
 
     if len(sys.argv[1:]) < 1:
         print "Command Line usage:"
-        print "    python P2P.py <computer IP>"
+        print "    python P2P.py <computer IP> <port>"
         quit()
     main()
 
