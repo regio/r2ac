@@ -93,6 +93,8 @@ def getLatestInfo(blk):
 def findBlock(key):
     global blockchain
     for b in blockchain:
+        print "local:   --|"+b.publicKey+"|--"
+        print "recived: --|"+key+"|--"
         if(b.publicKey == key):
             # print(b.publicKey + ', ' + key)
             #print "key found"
@@ -342,14 +344,14 @@ def newInfo(data, t1):
             print("time to add new info: " + '{0:.12f}'.format((time.time() - t1) * 1000))
             updateChain()
 
-        te = time.time()
-        difff = te-tr
-        print "Time to update Block with recived info: " + difff
-
         for peer in peers:
             peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
     else:
         print "not found:Block:" + data[0]
+
+    te = time.time()
+    difff = te-tr
+    print "Time to update Block with recived info: " + difff        
 
 def main():
     def runApp():
