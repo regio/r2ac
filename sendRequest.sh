@@ -59,7 +59,7 @@ while true; do
                 read -p "==>" peer
                 echo "Inform the peer port:"
                 read -p "==>" port
-            curl -H "Content-type:application/json" --data '{"host" : "$peer", "port" : "$port" }' http://$server:3001/addPeer;;
+            curl -H "Content-type:application/json" --data '{"host" : "'$peer'", "port" : "'$port'" }' http://$server:3001/addPeer;;
 
         [w]* ) curl -H "Content-type:application/json" --data '{"data" : "x"}' http://$server:3001/listPeers;;            
 

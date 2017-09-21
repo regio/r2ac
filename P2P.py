@@ -109,6 +109,9 @@ def listPeers():
 def addPeer():
     peer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     content = request.get_json()
+    print "Port value:"
+    print content['host']
+    print content['port']
     peer.connect((content['host'], int(content['port'])))
     peers.append(peer)
     # print("connected to host")
