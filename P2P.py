@@ -1,3 +1,4 @@
+import sys
 import socket
 from threading import *
 from flask import Flask, request
@@ -35,6 +36,8 @@ tempDEBUGData = ""
 tempDEBUGKey = ""
 tempDEBUGSinature = ""
 tempDEBUGTimestamp = ""
+
+
 
 def bootstrapChain():
 
@@ -311,8 +314,10 @@ def updateChain():
 
 def newBlock(data):
     global blockchain
-    info = Info.Info(data[3], data[4], data[5])
-    blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
+    #info = Info.Info(data[3], data[4], data[5])
+    #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
+    info = Info.Info(data[3], data[4], data[5], data[6], data[7])
+    blk = Block.Block(data[0], data[1], data[2], info, data[8], data[9])
     if (findBlock(blk.publicKey) == False):
         addBlock(blk)
         updateChain()
@@ -324,7 +329,8 @@ def newInfo(data, t1):
     check = False
     blk = findBlock(data[0])
     if(blk != False):
-        newInfo = Info.Info(data[1], data[2], data[3])
+        #newInfo = Info.Info(data[1], data[2], data[3])
+        newInfo = Info.Info(data[1], data[2], data[3], data[4], data[5])
         for info in blk.info:
             if(info.index == newInfo.index):
                 check = True
@@ -340,11 +346,11 @@ def newInfo(data, t1):
 
 def main():
     def runApp():
-        app.run(host='10.32.175.144', port=3001, debug=True)
+        app.run(host=sys.argv[1], port=3001, debug=True)
 
     def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind(('10.32.175.144', 6001))
+        s.bind((sys.argv[1], 6001))
         s.listen(1)
 
         def clienthandler(c):
@@ -373,4 +379,10 @@ def main():
     runApp()
 
 if __name__ == '__main__':
+
+    if len(sys.argv[1:]) < 1:
+        print "Command Line usage:"
+        print "    python P2P.py <computer IP>"
+        quit()
     main()
+
