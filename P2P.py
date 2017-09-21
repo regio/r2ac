@@ -326,6 +326,7 @@ def newBlock(data):
                 peer.send(str(block).encode("UTF-8"))
 
 def newInfo(data, t1):
+    tr = time.time()
     check = False
     blk = findBlock(data[0])
     if(blk != False):
@@ -340,6 +341,10 @@ def newInfo(data, t1):
             blk.info.append(newInfo)
             print("time to add new info: " + '{0:.12f}'.format((time.time() - t1) * 1000))
             updateChain()
+
+        te = time.time()
+        difff = te-tr
+        print "Time to update Block with recived info: " + difff
 
         for peer in peers:
             peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
@@ -368,9 +373,9 @@ def main():
                             print "received a new block"
                             newBlock(aux)
                         else:
-                            print "received a new info"
+                            print "received a new info"                            
                             newInfo(aux, t1)
-
+                            
             except:
                 c.close()
 
