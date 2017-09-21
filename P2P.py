@@ -348,6 +348,8 @@ def newInfo(data, t1):
 
         for peer in peers:
             peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
+    else:
+        print "not found:Block:" + data[0]
 
 def main():
     def runApp():
