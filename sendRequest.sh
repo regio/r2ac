@@ -12,6 +12,8 @@ while true; do
     echo "[6] - List blocks in chain"
     echo "[7] - Start bootstrap"
     echo "[8] - List all blocks infos"
+    echo "[9] - Add new peer"
+    echo "[w] - List peers"
     read -p "=>" yn
     case $yn in
         [1]* ) 
@@ -52,6 +54,14 @@ while true; do
         [7]* ) curl -H "Content-type:application/json" --data '{"data" : "x"}' http://$server:3001/startBootStrap;;
 
         [8]* ) curl -H "Content-type:application/json" --data '{"data" : "x"}' http://$server:3001/listInfos;;
+
+        [9]* ) echo "Inform the peer address:"
+                read -p "==>" peer
+                echo "Inform the peer port:"
+                read -p "==>" port
+            curl -H "Content-type:application/json" --data '{"host" : "$peer", "port" : "$port" }' http://$server:3001/addPeer;;
+
+        [w]* ) curl -H "Content-type:application/json" --data '{"data" : "x"}' http://$server:3001/listPeers;;            
 
         [0]* ) exit;;
         * ) echo "Please answer.";;

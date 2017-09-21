@@ -350,7 +350,7 @@ def main():
 
     def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((sys.argv[1], 6001))
+        s.bind((sys.argv[1], sys.argv[2]))
         s.listen(1)
 
         def clienthandler(c):
