@@ -1,8 +1,8 @@
 #!/bin/bash
-
+server="localhost"
 while true; do
     
-	echo "Choose your option:"
+	echo "Choose your option ["$server"]:"
 	echo "[0] - Exit"
 	echo "[1] - Begin transaction"
 	echo "[2] - Add some information"

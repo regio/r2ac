@@ -109,9 +109,6 @@ def listPeers():
 def addPeer():
     peer = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     content = request.get_json()
-    print "Port value:"
-    print content['host']
-    print content['port']
     peer.connect((content['host'], int(content['port'])))
     peers.append(peer)
     # print("connected to host")
@@ -366,9 +363,12 @@ def main():
                         break
                     else:
                         aux = str(data).split(',')
+                        print "received some data..."
                         if(len(aux) == 8):
+                            print "received a new block"
                             newBlock(aux)
                         else:
+                            print "received a new info"
                             newInfo(aux, t1)
 
             except:
