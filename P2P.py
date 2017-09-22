@@ -1,4 +1,3 @@
-import cPickle as pickle
 import traceback
 import sys
 import socket
@@ -15,7 +14,6 @@ import threading
 import Block
 from Crypto.Cipher import AES
 import time
-import timeit
 import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
@@ -262,7 +260,7 @@ def info():
 
         # tf = time.time()
         # print("=====2=====>time to add block: " + '{0:.12f}'.format((tf - ti) * 1000))
-        updateChain()
+        # updateChain()
         #print "==time to init: " + '{0:.12f}'.format((tinit - ti) * 1000)
         #print "==time to decrypt: " + '{0:.12f}'.format((tdec - tinit) * 1000)
         #print "==time to sign: " + '{0:.12f}'.format((tf - tdec) * 1000)
@@ -316,7 +314,7 @@ def startBootStrap():
     global blockchain
     print ("[1-startBootStrap]Chain size:"+str(len(blockchain)))
     bootstrapChain()
-    updateChain()
+    # updateChain()
     print ("[2-startBootStrap]Chain size:"+str(len(blockchain)))
     for peer in peers:
         for block in blockchain:
@@ -336,13 +334,13 @@ def startBootStrap():
 
     return ""
 
-def updateChain():
-    global blockchain
-    file = open("Chain.txt", 'w')
-    file.seek(0)
-    file.truncate()
-    file.write(str(blockchain))
-    file.close()
+# def updateChain():
+#     global blockchain
+#     file = open("Chain.txt", 'w')
+#     file.seek(0)
+#     file.truncate()
+#     file.write(str(blockchain))
+#     file.close()
 
 def newBlock(data):
     global blockchain
@@ -356,7 +354,7 @@ def newBlock(data):
     if (findBlock(blk.publicKey) == False):
         print("=====>New block is appended to chain")
         addBlock(blk)
-        updateChain()
+        # updateChain()
         for peer in peers:
             for block in blockchain:
                 peer.send(str(block).encode("UTF-8"))
@@ -376,7 +374,7 @@ def newInfo(data, t1):
         if(check == False):
             blk.info.append(newInfo)
             print("time to add new info: " + '{0:.12f}'.format((time.time() - t1) * 1000))
-            updateChain()
+            # updateChain()
 
         for peer in peers:
             peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
@@ -409,7 +407,7 @@ def main():
                     else:
                         aux = str(data).split(',')
                         #print ("#############################################################")
-                        print ("===>recived size:"+str(len(aux)))
+                        print ("===>received size:"+str(len(aux)))
                         #print ("===>received some data...:"+str(data))
                         #if(len(aux) == 8):
                         if(len(aux) > 8):
@@ -433,13 +431,16 @@ def main():
 
         while True:
             c, addr = s.accept()
-            Thread(target=clienthandler, args=(c,)).start()
+            client = Thread(target=clienthandler, args=(c,))
+            client.start()
+            client.join()
 
-    Thread(target=server).start()
+    sv = Thread(target=server)
+    sv.start()
     runApp()
+    sv.join()
 
 if __name__ == '__main__':
-
     if len(sys.argv[1:]) < 1:
         print ("Command Line usage:")
         print ("    python P2P.py <computer IP> <port>")
