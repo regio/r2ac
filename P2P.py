@@ -1,3 +1,4 @@
+import traceback
 import sys
 import socket
 from threading import *
@@ -18,6 +19,7 @@ import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
+import hashlib
 
 app = Flask(__name__)
 peers = []
@@ -38,6 +40,11 @@ tempDEBUGSinature = ""
 tempDEBUGTimestamp = ""
 
 
+def createHash(key):
+    shaFunc = hashlib.sha256()
+    shaFunc.update((key).encode('utf-8'))
+    val = shaFunc.hexdigest()
+    return val
 
 def bootstrapChain():
 
@@ -64,6 +71,7 @@ def bootstrapChain():
 def addBlock(newBlock):
     global blockchain
     # if (isValidNewBlock(newBlock, getLatestBlock())):
+    print "[addBlock]Chain size:"+str(len(blockchain))
     blockchain.append(newBlock)
 
 # def addBlock(newBlock):
@@ -92,14 +100,19 @@ def getLatestInfo(blk):
 
 def findBlock(key):
     global blockchain
+    print "Chain size:"+str(len(blockchain))
+    print "==========================================================="
     for b in blockchain:
         print "local:   --|"+b.publicKey+"|--"
+        #print "local hash:" + createHash(b.publicKey)
         print "recived: --|"+key+"|--"
+        #print "recei hash:" + createHash(key)
         if(b.publicKey == key):
-            # print(b.publicKey + ', ' + key)
-            #print "key found"
+            print(b.publicKey + ', ' + key)
+            print "key found"
+            print "==========================================================="            
             return b
-
+    print "==========================================================="
     return False
 
 @app.route('/listPeers', methods=['POST'])
@@ -243,6 +256,7 @@ def info():
         blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
 
         for peer in peers:
+            #peer.send("asdf")
             peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
 
         # tf = time.time()
@@ -281,6 +295,7 @@ def debugDecAES():
 @app.route('/listBlocks', methods=['POST'])
 def listBlocks():
     global blockchain
+    print "total of blocks:"+str(len(blockchain))
     print(blockchain)
     file = open("Chain.txt")
     chain = file.read()
@@ -298,6 +313,7 @@ def listInfos():
 @app.route('/startBootStrap', methods=['POST'])
 def startBootStrap():
     global blockchain
+    print "[startBootStrap]Chain size:"+str(len(blockchain))
     bootstrapChain()
     updateChain()
     for peer in peers:
@@ -316,6 +332,7 @@ def updateChain():
 
 def newBlock(data):
     global blockchain
+    print "[newBlock]Chain size:"+str(len(blockchain))
     #info = Info.Info(data[3], data[4], data[5])
     #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
     info = Info.Info(data[3], data[4], data[5], data[6], data[7])
@@ -351,7 +368,7 @@ def newInfo(data, t1):
 
     te = time.time()
     difff = te-tr
-    print "Time to update Block with recived info: " + difff        
+    print "Time to update Block with recived info: " + str(difff)
 
 def main():
     def runApp():
@@ -380,7 +397,13 @@ def main():
                             print "received a new info"                            
                             newInfo(aux, t1)
                             
-            except:
+            except Exception as e:
+                print "something went wrong... closing connection:"
+                print(e)
+                exc_info = sys.exc_info()
+                traceback.print_exception(*exc_info)
+                del exc_info
+                print "done error"
                 c.close()
 
         while True:
