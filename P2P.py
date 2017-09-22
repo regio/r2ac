@@ -70,9 +70,25 @@ def bootstrapChain():
 def addBlock(newBlock):
     global blockchain
     # if (isValidNewBlock(newBlock, getLatestBlock())):
+    print("current thread: " + str(threading.current_thread()))
     print ("[addBlock]Chain size:"+str(len(blockchain)))
     blockchain.append(newBlock)
 
+    for peer in peers:
+        for block in blockchain:
+            #print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
+            #print("*********************Data Sent:"+str(block))
+            if(len(str(block)) < 500):
+                #data_string = pickle.dumps(block, -1)
+                dif=500-len(str(block))-1
+                pad = ''
+                for x in range(0,dif):
+                    pad=pad+"w"
+                #print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
+                peer.send(str(str(block)+","+pad).encode("UTF-8"))
+            else:
+                peer.send(str(block).encode("UTF-8"))
+                #peer.send(data_string)
 # def addBlock(newBlock):
 #     if (isValidNewBlock(newBlock, getLatestBlock())):
 #         blockchain.append(newBlock)
@@ -95,7 +111,6 @@ def getLatestBlock():
 
 def getLatestInfo(blk):
         return blk.info[len(blk.info) - 1]
-
 
 def findBlock(key):
     global blockchain
@@ -294,12 +309,13 @@ def debugDecAES():
 @app.route('/listBlocks', methods=['POST'])
 def listBlocks():
     global blockchain
+    print("current thread: " + str(threading.current_thread()))
     print ("[listBlocks]total of blocks:"+str(len(blockchain)))
-    print(blockchain)
-    file = open("Chain.txt")
-    chain = file.read()
-    file.close()
-    return chain
+    # print(blockchain)
+    # file = open("Chain.txt")
+    # chain = file.read()
+    # file.close()
+    return str(blockchain)
 
 @app.route('/listInfos', methods=['POST'])
 def listInfos():
@@ -316,21 +332,6 @@ def startBootStrap():
     bootstrapChain()
     # updateChain()
     print ("[2-startBootStrap]Chain size:"+str(len(blockchain)))
-    for peer in peers:
-        for block in blockchain:
-            #print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
-            #print("*********************Data Sent:"+str(block))
-            if(len(str(block)) < 500):
-                #data_string = pickle.dumps(block, -1)
-                dif=500-len(str(block))-1
-                pad = ''
-                for x in range(0,dif):
-                    pad=pad+"w"
-                #print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
-                peer.send(str(block).encode("UTF-8")+","+pad)
-            else:
-                peer.send(str(block).encode("UTF-8"))
-                #peer.send(data_string)
 
     return ""
 
@@ -345,6 +346,7 @@ def startBootStrap():
 def newBlock(data):
     global blockchain
     #print (data)
+    print("current thread: " + str(threading.current_thread()))
     print ("=====>[newBlock]Chain size:"+str(len(blockchain)))
     #info = Info.Info(data[3], data[4], data[5])
     #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
@@ -355,9 +357,9 @@ def newBlock(data):
         print("=====>New block is appended to chain")
         addBlock(blk)
         # updateChain()
-        for peer in peers:
-            for block in blockchain:
-                peer.send(str(block).encode("UTF-8"))
+        # for peer in peers:
+        #     for block in blockchain:
+        #         peer.send(str(block).encode("UTF-8"))
 
 def newInfo(data, t1):
     #tr = time.time()
@@ -395,6 +397,7 @@ def main():
         s.listen(1)
 
         def clienthandler(c):
+            q.get()
             global blockchain
             try:
                 tprevious = time.time()
@@ -434,11 +437,13 @@ def main():
 
         while True:
             c, addr = s.accept()
-            client = Thread(target=clienthandler, args=(c,))
+            client = Thread(target=clienthandler, args=(c, ))
+            client.daemon = True
             client.start()
             client.join()
 
     sv = Thread(target=server)
+    sv.daemon = True
     sv.start()
     runApp()
     sv.join()
