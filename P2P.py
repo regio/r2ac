@@ -257,7 +257,7 @@ def info():
         blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
 
         for peer in peers:
-            #peer.send("asdf")
+            print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
             peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
 
         # tf = time.time()
@@ -321,9 +321,10 @@ def startBootStrap():
     for peer in peers:
         for block in blockchain:
             print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
-            if(len(str(block)) < 400):
+            print("*********************Data Sent:"+str(block))
+            if(len(str(block)) < 500):
                 #data_string = pickle.dumps(block, -1)
-                dif=400-len(str(block))-1
+                dif=500-len(str(block))-1
                 pad = ''
                 for x in range(0,dif):
                     pad=pad+"w"
@@ -399,7 +400,7 @@ def main():
             global blockchain
             try:
                 while True:
-                    data = c.recv(400).decode("UTF-8")
+                    data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
                     t1 = time.time()
@@ -407,7 +408,7 @@ def main():
                         break
                     else:
                         aux = str(data).split(',')
-                        print ("##################################################")
+                        print ("#############################################################")
                         print ("===>recived size:"+str(len(aux)))
                         print ("===>received some data...:"+str(data))
                         #if(len(aux) == 8):
