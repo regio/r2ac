@@ -257,7 +257,7 @@ def info():
         blk.info.append(gatewayInfo) # append o Info para o bloco da blockchain.
 
         for peer in peers:
-            print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
+            #print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
             peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
 
         # tf = time.time()
@@ -320,15 +320,15 @@ def startBootStrap():
     print ("[2-startBootStrap]Chain size:"+str(len(blockchain)))
     for peer in peers:
         for block in blockchain:
-            print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
-            print("*********************Data Sent:"+str(block))
+            #print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
+            #print("*********************Data Sent:"+str(block))
             if(len(str(block)) < 500):
                 #data_string = pickle.dumps(block, -1)
                 dif=500-len(str(block))-1
                 pad = ''
                 for x in range(0,dif):
                     pad=pad+"w"
-                print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
+                #print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
                 peer.send(str(block).encode("UTF-8")+","+pad)
             else:
                 peer.send(str(block).encode("UTF-8"))
@@ -362,7 +362,7 @@ def newBlock(data):
                 peer.send(str(block).encode("UTF-8"))
 
 def newInfo(data, t1):
-    tr = time.time()
+    #tr = time.time()
     check = False
     blk = findBlock(data[0])
     if(blk != False):
@@ -383,9 +383,9 @@ def newInfo(data, t1):
     else:
         print ("not found:Block:" + data[0])
 
-    te = time.time()
-    difff = te-tr
-    print ("Time to update Block with recived info: " + str(difff))
+    #te = time.time()
+    #difff = te-tr
+    #print ("Time to update Block with recived info: " + str(difff))
 
 def main():
     def runApp():
@@ -408,9 +408,9 @@ def main():
                         break
                     else:
                         aux = str(data).split(',')
-                        print ("#############################################################")
+                        #print ("#############################################################")
                         print ("===>recived size:"+str(len(aux)))
-                        print ("===>received some data...:"+str(data))
+                        #print ("===>received some data...:"+str(data))
                         #if(len(aux) == 8):
                         if(len(aux) > 8):
                             print ("=====>received a new block")
