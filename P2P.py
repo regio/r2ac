@@ -399,11 +399,13 @@ def main():
         def clienthandler(c):
             global blockchain
             try:
+                tprevious = time.time()
                 while True:
                     data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
                     t1 = time.time()
+                    print("time between requests: " + '{0:.12f}'.format(t1 - tprevious) * 1000)
                     if not data:
                         break
                     else:
@@ -421,6 +423,7 @@ def main():
 
                     del data
                     del aux
+                    tprevious = t1
                             
             except Exception as e:
                 print ("something went wrong... closing connection:")
