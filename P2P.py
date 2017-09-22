@@ -14,7 +14,6 @@ import threading
 import Block
 from Crypto.Cipher import AES
 import time
-from queue import Queue
 import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
@@ -25,7 +24,6 @@ app = Flask(__name__)
 peers = []
 blockchain = []
 lock = threading.Lock()
-q = Queue()
 
 blockchain.append(chainFunctions.getGenesisBlock())
 
@@ -393,13 +391,12 @@ def main():
     def runApp():
         app.run(host=sys.argv[1], port=3001, debug=True)
 
-    def server(q):
-        q.get()
+    def server():
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((sys.argv[1], int(sys.argv[2])))
         s.listen(1)
 
-        def clienthandler(c, q):
+        def clienthandler(c):
             q.get()
             global blockchain
             try:
@@ -437,12 +434,12 @@ def main():
 
         while True:
             c, addr = s.accept()
-            client = Thread(target=clienthandler, args=(c, q))
+            client = Thread(target=clienthandler, args=(c, ))
             client.daemon = True
             client.start()
             client.join()
 
-    sv = Thread(target=server, args=(q, ))
+    sv = Thread(target=server)
     sv.daemon = True
     sv.start()
     runApp()
