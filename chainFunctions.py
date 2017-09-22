@@ -49,9 +49,8 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
 
 def generateNextBlock(blockData, pubKey, previousBlock):
     nextIndex = previousBlock.index + 1
-    # print(nextIndex)
     nextTimestamp = time.time()
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
     #inf = Info.Info(0, blockData, '');
-    inf = Info.Info(0, "0", "0", blockData, '') 
+    inf = Info.Info(0, "0", "0", blockData, 'x') 
     return Block.Block(nextIndex, previousBlock.hash, nextTimestamp, inf, nextHash, pubKey);

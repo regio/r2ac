@@ -1,3 +1,4 @@
+import cPickle as pickle
 import traceback
 import sys
 import socket
@@ -100,19 +101,19 @@ def getLatestInfo(blk):
 
 def findBlock(key):
     global blockchain
-    print ("Chain size:"+str(len(blockchain)))
-    print ("===========================================================")
+    #print ("Chain size:"+str(len(blockchain)))
+    #print ("===========================================================")
     for b in blockchain:
-        print ("local:   --|"+b.publicKey+"|--")
+        #print ("local:   --|"+b.publicKey+"|--")
         #print ("local hash:" + createHash(b.publicKey))
-        print ("recived: --|"+key+"|--")
+        #print ("recived: --|"+key+"|--")
         #print ("recei hash:" + createHash(key))
         if(b.publicKey == key):
-            print(b.publicKey + ', ' + key)
-            print ("key found")
-            print ("===========================================================")
+            #print(b.publicKey + ', ' + key)
+            #print ("key found")
+            #print ("===========================================================")
             return b
-    print ("===========================================================")
+    #print ("===========================================================")
     return False
 
 @app.route('/listPeers', methods=['POST'])
@@ -313,12 +314,23 @@ def listInfos():
 @app.route('/startBootStrap', methods=['POST'])
 def startBootStrap():
     global blockchain
-    print ("[startBootStrap]Chain size:"+str(len(blockchain)))
+    print ("[1-startBootStrap]Chain size:"+str(len(blockchain)))
     bootstrapChain()
     updateChain()
+    print ("[2-startBootStrap]Chain size:"+str(len(blockchain)))
     for peer in peers:
         for block in blockchain:
-            peer.send(str(block).encode("UTF-8"))
+            print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
+            if(len(str(block)) < 354):
+                #data_string = pickle.dumps(block, -1)
+                dif=354-len(str(block))-1
+                pad = ''
+                for x in range(0,dif):
+                    pad=pad+"w"
+                peer.send(str(block).encode("UTF-8")+","+pad)
+            else:
+                peer.send(str(block).encode("UTF-8"))
+                #peer.send(data_string)
 
     return ""
 
@@ -332,12 +344,15 @@ def updateChain():
 
 def newBlock(data):
     global blockchain
-    print ("[newBlock]Chain size:"+str(len(blockchain)))
+    #print (data)
+    print ("=====>[newBlock]Chain size:"+str(len(blockchain)))
     #info = Info.Info(data[3], data[4], data[5])
     #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
+
     info = Info.Info(data[3], data[4], data[5], data[6], data[7])
     blk = Block.Block(data[0], data[1], data[2], info, data[8], data[9])
     if (findBlock(blk.publicKey) == False):
+        print("=====>New block is appended to chain")
         addBlock(blk)
         updateChain()
         for peer in peers:
@@ -383,19 +398,27 @@ def main():
             global blockchain
             try:
                 while True:
-                    data = c.recv(1024).decode("UTF-8")
+                    data = c.recv(354).decode("UTF-8")
+                    #data_loaded = c.recv(1024)
+                    #data = pickle.loads(data_loaded)
                     t1 = time.time()
                     if not data:
                         break
                     else:
                         aux = str(data).split(',')
-                        print ("received some data...")
-                        if(len(aux) == 8):
-                            print ("received a new block")
+                        print ("##################################################")
+                        print ("===>recived size:"+str(len(aux)))
+                        print ("===>received some data...:"+str(data))
+                        #if(len(aux) == 8):
+                        if(len(aux) > 8):
+                            print ("=====>received a new block")
                             newBlock(aux)
                         else:
-                            print ("received a new info")                            
+                            print ("=====>received a new info")                            
                             newInfo(aux, t1)
+
+                    del data
+                    del aux
                             
             except Exception as e:
                 print ("something went wrong... closing connection:")
