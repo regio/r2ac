@@ -14,6 +14,7 @@ import threading
 import Block
 from Crypto.Cipher import AES
 import time
+from queue import Queue
 import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
@@ -24,6 +25,7 @@ app = Flask(__name__)
 peers = []
 blockchain = []
 lock = threading.Lock()
+q = Queue()
 
 blockchain.append(chainFunctions.getGenesisBlock())
 
@@ -70,7 +72,7 @@ def bootstrapChain():
 def addBlock(newBlock):
     global blockchain
     # if (isValidNewBlock(newBlock, getLatestBlock())):
-    print("current thread: " + str(threading.current_thread().getName()))
+    print("current thread: " + str(threading.current_thread()))
     print ("[addBlock]Chain size:"+str(len(blockchain)))
     blockchain.append(newBlock)
 
@@ -309,7 +311,7 @@ def debugDecAES():
 @app.route('/listBlocks', methods=['POST'])
 def listBlocks():
     global blockchain
-    print("current thread: " + str(threading.current_thread().getName()))
+    print("current thread: " + str(threading.current_thread()))
     print ("[listBlocks]total of blocks:"+str(len(blockchain)))
     # print(blockchain)
     # file = open("Chain.txt")
@@ -346,7 +348,7 @@ def startBootStrap():
 def newBlock(data):
     global blockchain
     #print (data)
-    print("current thread: " + str(threading.current_thread().getName()))
+    print("current thread: " + str(threading.current_thread()))
     print ("=====>[newBlock]Chain size:"+str(len(blockchain)))
     #info = Info.Info(data[3], data[4], data[5])
     #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
@@ -391,12 +393,14 @@ def main():
     def runApp():
         app.run(host=sys.argv[1], port=3001, debug=True)
 
-    def server():
+    def server(q):
+        q.get()
         s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.bind((sys.argv[1], int(sys.argv[2])))
         s.listen(1)
 
-        def clienthandler(c):
+        def clienthandler(c, q):
+            q.get()
             global blockchain
             try:
                 while True:
@@ -433,11 +437,13 @@ def main():
 
         while True:
             c, addr = s.accept()
-            client = Thread(target=clienthandler, args=(c,))
+            client = Thread(target=clienthandler, args=(c, q))
+            client.daemon = True
             client.start()
             client.join()
 
-    sv = Thread(target=server)
+    sv = Thread(target=server, args=(q, ))
+    sv.daemon = True
     sv.start()
     runApp()
     sv.join()
