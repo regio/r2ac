@@ -391,17 +391,32 @@ def main():
     def runApp():
         app.run(host=sys.argv[1], port=3001, debug=True)
 
-    def server():
-        s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.bind((sys.argv[1], int(sys.argv[2])))
-        s.listen(1)
+    class server(threading.Thread):
+        def __init__(self, name):
+            threading.Thread.__init__(self)
+            self.name = name
 
-        def clienthandler(c):
+        def run(self):
+            s=socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.bind((sys.argv[1], int(sys.argv[2])))
+            s.listen(1)
+
+            while True:
+                c, addr = s.accept()
+                client = clienthandler('client')
+                client.start(c)
+                client.join()
+
+    class clienthandler(threading.Thread):
+        def __init__(self, name):
+            threading.Thread.__init__(self)
+            self.name = name
+        
+        def run(self, c):
             global blockchain
             try:
                 tprevious = time.time()
                 while True:
-                    lock.acquire()
                     data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
@@ -419,15 +434,13 @@ def main():
                             print ("=====>received a new block")
                             newBlock(aux)
                         else:
-                            print ("=====>received a new info")                            
+                            print ("=====>received a new info")
                             newInfo(aux, t1)
 
                     del data
                     del aux
                     tprevious = t1
-                    lock.notify_all()
-                    lock.release()
-                            
+
             except Exception as e:
                 print ("something went wrong... closing connection:")
                 print(e)
@@ -437,15 +450,7 @@ def main():
                 print ("done error")
                 c.close()
 
-        while True:
-            c, addr = s.accept()
-            client = Thread(target=clienthandler, args=(c, ))
-            client.daemon = True
-            client.start()
-            client.join()
-
-    sv = Thread(target=server)
-    sv.daemon = True
+    sv = server('server')
     sv.start()
     runApp()
     sv.join()
