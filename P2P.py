@@ -20,10 +20,10 @@ from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 import hashlib
 
+lock = threading.Condition()
 app = Flask(__name__)
 peers = []
 blockchain = []
-lock = threading.Lock()
 
 blockchain.append(chainFunctions.getGenesisBlock())
 
@@ -397,12 +397,10 @@ def main():
         s.listen(1)
 
         def clienthandler(c):
-            q.get()
             global blockchain
             try:
                 tprevious = time.time()
                 while True:
-                    lock = threading.Lock()
                     lock.acquire()
                     data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
