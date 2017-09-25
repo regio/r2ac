@@ -402,6 +402,8 @@ def main():
             try:
                 tprevious = time.time()
                 while True:
+                    lock = threading.Lock()
+                    lock.acquire()
                     data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
@@ -425,6 +427,8 @@ def main():
                     del data
                     del aux
                     tprevious = t1
+                    lock.notify_all()
+                    lock.release()
                             
             except Exception as e:
                 print ("something went wrong... closing connection:")
