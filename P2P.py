@@ -1,3 +1,4 @@
+import cPickle as pickle
 import traceback
 import sys
 import socket
@@ -14,16 +15,17 @@ import threading
 import Block
 from Crypto.Cipher import AES
 import time
+import timeit
 import base64
 from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 import hashlib
 
-lock = threading.Condition()
 app = Flask(__name__)
 peers = []
 blockchain = []
+lock = threading.Lock()
 
 blockchain.append(chainFunctions.getGenesisBlock())
 
@@ -70,25 +72,9 @@ def bootstrapChain():
 def addBlock(newBlock):
     global blockchain
     # if (isValidNewBlock(newBlock, getLatestBlock())):
-    print("current thread: " + str(threading.current_thread()))
     print ("[addBlock]Chain size:"+str(len(blockchain)))
     blockchain.append(newBlock)
 
-    for peer in peers:
-        for block in blockchain:
-            #print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
-            #print("*********************Data Sent:"+str(block))
-            if(len(str(block)) < 500):
-                #data_string = pickle.dumps(block, -1)
-                dif=500-len(str(block))-1
-                pad = ''
-                for x in range(0,dif):
-                    pad=pad+"w"
-                #print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
-                peer.send(str(str(block)+","+pad).encode("UTF-8"))
-            else:
-                peer.send(str(block).encode("UTF-8"))
-                #peer.send(data_string)
 # def addBlock(newBlock):
 #     if (isValidNewBlock(newBlock, getLatestBlock())):
 #         blockchain.append(newBlock)
@@ -111,6 +97,7 @@ def getLatestBlock():
 
 def getLatestInfo(blk):
         return blk.info[len(blk.info) - 1]
+
 
 def findBlock(key):
     global blockchain
@@ -275,7 +262,7 @@ def info():
 
         # tf = time.time()
         # print("=====2=====>time to add block: " + '{0:.12f}'.format((tf - ti) * 1000))
-        # updateChain()
+        updateChain()
         #print "==time to init: " + '{0:.12f}'.format((tinit - ti) * 1000)
         #print "==time to decrypt: " + '{0:.12f}'.format((tdec - tinit) * 1000)
         #print "==time to sign: " + '{0:.12f}'.format((tf - tdec) * 1000)
@@ -309,13 +296,12 @@ def debugDecAES():
 @app.route('/listBlocks', methods=['POST'])
 def listBlocks():
     global blockchain
-    print("current thread: " + str(threading.current_thread()))
     print ("[listBlocks]total of blocks:"+str(len(blockchain)))
-    # print(blockchain)
-    # file = open("Chain.txt")
-    # chain = file.read()
-    # file.close()
-    return str(blockchain)
+    print(blockchain)
+    file = open("Chain.txt")
+    chain = file.read()
+    file.close()
+    return chain
 
 @app.route('/listInfos', methods=['POST'])
 def listInfos():
@@ -330,23 +316,37 @@ def startBootStrap():
     global blockchain
     print ("[1-startBootStrap]Chain size:"+str(len(blockchain)))
     bootstrapChain()
-    # updateChain()
+    updateChain()
     print ("[2-startBootStrap]Chain size:"+str(len(blockchain)))
+    for peer in peers:
+        for block in blockchain:
+            #print("*********************Sending size:"+str(block.index)+"-"+str(len(str(block))) )
+            #print("*********************Data Sent:"+str(block))
+            if(len(str(block)) < 500):
+                #data_string = pickle.dumps(block, -1)
+                dif=500-len(str(block))-1
+                pad = ''
+                for x in range(0,dif):
+                    pad=pad+"w"
+                #print("*********************Sending size[padded]:"+str(len(str(block)+","+pad)) )
+                peer.send(str(block).encode("UTF-8")+","+pad)
+            else:
+                peer.send(str(block).encode("UTF-8"))
+                #peer.send(data_string)
 
     return ""
 
-# def updateChain():
-#     global blockchain
-#     file = open("Chain.txt", 'w')
-#     file.seek(0)
-#     file.truncate()
-#     file.write(str(blockchain))
-#     file.close()
+def updateChain():
+    global blockchain
+    file = open("Chain.txt", 'w')
+    file.seek(0)
+    file.truncate()
+    file.write(str(blockchain))
+    file.close()
 
 def newBlock(data):
     global blockchain
     #print (data)
-    print("current thread: " + str(threading.current_thread()))
     print ("=====>[newBlock]Chain size:"+str(len(blockchain)))
     #info = Info.Info(data[3], data[4], data[5])
     #blk = Block.Block(data[0], data[1], data[2], info, data[6], data[7])
@@ -356,10 +356,10 @@ def newBlock(data):
     if (findBlock(blk.publicKey) == False):
         print("=====>New block is appended to chain")
         addBlock(blk)
-        # updateChain()
-        # for peer in peers:
-        #     for block in blockchain:
-        #         peer.send(str(block).encode("UTF-8"))
+        updateChain()
+        for peer in peers:
+            for block in blockchain:
+                peer.send(str(block).encode("UTF-8"))
 
 def newInfo(data, t1):
     #tr = time.time()
@@ -376,7 +376,7 @@ def newInfo(data, t1):
         if(check == False):
             blk.info.append(newInfo)
             print("time to add new info: " + '{0:.12f}'.format((time.time() - t1) * 1000))
-            # updateChain()
+            updateChain()
 
         for peer in peers:
             peer.send(blk.publicKey + ',' + str(newInfo).encode("UTF-8"))
@@ -399,20 +399,17 @@ def main():
         def clienthandler(c):
             global blockchain
             try:
-                tprevious = time.time()
                 while True:
-                    lock.acquire()
                     data = c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
                     t1 = time.time()
-                    print("time between requests: " + '{0:.12f}'.format(t1 - tprevious) * 1000)
                     if not data:
                         break
                     else:
                         aux = str(data).split(',')
                         #print ("#############################################################")
-                        print ("===>received size:"+str(len(aux)))
+                        print ("===>recived size:"+str(len(aux)))
                         #print ("===>received some data...:"+str(data))
                         #if(len(aux) == 8):
                         if(len(aux) > 8):
@@ -424,9 +421,6 @@ def main():
 
                     del data
                     del aux
-                    tprevious = t1
-                    lock.notify_all()
-                    lock.release()
                             
             except Exception as e:
                 print ("something went wrong... closing connection:")
@@ -439,18 +433,13 @@ def main():
 
         while True:
             c, addr = s.accept()
-            client = Thread(target=clienthandler, args=(c, ))
-            client.daemon = True
-            client.start()
-            client.join()
+            Thread(target=clienthandler, args=(c,)).start()
 
-    sv = Thread(target=server)
-    sv.daemon = True
-    sv.start()
+    Thread(target=server).start()
     runApp()
-    sv.join()
 
 if __name__ == '__main__':
+
     if len(sys.argv[1:]) < 1:
         print ("Command Line usage:")
         print ("    python P2P.py <computer IP> <port>")
