@@ -309,8 +309,8 @@ def debugDecAES():
 @app.route('/listBlocks', methods=['POST'])
 def listBlocks():
     global blockchain
-    print("current thread: " + str(threading.current_thread()))
     print ("[listBlocks]total of blocks:"+str(len(blockchain)))
+    print("current thread: " + str(threading.current_thread()))
     # print(blockchain)
     # file = open("Chain.txt")
     # chain = file.read()
@@ -355,7 +355,10 @@ def newBlock(data):
     blk = Block.Block(data[0], data[1], data[2], info, data[8], data[9])
     if (findBlock(blk.publicKey) == False):
         print("=====>New block is appended to chain")
+        lock.acquire()
         addBlock(blk)
+        lock.notify_all()
+        lock.release()
         # updateChain()
         # for peer in peers:
         #     for block in blockchain:
@@ -389,7 +392,7 @@ def newInfo(data, t1):
 
 def main():
     def runApp():
-        app.run(host=sys.argv[1], port=3001, debug=True)
+        app.run(host=sys.argv[1], port=3001, debug=True, threaded = True)
 
     class server(threading.Thread):
         def __init__(self, name):
@@ -403,21 +406,22 @@ def main():
 
             while True:
                 c, addr = s.accept()
-                client = clienthandler('client')
-                client.start(c)
+                client = clienthandler('client', c)
+                client.start()
                 client.join()
 
     class clienthandler(threading.Thread):
-        def __init__(self, name):
+        def __init__(self, name, c):
             threading.Thread.__init__(self)
             self.name = name
+            self.c = c
         
-        def run(self, c):
+        def run(self):
             global blockchain
             try:
                 tprevious = time.time()
                 while True:
-                    data = c.recv(500).decode("UTF-8")
+                    data = self.c.recv(500).decode("UTF-8")
                     #data_loaded = c.recv(1024)
                     #data = pickle.loads(data_loaded)
                     t1 = time.time()
@@ -448,7 +452,7 @@ def main():
                 traceback.print_exception(*exc_info)
                 del exc_info
                 print ("done error")
-                c.close()
+                self.c.close()
 
     sv = server('server')
     sv.start()
