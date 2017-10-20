@@ -17,6 +17,7 @@ import hashlib
 import ctypes
 
 memfield = (ctypes.c_char_p).from_address(0x0A7F03E4)
+memfield = '1st: '
 app = Flask(__name__)
 peers = []
 blockchain = []
@@ -55,13 +56,15 @@ def bootstrapChain():
                 fl = open(folder+f, 'r')
                 gwPub = fl.read()
 
-@app.route('/addBlock', method=['POST'])
+@app.route('/addBlock', methods=['POST'])
 def addBlock():
     global memfield
     print("current thread: " + str(threading.current_thread()))
     memfield = memfield + 'oi, '
     for peer in peers:
         peer.send(str(memfield).encode("UTF-8"))
+
+    return str(memfield.__class__.__module__) + ', ' + str(memfield.__class__.__name__) + ', ' + str(hex(id(memfield)))
 
 def isValidNewBlock(newBlock, previousBlock):
     if(previousBlock.index+1 != newBlock.index):
@@ -239,8 +242,8 @@ def startBootStrap():
 def listBlocks():
     global memfield
     # print ("[listBlocks]total of blocks:" + str(len(memfield)))
-    print("current thread: " + str(threading.current_thread() + '; memfield: ' + memfield))
-    return str(memfield)
+    print("current thread: " + str(threading.current_thread()) + '; memfield: ' + memfield)
+    return str(memfield.__class__.__module__) + ', ' + str(memfield.__class__.__name__) + ', ' + str(hex(id(memfield)))
 
 def newBlock(data):
     global memfield
@@ -305,7 +308,7 @@ def main():
                         # print ("===>received size:"+str(len(aux)))
                         # if(len(aux) > 8):
                         #     print ("=====>received a new block")
-                        addBlock(data)
+                        addBlock()
                         # else:
                         #     print ("=====>received a new info")
                         #     newInfo(aux, t1)
