@@ -1,5 +1,5 @@
 
-class Info:
+class BlockLedger:
     def __init__(self, index, previousHash, timestamp, data, signature):
         self.index = index
         self.previousHash = previousHash

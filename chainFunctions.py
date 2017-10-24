@@ -8,6 +8,7 @@ from os import listdir
 from os.path import isfile, join
 
 
+# each file read will be mapped to an IoT Ledger Block
 def bootstrapChain():
 
     folder = "./keys/"
