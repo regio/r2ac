@@ -1,5 +1,6 @@
 import sys
 import requests
+import json
 
 server= "localhost"
 
@@ -10,8 +11,8 @@ def setServer():
 def authReq():
 	headers = {'Content-type': 'application/json'}
 	payload = {'publicKey': '-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n'}
-	r = requests.post("http://"+server+":3001/auth", data=payload, headers=headers)
-	#data=json.dumps(payload)
+	r = requests.post("http://"+server+":3001/auth", data=json.dumps(payload), headers=headers)
+	
 
 def sendData():
 	print "sending"

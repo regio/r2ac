@@ -1,6 +1,8 @@
 import chainFunctions
 import criptoFunctions
 import sys
+import os
+import time
 import hashlib
 import logging
 import logging.config
@@ -116,19 +118,20 @@ def startBootStrap():
 # In case the Device is already at IoTLedger the gateway will send a AES Key.
 @app.route('/auth', methods=['POST'])
 def auth():
-    encKey =  ''
-    t1 = time.time()
-    content = request.get_json()
-    devPubKey = content['publicKey']
-    blk = findBlock(devPubKey)
-    if(blk != False and blk.index > 0):
-        encKey = generateAESKey(blk.publicKey)
+	encKey =  ''
+	t1 = time.time()
+	content = request.get_json()
+	devPubKey = content['publicKey']
+	print(devPubKey)
+	blk = findBlock(devPubKey)
+	if(blk != False and blk.index > 0):
+	        encKey = generateAESKey(blk.publicKey)
 
-    t2 = time.time()
-    logger.debug("=====1=====>time to generate key: "+'{0:.12f}'.format((t2-t1)*1000))
-    logger.debug("Encrypted key:"+encKey)
-
-    return encKey
+	t2 = time.time()
+	logger.debug("=====1=====>time to generate key: "+'{0:.12f}'.format((t2-t1)*1000))
+	logger.debug("Encrypted key:"+encKey)
+	
+	return encKey
 
 # funcao que recebe um dado encryptado do Device, a chave publica e a assinatura do dispositivo.
 # busca o bloco identificado pela chave publica
@@ -178,6 +181,7 @@ def info():
 #############################################################################
 #############################################################################
 def main():
+	bootstrapChain()
 	def runApp():
 		app.run(host=sys.argv[1], port=3001, debug=True)
 	runApp()    
@@ -189,4 +193,5 @@ if __name__ == '__main__':
         print ("Command Line usage:")
         print ("    python r2ac.py <computer IP> <port>")
         quit()
+    os.system("clear")
     main()
