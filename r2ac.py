@@ -8,6 +8,7 @@ import logging
 import logging.config
 import DeviceKeyMapping
 import DeviceInfo
+import BlockLedger
 
 from flask import Flask, request
 from os import listdir, urandom
@@ -21,11 +22,17 @@ peers = []
 IoTLedger = []
 genKeysPars = []
 
+gwPvt = ""
+gwPub = ""
+
 g = chainFunctions.getGenesisBlock()
 IoTLedger.append(g)
 
 # each file read will be mapped to an IoT Ledger Block
 def bootstrapChain():
+
+    global gwPub
+    global gwPvt
 
     folder = "./keys/"
     publicK= []
@@ -93,8 +100,10 @@ def findAESKey(devPubKey):
 def generateAESKey(devPubKey):
     global genKeysPars
     randomAESKey = os.urandom(32) # AES key: 256 bits
+    print("key lenght generated:")
+    print(len(randomAESKey))
     encKey = criptoFunctions.encryptRSA2(devPubKey, randomAESKey)
-    obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey,encKey)
+    obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey,randomAESKey)
     genKeysPars.append(obj)
     return encKey
 
@@ -142,37 +151,40 @@ def auth():
 # append o bloco de informacao ao Bloco da blockchain.
 @app.route('/info', methods=['POST'])
 def info():
+    global gwPvt
     content = request.get_json()
     devPublicKey = content['publicKey']
     encryptedObj = content['EncObj']
-    blk = findBlock(devPubKey)
+    blk = findBlock(devPublicKey)
 
     if(blk != False and blk.index > 0):
         devAESKey = findAESKey(devPublicKey)
-        #plainObject vira com [Assinatura + Time + Data]
-        plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-        singature = plainObject[:len(devPubKey)]
-        time = plainObject[len(devPubKey):len(devPubKey)+16] #16 is the timestamp lenght
-        deviceData = plainObject[len(devPubKey)+16:]
-        deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
+        if(devAESKey != False):
+            #plainObject vira com [Assinatura + Time + Data]
+            plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+            signature = plainObject[:len(devPublicKey)]
+            time = plainObject[len(devPublicKey):len(devPublicKey)+16] #16 is the timestamp lenght
+            deviceData = plainObject[len(devPublicKey)+16:]
+            deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
 
-        nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
-        signData = criptoFunctions.signInfo(gwPvt, deviceInfo)
+            nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
+            signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
 
-        #code responsible to create the hash between Info nodes.
-        prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-        newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
-        
-        # aqui sera feito o algoritmo de consenso para o BlockLedger
+            #code responsible to create the hash between Info nodes.
+            prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
+            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
+            
+            # aqui sera feito o algoritmo de consenso para o BlockLedger
 
-        blk.blockLedger.append(newBlockLedger)
+            blk.blockLedger.append(newBlockLedger)
 
-        for peer in peers:
-            #print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
-            #peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
-            print "Escrever aqui o codigo para enviar apenas o newBlockLedger para os peers"
+            for peer in peers:
+                #print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
+                #peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
+                print "Escrever aqui o codigo para enviar apenas o newBlockLedger para os peers"
 
-        return "Loucurinha!"
+            return "Loucurinha!"
+        return "key not found"
 
 
 #############################################################################

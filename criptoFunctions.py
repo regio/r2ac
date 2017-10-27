@@ -6,6 +6,11 @@ from Crypto.Hash import SHA256
 from Crypto.PublicKey import RSA
 from Crypto.Signature import PKCS1_v1_5
 
+iv = "4242424242424242"
+BS = 32
+pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS) 
+unpad = lambda s : s[0:-ord(s[-1])]
+
 def calculateHash(index, previousHash, timestamp, key):
     shaFunc = hashlib.sha256()
     shaFunc.update((str(index)+str(previousHash)+str(timestamp)+key).encode('utf-8'))
@@ -15,9 +20,9 @@ def calculateHash(index, previousHash, timestamp, key):
 def calculateHashForBlock(block):
     return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey)
 
-def calculateHashForBlockLedger(info):
+def calculateHashForBlockLedger(blockLedger):
 	shaFunc = hashlib.sha256()
-	shaFunc.update((str(info.index)+str(info.previousHash)+str(info.timestamp)+str(info.data)+str(info.signature)).encode('utf-8'))
+	shaFunc.update((str(blockLedger.index)+str(blockLedger.previousHash)+str(blockLedger.timestamp)+str(blockLedger.data)+str(blockLedger.signature)).encode('utf-8'))
 	val = shaFunc.hexdigest()
 	return val
 
@@ -36,16 +41,18 @@ def decryptRSA2(key, text):
     return data
 
 def encryptAES(text, k):
-    cypher = AES.new(k, AES.MODE_ECB, "4242424242424242")
-    cy = cypher.encrypt(text)
+    cypher = AES.new(k, AES.MODE_CBC, iv)
+    textPadded = pad(text)
+    cy = cypher.encrypt(textPadded)
     enc64 = base64.b64encode(cy)
     return enc64
 
 def decryptAES(text, k):
     enc = base64.b64decode(text)
-    decryption_suite = AES.new(k, AES.MODE_ECB, "4242424242424242")
+    decryption_suite = AES.new(k, AES.MODE_CBC, iv)
     plain_text = decryption_suite.decrypt(enc)
-    return plain_text	
+    plainTextUnpadded = unpad(plain_text)
+    return plainTextUnpadded	
 
 def signInfo(gwPvtKey, data):
 	k = RSA.importKey(gwPvtKey)
