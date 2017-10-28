@@ -1,18 +1,17 @@
-import chainFunctions
-import criptoFunctions
-import sys
-import os
-import time
-import hashlib
-import logging
 import logging.config
-import DeviceKeyMapping
-import DeviceInfo
-import BlockLedger
+import os
+import sys
+import time
+from os import listdir
+from os.path import isfile, join
 
 from flask import Flask, request
-from os import listdir, urandom
-from os.path import isfile, join
+
+import BlockLedger
+import DeviceInfo
+import DeviceKeyMapping
+import chainFunctions
+import criptoFunctions
 
 logging.config.fileConfig('logging.conf')
 logger = logging.getLogger(__name__)
@@ -28,68 +27,74 @@ gwPub = ""
 g = chainFunctions.getGenesisBlock()
 IoTLedger.append(g)
 
+
 # each file read will be mapped to an IoT Ledger Block
 def bootstrapChain():
+    global gwPub
+    global gwPvt
 
-	global gwPub
-	global gwPvt
+    folder = "./keys/"
+    publicK = []
 
-	folder = "./keys/"
-	publicK= []
+    for f in listdir(folder):
+        if isfile(join(folder, f)):
+            if f.startswith("Gateway_private"):
+                fl = open(folder + f, 'r')
+                gwPvt = fl.read()
 
-	for f in listdir(folder):
-		if isfile(join(folder, f)):
-			if f.startswith("Gateway_private"):
-				fl = open(folder+f, 'r')
-				gwPvt = fl.read()
+            if f.startswith("Gateway_public"):
+                fl = open(folder + f, 'r')
+                gwPub = fl.read()
 
-			if f.startswith("Gateway_public"):
-				fl = open(folder+f, 'r')
-				gwPub = fl.read()
+    for f in listdir(folder):
+        if isfile(join(folder, f)):
+            if f.startswith("public"):
+                publicK.append(folder + f)
+                fl = open(folder + f, 'r')
+                key = fl.read()
+                newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
+                addIoTBlock(newBlock)
 
-	for f in listdir(folder):
-		if isfile(join(folder, f)):
-			if f.startswith("public"):
-				publicK.append(folder+f)
-				fl = open(folder+f, 'r')
-				key = fl.read() 
-				newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-				addIoTBlock(newBlock)
 
 def addIoTBlock(newIoTBlock):
-	global IoTLedger
-	# if (isValidNewBlock(newBlock, getLatestBlock())):
-	logger.debug("---------------------------------------")
-	logger.debug("[addBlock] Chain size:"+str(len(IoTLedger)))
-	logger.debug("IoT Block Size:"+str(len(str(newIoTBlock))))
-	logger.debug("BH - index:"+str(newIoTBlock.index))
-	logger.debug("BH - previousHash:"+str(newIoTBlock.previousHash))
-	logger.debug("BH - timestamp:"+str(newIoTBlock.timestamp))
-	logger.debug("BH - hash:"+str(newIoTBlock.hash))
-	logger.debug("BH - publicKey:"+str(newIoTBlock.publicKey))
+    global IoTLedger
+    # if (isValidNewBlock(newBlock, getLatestBlock())):
+    logger.debug("---------------------------------------")
+    logger.debug("[addBlock] Chain size:" + str(len(IoTLedger)))
+    logger.debug("IoT Block Size:" + str(len(str(newIoTBlock))))
+    logger.debug("BH - index:" + str(newIoTBlock.index))
+    logger.debug("BH - previousHash:" + str(newIoTBlock.previousHash))
+    logger.debug("BH - timestamp:" + str(newIoTBlock.timestamp))
+    logger.debug("BH - hash:" + str(newIoTBlock.hash))
+    logger.debug("BH - publicKey:" + str(newIoTBlock.publicKey))
 
-	IoTLedger.append(newIoTBlock)
+    IoTLedger.append(newIoTBlock)
+
 
 def getLatestBlock():
-	global IoTLedger
-	return IoTLedger[len(IoTLedger) - 1]
+    global IoTLedger
+    return IoTLedger[len(IoTLedger) - 1]
+
 
 def getLatestBlockLedger(blk):
-		return blk.blockLedger[len(blk.blockLedger) - 1]
+    return blk.blockLedger[len(blk.blockLedger) - 1]
+
 
 def findBlock(key):
-	global IoTLedger
-	for b in IoTLedger:
-		if(b.publicKey == key):
-			return b
-	return False
+    global IoTLedger
+    for b in IoTLedger:
+        if (b.publicKey == key):
+            return b
+    return False
+
 
 def findAESKey(devPubKey):
-	global genKeysPars
-	for b in genKeysPars:
-		if(b.publicKey == devPubKey):
-			return b.AESKey
-	return False
+    global genKeysPars
+    for b in genKeysPars:
+        if (b.publicKey == devPubKey):
+            return b.AESKey
+    return False
+
 
 #############################################################################
 #############################################################################
@@ -98,11 +103,12 @@ def findAESKey(devPubKey):
 #############################################################################
 
 def generateAESKey(devPubKey):
-	global genKeysPars
-	randomAESKey = os.urandom(32) # AES key: 256 bits
-	obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey,randomAESKey)
-	genKeysPars.append(obj)
-	return randomAESKey
+    global genKeysPars
+    randomAESKey = os.urandom(32)  # AES key: 256 bits
+    obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey, randomAESKey)
+    genKeysPars.append(obj)
+    return randomAESKey
+
 
 #############################################################################
 #############################################################################
@@ -111,36 +117,38 @@ def generateAESKey(devPubKey):
 #############################################################################
 @app.route('/listPeers', methods=['POST'])
 def listPeers():
-	print(str(peers))
-	return str(peers)
+    print(str(peers))
+    return str(peers)
 
 
 @app.route('/startBootStrap', methods=['POST'])
 def startBootStrap():
-	bootstrapChain()
-	return "ok"
+    bootstrapChain()
+    return "ok"
+
 
 # This operation is called at very first step in the device communication
 # In case the Device is already at IoTLedger the gateway will send a AES Key.
 @app.route('/auth', methods=['POST'])
 def auth():
-	aesKey =  ''
-	t1 = time.time()
-	content = request.get_json()
-	devPubKey = content['publicKey']
-	print(devPubKey)
-	blk = findBlock(devPubKey)
-	if(blk != False and blk.index > 0):
-		aesKey = findAESKey(devPubKey)
-		if(aesKey == False):
-			aesKey = generateAESKey(blk.publicKey)
+    aesKey = ''
+    t1 = time.time()
+    content = request.get_json()
+    devPubKey = content['publicKey']
+    print(devPubKey)
+    blk = findBlock(devPubKey)
+    if (blk != False and blk.index > 0):
+        aesKey = findAESKey(devPubKey)
+        if (aesKey == False):
+            aesKey = generateAESKey(blk.publicKey)
 
-	encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
-	t2 = time.time()
-	logger.debug("=====1=====>time to generate key: "+'{0:.12f}'.format((t2-t1)*1000))
-	logger.debug("Encrypted key:"+encKey)
-	
-	return encKey
+    encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
+    t2 = time.time()
+    logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+    logger.debug("Encrypted key:" + encKey)
+
+    return encKey
+
 
 # funcao que recebe um dado encryptado do Device, a chave publica e a assinatura do dispositivo.
 # busca o bloco identificado pela chave publica
@@ -151,40 +159,41 @@ def auth():
 # append o bloco de informacao ao Bloco da blockchain.
 @app.route('/info', methods=['POST'])
 def info():
-	global gwPvt
-	content = request.get_json()
-	devPublicKey = content['publicKey']
-	encryptedObj = content['EncObj']
-	blk = findBlock(devPublicKey)
+    global gwPvt
+    content = request.get_json()
+    devPublicKey = content['publicKey']
+    encryptedObj = content['EncObj']
+    blk = findBlock(devPublicKey)
 
-	if(blk != False and blk.index > 0):
-		devAESKey = findAESKey(devPublicKey)
-		if(devAESKey != False):
-			#plainObject vira com [Assinatura + Time + Data]
-			plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-			signature = plainObject[:len(devPublicKey)]
-			time = plainObject[len(devPublicKey):len(devPublicKey)+16] #16 is the timestamp lenght
-			deviceData = plainObject[len(devPublicKey)+16:]
-			deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
+    if (blk != False and blk.index > 0):
+        devAESKey = findAESKey(devPublicKey)
+        if (devAESKey != False):
+            # plainObject vira com [Assinatura + Time + Data]
+            plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+            signature = plainObject[:len(devPublicKey)]
+            time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
+            deviceData = plainObject[len(devPublicKey) + 16:]
+            deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
 
-			nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
-			signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+            nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
+            signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
 
-			#code responsible to create the hash between Info nodes.
-			prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-			newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo, signData) # gera um pacote do tipo Info com o deviceInfo como conteudo
-			
-			# aqui sera feito o algoritmo de consenso para o BlockLedger
+            # code responsible to create the hash between Info nodes.
+            prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
+            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
+                                                     signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
 
-			blk.blockLedger.append(newBlockLedger)
+            # aqui sera feito o algoritmo de consenso para o BlockLedger
 
-			for peer in peers:
-				#print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
-				#peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
-				print "Escrever aqui o codigo para enviar apenas o newBlockLedger para os peers"
+            blk.blockLedger.append(newBlockLedger)
 
-			return "Loucurinha!"
-		return "key not found"
+            for peer in peers:
+                # print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
+                # peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
+                print "Escrever aqui o codigo para enviar apenas o newBlockLedger para os peers"
+
+            return "Loucurinha!"
+        return "key not found"
 
 
 #############################################################################
@@ -193,17 +202,19 @@ def info():
 #############################################################################
 #############################################################################
 def main():
-	bootstrapChain()
-	def runApp():
-		app.run(host=sys.argv[1], port=3001, debug=True)
-	runApp()    
+    bootstrapChain()
+
+    def runApp():
+        app.run(host=sys.argv[1], port=3001, debug=True)
+
+    runApp()
 
 
 if __name__ == '__main__':
 
-	if len(sys.argv[1:]) < 1:
-		print ("Command Line usage:")
-		print ("    python r2ac.py <computer IP> <port>")
-		quit()
-	os.system("clear")
-	main()
+    if len(sys.argv[1:]) < 1:
+        print ("Command Line usage:")
+        print ("    python r2ac.py <computer IP> <port>")
+        quit()
+    os.system("clear")
+    main()

@@ -1,4 +1,3 @@
-
 class BlockLedger:
     def __init__(self, index, previousHash, timestamp, data, signature):
         self.index = index
@@ -8,7 +7,9 @@ class BlockLedger:
         self.signature = signature
 
     def __str__(self):
-        return "%s,%s,%s,%s,%s" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
+        return "%s,%s,%s,%s,%s" % (
+        str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
 
     def __repr__(self):
-        return "%s,%s,%s,%s,%s" % (str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
+        return "%s,%s,%s,%s,%s" % (
+        str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
