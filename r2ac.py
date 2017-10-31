@@ -187,6 +187,7 @@ def auth():
 @app.route('/info', methods=['POST'])
 def info():
     global gwPvt
+    global gwPub
     content = request.get_json()
     devPublicKey = content['publicKey']
     encryptedObj = content['EncObj']
@@ -201,19 +202,21 @@ def info():
             signature = plainObject[:len(devPublicKey)]
             time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
             deviceData = plainObject[len(devPublicKey) + 16:]
+
             deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
 
             nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
             signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+            gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
 
             # code responsible to create the hash between Info nodes.
             prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-            gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
-            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo,
-                                                     signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
 
+            # gera um pacote do tipo Info com o deviceInfo como conteudo
+            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)  
 
             #barbara uni.. aqui!
+
             addBlockLedger(blk, newBlockLedger)
             sendBlockLedgerToPeers(newBlockLedger)
 
@@ -221,9 +224,47 @@ def info():
         return "key not found"
 
 
+
+def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
+    blockIoT = findBlock(devicePublicKey)
+    if blockIoT == False: 
+        print("Block not found in IoT ledger")
+        return False
+
+    lastBlock = blockIoT.blockLedger[len(blockIoT.blockLedger)-1]
+    if newBlock.index != lastBlock.index+1:
+        print("New blovk Index not valid")
+        return False
+
+    if lastBlock.calculateHashForBlockLedger(lastBlock) != newBlock.previousHash:
+        print("New block previous hash not valid")
+        return False
+
+    now = "{:.0f}".format(((time.time() * 1000) * 1000))
+
+    # check time 
+    if !(newBlock.timestamp > newBlock.signature.timestamp && newBlock.timestamp < now):
+        print("New block time not valid")
+        return False
+
+    # check device time 
+    if !(newBlock.signature.timestamp > lastBlock.signature.timestamp && newBlock.signature.timestamp < now):
+        print("New block device time not valid")
+        return False
+
+    # check device signature with device public key 
+    if !criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey): 
+        print("New block device signature not valid")
+        return False
+
+    return True
+
+
+
+
 #############################################################################
 #############################################################################
-######################          R2AC Class   ################################
+######################      R2AC Class    ###################################
 #############################################################################
 #############################################################################
 
