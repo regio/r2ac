@@ -143,79 +143,79 @@ def generateAESKey(devPubKey):
 #############################################################################
 #############################################################################
 ######################        Routes         ################################
+### @Deprecated: Start to use the methods defined in the R2ac Class below ##
 #############################################################################
-#############################################################################
-@app.route('/listPeers', methods=['POST'])
-def listPeers():
-    print(str(peers))
-    return str(peers)
-
-
-# This operation is called at very first step in the device communication
-# In case the Device is already at IoTLedger the gateway will send a AES Key.
-@app.route('/auth', methods=['POST'])
-def auth():
-    aesKey = ''
-    t1 = time.time()
-    content = request.get_json()
-    devPubKey = content['publicKey']
-    print(devPubKey)
-    blk = findBlock(devPubKey)
-    if (blk != False and blk.index > 0):
-        aesKey = findAESKey(devPubKey)
-        if (aesKey == False):
-            aesKey = generateAESKey(blk.publicKey)
-    else:
-        print("The device IoT Block Ledger is not present.")
-        print("We should write the code to create a new block here...")
-
-    encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
-    t2 = time.time()
-    logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-    logger.debug("Encrypted key:" + encKey)
-
-    return encKey
-
-
-# funcao que recebe um dado encryptado do Device, a chave publica e a assinatura do dispositivo.
-# busca o bloco identificado pela chave publica
-# decripta o dado (com a chave publica busca no bloco)
-# decripta a assinatura (com a chave publica do bloco)
-# cria um novo "bloco" de informacacao
-# assina o bloco de informacao primeiro com a chave do device depois com a chave do gateway
-# append o bloco de informacao ao Bloco da blockchain.
-@app.route('/info', methods=['POST'])
-def info():
-    global gwPvt
-    content = request.get_json()
-    devPublicKey = content['publicKey']
-    encryptedObj = content['EncObj']
-    blk = findBlock(devPublicKey)
-
-    if (blk != False and blk.index > 0):
-        devAESKey = findAESKey(devPublicKey)
-        if (devAESKey != False):
-            # plainObject vira com [Assinatura + Time + Data]
-            plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-
-            signature = plainObject[:len(devPublicKey)]
-            time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
-            deviceData = plainObject[len(devPublicKey) + 16:]
-            deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
-
-            nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
-            signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
-
-            # code responsible to create the hash between Info nodes.
-            prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
-                                                     signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
-
-            addBlockLedger(blk, newBlockLedger)
-            sendBlockLedgerToPeers(newBlockLedger)
-
-            return "Loucurinha!"
-        return "key not found"
+# @app.route('/listPeers', methods=['POST'])
+# def listPeers():
+#     print(str(peers))
+#     return str(peers)
+#
+#
+# # This operation is called at very first step in the device communication
+# # In case the Device is already at IoTLedger the gateway will send a AES Key.
+# @app.route('/auth', methods=['POST'])
+# def auth():
+#     aesKey = ''
+#     t1 = time.time()
+#     content = request.get_json()
+#     devPubKey = content['publicKey']
+#     print(devPubKey)
+#     blk = findBlock(devPubKey)
+#     if (blk != False and blk.index > 0):
+#         aesKey = findAESKey(devPubKey)
+#         if (aesKey == False):
+#             aesKey = generateAESKey(blk.publicKey)
+#     else:
+#         print("The device IoT Block Ledger is not present.")
+#         print("We should write the code to create a new block here...")
+#
+#     encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
+#     t2 = time.time()
+#     logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+#     logger.debug("Encrypted key:" + encKey)
+#
+#     return encKey
+#
+#
+# # funcao que recebe um dado encryptado do Device, a chave publica e a assinatura do dispositivo.
+# # busca o bloco identificado pela chave publica
+# # decripta o dado (com a chave publica busca no bloco)
+# # decripta a assinatura (com a chave publica do bloco)
+# # cria um novo "bloco" de informacacao
+# # assina o bloco de informacao primeiro com a chave do device depois com a chave do gateway
+# # append o bloco de informacao ao Bloco da blockchain.
+# @app.route('/info', methods=['POST'])
+# def info():
+#     global gwPvt
+#     content = request.get_json()
+#     devPublicKey = content['publicKey']
+#     encryptedObj = content['EncObj']
+#     blk = findBlock(devPublicKey)
+#
+#     if (blk != False and blk.index > 0):
+#         devAESKey = findAESKey(devPublicKey)
+#         if (devAESKey != False):
+#             # plainObject vira com [Assinatura + Time + Data]
+#             plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+#
+#             signature = plainObject[:len(devPublicKey)]
+#             time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp length
+#             deviceData = plainObject[len(devPublicKey) + 16:]
+#             deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
+#
+#             nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
+#             signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+#
+#             # code responsible to create the hash between Info nodes.
+#             prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
+#             newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
+#                                                      signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
+#
+#             addBlockLedger(blk, newBlockLedger)
+#             sendBlockLedgerToPeers(newBlockLedger)
+#
+#             return "Loucurinha!"
+#         return "key not found"
 
 
 #############################################################################
@@ -225,65 +225,60 @@ def info():
 #############################################################################
 
 
-# @Pyro4.expose
-# @Pyro4.behavior(instance_mode="single")
-# class R2ac(object):
-#     def __init__(self):
-#         print("R2AC initialized")
-#
-#     def info(self):
-#         global gwPvt
-#         content = request.get_json()
-#         devPublicKey = content['publicKey']
-#         encryptedObj = content['EncObj']
-#         blk = findBlock(devPublicKey)
-#
-#         if (blk != False and blk.index > 0):
-#             devAESKey = findAESKey(devPublicKey)
-#             if (devAESKey != False):
-#                 # plainObject vira com [Assinatura + Time + Data]
-#                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-#
-#                 signature = plainObject[:len(devPublicKey)]
-#                 time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
-#                 deviceData = plainObject[len(devPublicKey) + 16:]
-#                 deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
-#
-#                 nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
-#                 signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
-#
-#                 # code responsible to create the hash between Info nodes.
-#                 prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-#                 newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
-#                                                          signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
-#
-#                 addBlockLedger(blk, newBlockLedger)
-#                 sendBlockLedgerToPeers(newBlockLedger)
-#
-#                 return "Loucurinha!"
-#             return "key not found"
-#
-#     def auth(self):
-#         aesKey = ''
-#         t1 = time.time()
-#         content = request.get_json()
-#         devPubKey = content['publicKey']
-#         print(devPubKey)
-#         blk = findBlock(devPubKey)
-#         if (blk != False and blk.index > 0):
-#             aesKey = findAESKey(devPubKey)
-#             if (aesKey == False):
-#                 aesKey = generateAESKey(blk.publicKey)
-#         else:
-#             print("The device IoT Block Ledger is not present.")
-#             print("We should write the code to create a new block here...")
-#
-#         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
-#         t2 = time.time()
-#         logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-#         logger.debug("Encrypted key:" + encKey)
-#
-#         return encKey
+@Pyro4.expose
+@Pyro4.behavior(instance_mode="single")
+class R2ac(object):
+    def __init__(self):
+        print("R2AC initialized")
+
+    def info(self, devPublicKey, encryptedObj):
+        global gwPvt
+        blk = findBlock(devPublicKey)
+
+        if (blk != False and blk.index > 0):
+            devAESKey = findAESKey(devPublicKey)
+            if (devAESKey != False):
+                # plainObject vira com [Assinatura + Time + Data]
+                plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+
+                signature = plainObject[:len(devPublicKey)]
+                time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
+                deviceData = plainObject[len(devPublicKey) + 16:]
+                deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
+
+                nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
+                signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+
+                # code responsible to create the hash between Info nodes.
+                prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
+                newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
+                                                         signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
+
+                addBlockLedger(blk, newBlockLedger)
+                sendBlockLedgerToPeers(newBlockLedger)
+
+                return "Loucurinha!"
+            return "key not found"
+
+    def auth(self, devPubKey):
+        aesKey = ''
+        t1 = time.time()
+        print(devPubKey)
+        blk = findBlock(devPubKey)
+        if (blk != False and blk.index > 0):
+            aesKey = findAESKey(devPubKey)
+            if (aesKey == False):
+                aesKey = generateAESKey(blk.publicKey)
+        else:
+            print("The device IoT Block Ledger is not present.")
+            print("We should write the code to create a new block here...")
+
+        encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
+        t2 = time.time()
+        logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.debug("Encrypted key:" + encKey)
+
+        return encKey
 
 
 #############################################################################
@@ -293,18 +288,19 @@ def info():
 #############################################################################
 def main():
     bootstrapChain()
+    print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
+    #Pyro4.config.HOST = str(getMyIP())
+    Pyro4.Daemon.serveSimple(
+        {
+            R2ac: "chain.server"
+        },
+        ns=False)
 
-    # Pyro4.config.HOST = str(getMyIP())
-    # Pyro4.Daemon.serveSimple(
-    #     {
-    #         R2ac: "r2ac"
-    #     },
-    #     ns=False)
 
-    def runApp():
-        app.run(host=sys.argv[1], port=3001, debug=True)
-
-    runApp()
+    # def runApp():
+    #     app.run(host=sys.argv[1], port=3001, debug=True)
+    #
+    # runApp()
 
 
 if __name__ == '__main__':
