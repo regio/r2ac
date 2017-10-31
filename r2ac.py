@@ -199,7 +199,7 @@ def generateAESKey(devPubKey):
 #             plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
 #
 #             signature = plainObject[:len(devPublicKey)]
-#             time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp length
+#             time = plainObject[len(de vPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp length
 #             deviceData = plainObject[len(devPublicKey) + 16:]
 #             deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
 #
@@ -251,8 +251,10 @@ class R2ac(object):
 
                 # code responsible to create the hash between Info nodes.
                 prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-                newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
+                gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
+                newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo,
                                                          signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
+                #barbara uni.. aqui!                                                         signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
 
                 addBlockLedger(blk, newBlockLedger)
                 sendBlockLedgerToPeers(newBlockLedger)

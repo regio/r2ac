@@ -80,7 +80,7 @@ def main():
     while True:
         print("Choose your option [" + str(server) + "]")
         print("0 - Exit")
-        print("1 - Set Server Address[ex:PYRO:chain.server@blablablabalbal:00000]")
+        print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
         print("2 - Authentication Request")
         print("3 - DecriptReceivedAESKey - sign data - encrypt with AES key - Send to Gateway")
         print("666 - Butistrepy")
