@@ -13,3 +13,4 @@ class BlockLedger:
     def __repr__(self):
         return "%s,%s,%s,%s,%s" % (
         str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
+

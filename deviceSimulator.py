@@ -1,3 +1,4 @@
+import Pyro4
 import json
 import os
 import random
@@ -16,14 +17,19 @@ publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gyp
 
 def setServer():
     global server
-    server = raw_input('Gateway IP:')
+    if sys.version_info < (3, 0):
+        input = raw_input
+    #server = raw_input('Gateway IP:')
+    uri = input("Enter the uri of the gateway: ").strip()
+    server = Pyro4.Proxy(uri)
 
 
 def authReq():
-    headers = {'Content-type': 'application/json'}
-    payload = {'publicKey': publicKey}
-    r = requests.post("http://" + server + ":3001/auth", data=json.dumps(payload), headers=headers)
-    serverAESEncKey = r.text
+    serverAESEncKey = server.auth(publicKey)
+    # headers = {'Content-type': 'application/json'}
+    # payload = {'publicKey': publicKey}
+    # r = requests.post("http://" + server + ":3001/auth", data=json.dumps(payload), headers=headers)
+    # serverAESEncKey = r.text
     print("AES key encrypted received from server")
     decryptAESKey(serverAESEncKey)
 
@@ -37,10 +43,12 @@ def sendData():
     toSend = signedData + timeStr + temperature
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
 
-    headers = {'Content-type': 'application/json'}
-    payload = {'publicKey': publicKey, 'EncObj': encobj}
-    r = requests.post("http://" + server + ":3001/info", data=json.dumps(payload), headers=headers)
-    asdf = r.text
+    asdf = server.info(publicKey, encobj)
+
+    # headers = {'Content-type': 'application/json'}
+    # payload = {'publicKey': publicKey, 'EncObj': encobj}
+    # r = requests.post("http://" + server + ":3001/info", data=json.dumps(payload), headers=headers)
+    # asdf = r.text
     print("maybe worked " + asdf)
 
 
@@ -70,9 +78,9 @@ def main():
 
     mode = -1
     while True:
-        print("Choose your option [" + server + "]")
+        print("Choose your option [" + str(server) + "]")
         print("0 - Exit")
-        print("1 - Set Server Address")
+        print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
         print("2 - Authentication Request")
         print("3 - DecriptReceivedAESKey - sign data - encrypt with AES key - Send to Gateway")
         print("666 - Butistrepy")

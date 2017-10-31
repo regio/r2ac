@@ -91,6 +91,7 @@ def isValidNewBlock(newBlock, previousBlock):
         return False
     return True
 
+
 def getLatestBlock():
     global blockchain
     return blockchain[len(blockchain) - 1]
