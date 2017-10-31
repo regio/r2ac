@@ -208,9 +208,12 @@ def info():
 
             # code responsible to create the hash between Info nodes.
             prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, time, deviceInfo,
+            gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
+            newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo,
                                                      signData)  # gera um pacote do tipo Info com o deviceInfo como conteudo
 
+
+            #barbara uni.. aqui!
             addBlockLedger(blk, newBlockLedger)
             sendBlockLedgerToPeers(newBlockLedger)
 
