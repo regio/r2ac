@@ -250,17 +250,17 @@ def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
     now = "{:.0f}".format(((time.time() * 1000) * 1000))
 
     # check time 
-    if !(newBlock.timestamp > newBlock.signature.timestamp && newBlock.timestamp < now):
+    if not(newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
         print("New block time not valid")
         return False
 
     # check device time 
-    if !(newBlock.signature.timestamp > lastBlock.signature.timestamp && newBlock.signature.timestamp < now):
+    if not(newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
         print("New block device time not valid")
         return False
 
     # check device signature with device public key 
-    if !criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey): 
+    if not(criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
         print("New block device signature not valid")
         return False
 
