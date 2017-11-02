@@ -8,9 +8,7 @@ class BlockLedger:
 
     def __str__(self):
         return "%s,%s,%s,%s,%s" % (
-        str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
+            str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
 
-    def __repr__(self):
-        return "%s,%s,%s,%s,%s" % (
-        str(self.index), str(self.previousHash), str(self.timestamp), str(self.data), str(self.signature))
-
+    def __eq__(self, other):
+        return self.__dict__ == other.__dict__

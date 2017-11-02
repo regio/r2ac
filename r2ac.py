@@ -1,3 +1,4 @@
+import pickle
 import Pyro4
 import socket
 import logging.config
@@ -11,6 +12,7 @@ from flask import Flask, request
 
 import BlockLedger
 import DeviceInfo
+import PeerInfo
 import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
@@ -22,6 +24,7 @@ app = Flask(__name__)
 peers = []
 IoTLedger = []
 genKeysPars = []
+myURI = ""
 
 gwPvt = ""
 gwPub = ""
@@ -86,6 +89,12 @@ def getLatestBlockLedger(blk):
     return blk.blockLedger[len(blk.blockLedger) - 1]
 
 
+def blockContainsBlockLedger(block, blockLedger):
+    for bl in block.blockLedger:
+        if bl == blockLedger:
+            return True
+    return False
+
 def findBlock(key):
     global IoTLedger
     for b in IoTLedger:
@@ -102,12 +111,27 @@ def findAESKey(devPubKey):
     return False
 
 
-def sendBlockLedgerToPeers(blockLedger):
+def findPeer(peerURI):
+    global peers
+    for p in peers:
+        if p.peerURI == peerURI:
+            return True
+    return False
+
+
+def addBack(peer):
+    global myURI
+    obj = peer.object
+    obj.addPeer(myURI)
+
+
+def sendBlockLedgerToPeers(devPublicKey, blockLedger):
     global peers
     for peer in peers:
-        # print("******[AddingInfo]-Sending:"+blk.publicKey + ',' + str(gatewayInfo))
-        # peer.send(blk.publicKey + ',' + str(gatewayInfo).encode("UTF-8"))
-        print "Escrever aqui o codigo para enviar apenas o newBlockLedger para os peers"
+        obj = peer.object
+        logger.debug ("sending to: "+peer.peerURI)
+        dat = pickle.dumps(blockLedger)
+        obj.updateBlockLedger(devPublicKey, dat)
 
 
 def sendIoTBlockToPeers(IoTBlock):
@@ -283,9 +307,6 @@ class R2ac(object):
     def info(self, devPublicKey, encryptedObj):
         global gwPvt
         global gwPub
-        content = request.get_json()
-        devPublicKey = content['publicKey']
-        encryptedObj = content['EncObj']
         blk = findBlock(devPublicKey)
 
         if (blk != False and blk.index > 0):
@@ -295,10 +316,10 @@ class R2ac(object):
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
 
                 signature = plainObject[:len(devPublicKey)]
-                time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
+                devTime = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
                 deviceData = plainObject[len(devPublicKey) + 16:]
 
-                deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
+                deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
 
                 nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
                 signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
@@ -313,10 +334,21 @@ class R2ac(object):
                 #barbara uni.. aqui!
 
                 addBlockLedger(blk, newBlockLedger)
-                sendBlockLedgerToPeers(newBlockLedger)
+                logger.debug("block added locally... now sending to peers..")
+                sendBlockLedgerToPeers(devPublicKey, newBlockLedger)
 
                 return "Loucurinha!"
             return "key not found"
+
+    def updateBlockLedger(self, pubKey, block):
+        b = pickle.loads(block)
+        logger.debug("Received block ledger #:"+(str(b.index)))
+        blk = findBlock(pubKey)
+        if blk != False:
+            if not(blockContainsBlockLedger(blk, b)):
+                addBlockLedger(blk, b)
+        return "done"
+
 
     def auth(self, devPubKey):
         aesKey = ''
@@ -338,6 +370,17 @@ class R2ac(object):
 
         return encKey
 
+    def addPeer(self, peerURI):
+        global peers
+        if not(findPeer(peerURI)):
+            print ("peer not found. Create new node and add to list")
+            print ("adding new peer:" + peerURI)
+            newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
+            peers.append(newPeer)
+            addBack(newPeer)
+            return True
+        return False
+
 
 #############################################################################
 #############################################################################
@@ -345,15 +388,16 @@ class R2ac(object):
 #############################################################################
 #############################################################################
 def main():
+    global myURI
     bootstrapChain()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
     #Pyro4.config.HOST = str(getMyIP())
-    Pyro4.Daemon.serveSimple(
-        {
-            R2ac: "chain.server"
-        },
-        ns=False)
 
+    daemon = Pyro4.Daemon()
+    uri = daemon.register(R2ac)
+    myURI = str(uri)
+    print("uri="+ myURI)
+    daemon.requestLoop()
 
     # def runApp():
     #     app.run(host=sys.argv[1], port=3001, debug=True)

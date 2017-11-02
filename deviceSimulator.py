@@ -62,6 +62,11 @@ def readSensorTemperature():
     print("The device has read the temperature:" + temp)
     return temp
 
+def addPeer():
+    if sys.version_info < (3, 0):
+        input = raw_input
+    uri = input("Enter the PEER uri: ").strip()
+    server.addPeer(uri)
 
 #############################################################################
 #############################################################################
@@ -73,7 +78,7 @@ def main():
     options = {1: setServer,
                2: authReq,
                3: sendData,
-               4: readSensorTemperature
+               4: addPeer
                }
 
     mode = -1
@@ -83,7 +88,7 @@ def main():
         print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
         print("2 - Authentication Request")
         print("3 - DecriptReceivedAESKey - sign data - encrypt with AES key - Send to Gateway")
-        print("666 - Butistrepy")
+        print("4 - Add Peer")
         try:
             mode = int(raw_input('Input:'))
         except ValueError:
