@@ -68,6 +68,14 @@ def addPeer():
     uri = input("Enter the PEER uri: ").strip()
     server.addPeer(uri)
 
+def listIoTLedger():
+    server.showIoTLedger()
+
+def listBlockLedger():
+    index = input("Which IoT Block do you want to print?")
+    server.showBlockLedger(index)
+
+
 #############################################################################
 #############################################################################
 ######################          Main         ################################
@@ -75,10 +83,13 @@ def addPeer():
 #############################################################################
 def main():
     global server
-    options = {1: setServer,
-               2: authReq,
-               3: sendData,
-               4: addPeer
+    options = {
+               1: setServer,
+               2: addPeer,
+               3: authReq,
+               4: sendData,
+               5: listIoTLedger,
+               6: listBlockLedger
                }
 
     mode = -1
@@ -86,9 +97,11 @@ def main():
         print("Choose your option [" + str(server) + "]")
         print("0 - Exit")
         print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
-        print("2 - Authentication Request")
-        print("3 - DecriptReceivedAESKey - sign data - encrypt with AES key - Send to Gateway")
-        print("4 - Add Peer")
+        print("2 - Add Peer")
+        print("3 - Authentication Request")
+        print("4 - DecriptReceivedAESKey - sign data - encrypt with AES key - Send to Gateway")
+        print("5 - List IoT Ledger from connected Gateway")
+        print("6 - List Block Ledger for a diven IoT Block")
         try:
             mode = int(raw_input('Input:'))
         except ValueError:

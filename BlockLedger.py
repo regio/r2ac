@@ -12,3 +12,9 @@ class BlockLedger:
 
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
+
+    def strBlock(self):
+        txt = "Index: " + str(self.index) + "\n Previous Hash: " + str(self.previousHash) + "\n Time Stamp: " + str(
+            self.timestamp) + "\n Data: " + str(self.data) + "\n Signature: " + str(
+            self.signature) + "\n"
+        return txt
