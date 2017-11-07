@@ -5,6 +5,7 @@ import logging.config
 import os
 import sys
 import time
+import threading
 from os import listdir
 from os.path import isfile, join
 
@@ -31,6 +32,8 @@ gwPub = ""
 
 g = chainFunctions.getGenesisBlock()
 IoTLedger.append(g)
+
+trustedPeers = [1, 2, 3, 4]
 
 
 # each file read will be mapped to an IoT Ledger Block
@@ -172,97 +175,42 @@ def generateAESKey(devPubKey):
 
 #############################################################################
 #############################################################################
-######################        Routes         ################################
-### @Deprecated: Start to use the methods defined in the R2ac Class below ###
-#############################################################################
-#############################################################################
-# @app.route('/listPeers', methods=['POST'])
-# def listPeers():
-#     print(str(peers))
-#     return str(peers)
-
-
-# # This operation is called at very first step in the device communication
-# # In case the Device is already at IoTLedger the gateway will send a AES Key.
-# @app.route('/auth', methods=['POST'])
-# def auth():
-#     aesKey = ''
-#     t1 = time.time()
-#     content = request.get_json()
-#     devPubKey = content['publicKey']
-#     print(devPubKey)
-#     blk = findBlock(devPubKey)
-#     if (blk != False and blk.index > 0):
-#         aesKey = findAESKey(devPubKey)
-#         if (aesKey == False):
-#             aesKey = generateAESKey(blk.publicKey)
-#     else:
-#         print("The device IoT Block Ledger is not present.")
-#         print("We should write the code to create a new block here...")
-
-#     encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
-#     t2 = time.time()
-#     logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-#     logger.debug("Encrypted key:" + encKey)
-
-#     return encKey
-
-
-# # funcao que recebe um dado encryptado do Device, a chave publica e a assinatura do dispositivo.
-# # busca o bloco identificado pela chave publica
-# # decripta o dado (com a chave publica busca no bloco)
-# # decripta a assinatura (com a chave publica do bloco)
-# # cria um novo "bloco" de informacacao
-# # assina o bloco de informacao primeiro com a chave do device depois com a chave do gateway
-# # append o bloco de informacao ao Bloco da blockchain.
-# @app.route('/info', methods=['POST'])
-# def info():
-#     global gwPvt
-#     global gwPub
-#     content = request.get_json()
-#     devPublicKey = content['publicKey']
-#     encryptedObj = content['EncObj']
-#     blk = findBlock(devPublicKey)
-
-#     if (blk != False and blk.index > 0):
-#         devAESKey = findAESKey(devPublicKey)
-#         if (devAESKey != False):
-#             # plainObject vira com [Assinatura + Time + Data]
-#             plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-
-#             signature = plainObject[:len(devPublicKey)]
-#             time = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
-#             deviceData = plainObject[len(devPublicKey) + 16:]
-
-#             deviceInfo = DeviceInfo.DeviceInfo(signature, time, deviceData)
-
-#             nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
-#             signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
-#             gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
-
-#             # code responsible to create the hash between Info nodes.
-#             prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
-
-#             # gera um pacote do tipo Info com o deviceInfo como conteudo
-#             newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)  
-
-#             #barbara uni.. aqui!
-
-#             addBlockLedger(blk, newBlockLedger)
-#             sendBlockLedgerToPeers(newBlockLedger)
-
-#             return "Loucurinha!"
-#         return "key not found"
-
-
-
-#############################################################################
-#############################################################################
 #################    Consensus Algorithm Methods    #########################
 #############################################################################
 #############################################################################
 
-def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
+answers = []
+
+def consensus(newBlock, gatewayPublicKey, devicePublicKey):
+    global peers, answers
+    threads = []
+    answers = []
+    #  run through peers
+    numberOfActivePeers = 0
+    for p in peers:
+        #  if trusted and active create new thread and sendBlockToConsensus
+        if peerIsTrusted() and peerIsActive():
+            numberOfActivePeers = numberOfActivePeers + 1
+            t = threading.Thread(target=sendBlockToConsensus, args=(newBlock, gatewayPublicKey, devicePublicKey))
+            threads.appen(t)
+    #  join threads 
+    for t in threads:
+        t.join()
+
+    numberOfTrueResponses = 0 
+    for a in answers:
+        if a: numberOfTrueResponses = numberOfTrueResponses + 1
+    #  if more then 2/3 -> true, else -> false 
+    return numberOfTrueResponses >= int((2*numberOfActivePeers)/3)
+
+def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
+    obj = peer.object
+    data = pickle.dumps(newBlock)
+    answer = obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
+    answers.append(answer)
+
+def isValidBlock(self, data, gatewayPublicKey, devicePublicKey):
+    newBlock = pickle.loads(data)
     blockIoT = findBlock(devicePublicKey)
     if blockIoT == False:
         print("Block not found in IoT ledger")
@@ -303,7 +251,6 @@ def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
 #############################################################################
 #############################################################################
 
-
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class R2ac(object):
@@ -338,6 +285,9 @@ class R2ac(object):
                 newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
 
                 # barbara uni.. aqui!
+                # send to consensus
+                if not consensus(newBlockLedger, bla, bla):
+                    return "Not Approved"
 
                 addBlockLedger(blk, newBlockLedger)
                 logger.debug("block added locally... now sending to peers..")
@@ -359,7 +309,6 @@ class R2ac(object):
         b = pickle.loads(iotBlock)
         logger.debug("Received IoT Block ledger #:" + (str(b.index)))
         #write here the code to append the new IoT Block to the Ledger
-
 
     def auth(self, devPubKey):
         aesKey = ''
@@ -415,12 +364,12 @@ class R2ac(object):
         return "ok"
 
 
-
 #############################################################################
 #############################################################################
 ######################          Main         ################################
 #############################################################################
 #############################################################################
+
 def main():
     global myURI
     bootstrapChain()
@@ -437,7 +386,6 @@ def main():
     #     app.run(host=sys.argv[1], port=3001, debug=True)
     #
     # runApp()
-
 
 if __name__ == '__main__':
 
