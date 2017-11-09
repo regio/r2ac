@@ -8,7 +8,6 @@ import time
 import threading
 from os import listdir
 from os.path import isfile, join
-
 from flask import Flask, request
 
 import BlockLedger
@@ -32,9 +31,6 @@ gwPub = ""
 
 g = chainFunctions.getGenesisBlock()
 IoTLedger.append(g)
-
-trustedPeers = [1, 2, 3, 4]
-
 
 # each file read will be mapped to an IoT Ledger Block
 def bootstrapChain():
@@ -63,7 +59,6 @@ def bootstrapChain():
                 newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
                 addIoTBlock(newBlock)
 
-
 def addIoTBlock(newIoTBlock):
     global IoTLedger
     # if (isValidNewBlock(newBlock, getLatestBlock())):
@@ -78,26 +73,21 @@ def addIoTBlock(newIoTBlock):
 
     IoTLedger.append(newIoTBlock)
 
-
 def addBlockLedger(IoTBlock, newBlockLedger):
     IoTBlock.blockLedger.append(newBlockLedger)
-
 
 def getLatestBlock():
     global IoTLedger
     return IoTLedger[len(IoTLedger) - 1]
 
-
 def getLatestBlockLedger(blk):
     return blk.blockLedger[len(blk.blockLedger) - 1]
-
 
 def blockContainsBlockLedger(block, blockLedger):
     for bl in block.blockLedger:
         if bl == blockLedger:
             return True
     return False
-
 
 def findBlock(key):
     global IoTLedger
@@ -106,14 +96,12 @@ def findBlock(key):
             return b
     return False
 
-
 def findAESKey(devPubKey):
     global genKeysPars
     for b in genKeysPars:
         if (b.publicKey == devPubKey):
             return b.AESKey
     return False
-
 
 def findPeer(peerURI):
     global peers
@@ -122,12 +110,17 @@ def findPeer(peerURI):
             return True
     return False
 
+def getPeer(peerURI):
+    global peers
+    for p in peers:
+        if p.peerURI == peerURI:
+            return p
+    return False
 
 def addBack(peer):
     global myURI
     obj = peer.object
     obj.addPeer(myURI)
-
 
 def sendBlockLedgerToPeers(devPublicKey, blockLedger):
     global peers
@@ -136,7 +129,6 @@ def sendBlockLedgerToPeers(devPublicKey, blockLedger):
         logger.debug("sending to: " + peer.peerURI)
         dat = pickle.dumps(blockLedger)
         obj.updateBlockLedger(devPublicKey, dat)
-
 
 def sendIoTBlockToPeers(IoTBlock):
     global peers
@@ -150,14 +142,12 @@ def syncChain(newPeer):
     #write the code to identify only a change in the iot block and insert.
     return True
 
-
 def getMyIP():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     myIP = s.getsockname()[0]
     s.close()
     return myIP
-
 
 #############################################################################
 #############################################################################
@@ -172,79 +162,99 @@ def generateAESKey(devPubKey):
     genKeysPars.append(obj)
     return randomAESKey
 
-
 #############################################################################
 #############################################################################
 #################    Consensus Algorithm Methods    #########################
 #############################################################################
 #############################################################################
 
-answers = []
+answers = {}
+trustedPeers = [1, 2, 3, 4]
+
+def addTrustedPeers():
+    global peers
+    for p in peers:
+        trustedPeers.append(p.peerURI)
 
 def consensus(newBlock, gatewayPublicKey, devicePublicKey):
+    addTrustedPeers() # just for testing, delete after
     global peers, answers
     threads = []
-    answers = []
+    answers[newBlock] = []
     #  run through peers
     numberOfActivePeers = 0
     for p in peers:
         #  if trusted and active create new thread and sendBlockToConsensus
-        if peerIsTrusted() and peerIsActive():
+        if peerIsTrusted(p.peerURI) and peerIsActive(p.object): 
             numberOfActivePeers = numberOfActivePeers + 1
             t = threading.Thread(target=sendBlockToConsensus, args=(newBlock, gatewayPublicKey, devicePublicKey))
-            threads.appen(t)
+            threads.append(t)
     #  join threads 
     for t in threads:
         t.join()
 
     numberOfTrueResponses = 0 
-    for a in answers:
+    for a in answers[newBlock]:
         if a: numberOfTrueResponses = numberOfTrueResponses + 1
     #  if more then 2/3 -> true, else -> false 
+    del answers[newBlock]
     return numberOfTrueResponses >= int((2*numberOfActivePeers)/3)
+
+def peerIsTrusted(i):
+    global trustedPeers
+    for p in trustedPeers:
+        if p == i: return True
+    return False
+
+def peerIsActive(i):
+    return True # TO DO
 
 def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
     obj = peer.object
     data = pickle.dumps(newBlock)
-    answer = obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
-    answers.append(answer)
+    obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
 
-def isValidBlock(self, data, gatewayPublicKey, devicePublicKey):
+def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consensus):
+    newBlock = pickle.loads(data)
+    answer[newBlock].append(consensus)
+
+def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
     newBlock = pickle.loads(data)
     blockIoT = findBlock(devicePublicKey)
+    consensus = True
     if blockIoT == False:
         print("Block not found in IoT ledger")
-        return False
+        consensus = False
 
     lastBlock = blockIoT.blockLedger[len(blockIoT.blockLedger) - 1]
     if newBlock.index != lastBlock.index + 1:
         print("New blovk Index not valid")
-        return False
+        consensus = False
 
     if lastBlock.calculateHashForBlockLedger(lastBlock) != newBlock.previousHash:
         print("New block previous hash not valid")
-        return False
+        consensus = False
 
     now = "{:.0f}".format(((time.time() * 1000) * 1000))
 
     # check time 
     if not (newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
         print("New block time not valid")
-        return False
+        consensus = False
 
     # check device time 
     if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
         print("New block device time not valid")
-        return False
+        consensus = False
 
     # check device signature with device public key 
     if not (criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
         print("New block device signature not valid")
-        return False
-
-    return True
-
-
+        consensus = False
+    peer = getPeer(peer)
+    obj = peer.object
+    obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
+    
 #############################################################################
 #############################################################################
 ######################      R2AC Class    ###################################
@@ -286,7 +296,7 @@ class R2ac(object):
 
                 # barbara uni.. aqui!
                 # send to consensus
-                if not consensus(newBlockLedger, bla, bla):
+                if not consensus(newBlockLedger, gwPub, devPublicKey):
                     return "Not Approved"
 
                 addBlockLedger(blk, newBlockLedger)
@@ -362,7 +372,6 @@ class R2ac(object):
             logger.debug(b.strBlock())
             logger.debug("-------")
         return "ok"
-
 
 #############################################################################
 #############################################################################
