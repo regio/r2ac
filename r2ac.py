@@ -389,7 +389,7 @@ class R2ac(object):
             newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
             peers.append(newPeer)
             addBack(newPeer)
-            syncChain()
+            syncChain(newPeer)
             return True
         return False
 
