@@ -169,7 +169,7 @@ def generateAESKey(devPubKey):
 #############################################################################
 
 answers = {}
-trustedPeers = [1, 2, 3, 4]
+trustedPeers = []
 
 def addTrustedPeers():
     global peers
