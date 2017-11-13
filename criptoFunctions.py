@@ -10,17 +10,14 @@ BS = 32
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 unpad = lambda s: s[0:-ord(s[-1])]
 
-
 def calculateHash(index, previousHash, timestamp, key):
     shaFunc = hashlib.sha256()
     shaFunc.update((str(index) + str(previousHash) + str(timestamp) + key).encode('utf-8'))
     val = shaFunc.hexdigest()
     return val
 
-
 def calculateHashForBlock(block):
     return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey)
-
 
 def calculateHashForBlockLedger(blockLedger):
     shaFunc = hashlib.sha256()
@@ -29,14 +26,12 @@ def calculateHashForBlockLedger(blockLedger):
     val = shaFunc.hexdigest()
     return val
 
-
 # encrypted data returns in base64
 def encryptRSA2(key, text):
     k = RSA.importKey(key)
     enc = k.encrypt(text, 42)[0]
     enc64 = base64.b64encode(enc)
     return enc64
-
 
 # data should be sent in base64
 def decryptRSA2(key, text):
@@ -45,14 +40,12 @@ def decryptRSA2(key, text):
     data = k.decrypt(deb)
     return data
 
-
 def encryptAES(text, k):
     cypher = AES.new(k, AES.MODE_CBC, iv)
     textPadded = pad(text)
     cy = cypher.encrypt(textPadded)
     enc64 = base64.b64encode(cy)
     return enc64
-
 
 def decryptAES(text, k):
     enc = base64.b64decode(text)
@@ -61,16 +54,14 @@ def decryptAES(text, k):
     plainTextUnpadded = unpad(plain_text)
     return plainTextUnpadded
 
-
 def signInfo(gwPvtKey, data):
     k = RSA.importKey(gwPvtKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
-    digest.update(data)
+    digest.update(str(data).encode('UTF-8'))
     s = signer.sign(digest)
     sinature = base64.b64encode(s)
     return sinature
-
 
 def signVerify(data, signature, gwPubKey):
     signer = PKCS1_v1_5.new(gwPubKey)
