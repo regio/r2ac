@@ -119,9 +119,7 @@ def sendIoTBlockToPeers(IoTBlock):
 def syncChain(newPeer):
     obj = newPeer.object
     for block in IoTLedger:
-        if(obj.findBlock(block.publicKey) != False):
-            obj.addIoTBlock(block)
-
+        obj.updateBlockLedger(block)
 
     return True
 
@@ -131,7 +129,6 @@ def getMyIP():
     myIP = s.getsockname()[0]
     s.close()
     return myIP
-
 #############################################################################
 #########################    CRIPTOGRAPHY    ################################
 #############################################################################
@@ -141,7 +138,6 @@ def generateAESKey(devPubKey):
     obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey, randomAESKey)
     genKeysPars.append(obj)
     return randomAESKey
-
 #############################################################################
 #################    Consensus Algorithm Methods    #########################
 #############################################################################
@@ -168,7 +164,8 @@ def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
         return False
 
     # check device time 
-    if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
+    if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and
+                    newBlock.signature.timestamp < now):
         print("New block device time not valid")
         return False
 
@@ -179,7 +176,6 @@ def isValidBlock(newBlock, gatewayPublicKey, devicePublicKey):
         return False
 
     return True
-
 #############################################################################
 ######################      R2AC Class    ###################################
 #############################################################################
@@ -201,7 +197,8 @@ class R2ac(object):
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
 
                 signature = plainObject[:len(devPublicKey)]
-                devTime = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
+                # 16 is the timestamp lenght
+                devTime = plainObject[len(devPublicKey):len(devPublicKey) + 16]
                 deviceData = plainObject[len(devPublicKey) + 16:]
 
                 deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
@@ -215,8 +212,6 @@ class R2ac(object):
 
                 # gera um pacote do tipo Info com o deviceInfo como conteudo
                 newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
-
-                # barbara uni.. aqui!
 
                 addBlockLedger(blk, newBlockLedger)
                 logger.debug("block added locally... now sending to peers..")
@@ -291,15 +286,16 @@ class R2ac(object):
             logger.debug(b.strBlock())
             logger.debug("-------")
         return "ok"
-
 #############################################################################
 ######################          Main         ################################
 #############################################################################
 def main():
     global myURI
     bootstrapChain()
-    print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-    # Pyro4.config.HOST = str(getMyIP())
+    print ("Please copy the server address: PYRO:chain.server...... "
+           "as shown and use it in deviceSimulator.py")
+    Pyro4.config.HOST = str(getMyIP())
+    Pyro4.config.SERIALIZER = 'pickle'
     daemon = Pyro4.Daemon()
     uri = daemon.register(R2ac)
     myURI = str(uri)
