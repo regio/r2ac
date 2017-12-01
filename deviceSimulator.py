@@ -1,26 +1,22 @@
 import Pyro4
 import os
 import random
+import sys
 import time
+
 import criptoFunctions
 
 server = "localhost"
 serverAESEncKey = ""
 serverAESKey = ""
-privateKey = "-----BEGIN PRIVATE KEY-----" \
-             "\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy" \
-             "\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT" \
-             "\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj" \
-             "\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2" \
-             "\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi" \
-             "\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8" \
-             "\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407" \
-             "\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
-publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR" \
-            "\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
+publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
 
 def setServer():
     global server
+    if sys.version_info < (3, 0):
+        input = raw_input
+    #server = raw_input('Gateway IP:')
     uri = input("Enter the uri of the gateway: ").strip()
     server = Pyro4.Proxy(uri)
 
@@ -60,6 +56,8 @@ def readSensorTemperature():
     return temp
 
 def addPeer():
+    if sys.version_info < (3, 0):
+        input = raw_input
     uri = input("Enter the PEER uri: ").strip()
     server.addPeer(uri)
 
@@ -68,8 +66,7 @@ def listIoTLedger():
 
 def listBlockLedger():
     index = input("Which IoT Block do you want to print?")
-    server.showBlockLedger(int(index))
-
+    server.showBlockLedger(index)
 #############################################################################
 ######################          Main         ################################
 #############################################################################
@@ -83,6 +80,7 @@ def main():
                5: listIoTLedger,
                6: listBlockLedger
                }
+
     mode = -1
     while True:
         print("Choose your option [" + str(server) + "]")
@@ -94,17 +92,17 @@ def main():
         print("5 - List IoT Ledger from connected Gateway")
         print("6 - List Block Ledger for a diven IoT Block")
         try:
-            mode = int(input('Input:'))
+            mode = int(raw_input('Input:'))
         except ValueError:
-            print("Not a number")
+            print "Not a number"
         if (mode == 0):
             break
         options[mode]()
 
 if __name__ == '__main__':
-    # if len(sys.argv[1:]) < 1:
-    #     print("Command Line usage:")
-    #     print("    python deviceSimulator.py TBD")
-    #     quit()
+    if len(sys.argv[1:]) < 1:
+        print ("Command Line usage:")
+        print ("    python deviceSimulator.py TBD")
+        quit()
     os.system("clear")
     main()

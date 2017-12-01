@@ -58,7 +58,7 @@ def signInfo(gwPvtKey, data):
     k = RSA.importKey(gwPvtKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
-    digest.update(str(data).encode('UTF-8'))
+    digest.update(data.encode('UTF-8'))
     s = signer.sign(digest)
     sinature = base64.b64encode(s)
     return sinature
