@@ -2,13 +2,16 @@ import pickle
 import Pyro4
 import socket
 import logging.config
+import logging as logger
 import os
 import sys
 import time
 import threading
+import thread
 from os import listdir
 from os.path import isfile, join
 from flask import Flask, request
+from Crypto.PublicKey import RSA
 
 import BlockLedger
 import DeviceInfo
@@ -17,12 +20,21 @@ import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
 
-logging.config.fileConfig('logging.conf')
-logger = logging.getLogger(__name__)
+
+def getMyIP():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    s.connect(("8.8.8.8", 80))
+    myIP = s.getsockname()[0]
+    s.close()
+    return myIP
+
+# logging.config.fileConfig('logging.conf')
+# logger = logging.getLogger(__name__)
+logger.basicConfig(filename=getMyIP(),level=logging.DEBUG)
 
 app = Flask(__name__)
 peers = []
-IoTLedger = []
+BlockHeaderChain = []
 genKeysPars = []
 myURI = ""
 
@@ -30,7 +42,27 @@ gwPvt = ""
 gwPub = ""
 
 g = chainFunctions.getGenesisBlock()
-IoTLedger.append(g)
+BlockHeaderChain.append(g)
+
+def bootstrapChain2():
+    global gwPub
+    global gwPvt
+
+    #generate a key par that represents the gateway
+    gwPub, gwPvt = generateRSAKeyPair()
+
+    folder = "./keys/"
+    publicK = []
+
+    for f in listdir(folder):
+        if isfile(join(folder, f)) and f.startswith("public"):
+            publicK.append(folder + f)
+            fl = open(folder + f, 'r')
+            key = fl.read()
+            newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
+            addBlockHeader(newBlock)
+            break
+
 
 # each file read will be mapped to an IoT Ledger Block
 def bootstrapChain():
@@ -57,10 +89,15 @@ def bootstrapChain():
                 fl = open(folder + f, 'r')
                 key = fl.read()
                 newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-                addIoTBlock(newBlock)
+                addBlockHeader(newBlock)
 
-def addIoTBlock(newIoTBlock):
-    global IoTLedger
+def createNewBlock(devPubKey):
+    newBlock = chainFunctions.generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
+    addBlockHeader(newBlock)
+    return newBlock
+
+def addBlockHeader(newIoTBlock):
+    global BlockHeaderChain
     # if (isValidNewBlock(newBlock, getLatestBlock())):
     # logger.debug("---------------------------------------")
     # logger.debug("[addBlock] Chain size:" + str(len(IoTLedger)))
@@ -71,27 +108,27 @@ def addIoTBlock(newIoTBlock):
     # logger.debug("BH - hash:" + str(newIoTBlock.hash))
     # logger.debug("BH - publicKey:" + str(newIoTBlock.publicKey))
 
-    IoTLedger.append(newIoTBlock)
+    BlockHeaderChain.append(newIoTBlock)
 
-def addBlockLedger(IoTBlock, newBlockLedger):
+def addBlockTransaction(IoTBlock, newBlockLedger):
     IoTBlock.blockLedger.append(newBlockLedger)
 
 def getLatestBlock():
-    global IoTLedger
-    return IoTLedger[len(IoTLedger) - 1]
+    global BlockHeaderChain
+    return BlockHeaderChain[len(BlockHeaderChain) - 1]
 
-def getLatestBlockLedger(blk):
+def getLatestBlockTransaction(blk):
     return blk.blockLedger[len(blk.blockLedger) - 1]
 
-def blockContainsBlockLedger(block, blockLedger):
+def blockContainsBlockTransaction(block, blockLedger):
     for bl in block.blockLedger:
         if bl == blockLedger:
             return True
     return False
 
 def findBlock(key):
-    global IoTLedger
-    for b in IoTLedger:
+    global BlockHeaderChain
+    for b in BlockHeaderChain:
         if (b.publicKey == key):
             return b
     return False
@@ -102,6 +139,12 @@ def findAESKey(devPubKey):
         if (b.publicKey == devPubKey):
             return b.AESKey
     return False
+
+#############################################################################
+#############################################################################
+#########################    PEER MANAGEMENT  ###############################
+#############################################################################
+#############################################################################
 
 def findPeer(peerURI):
     global peers
@@ -117,37 +160,77 @@ def getPeer(peerURI):
             return p
     return False
 
-def addBack(peer):
+def addBack(peer, isFirst):
     global myURI
-    obj = peer.object
-    obj.addPeer(myURI)
+    if(isFirst):
+        obj = peer.object
+        obj.addPeer(myURI, isFirst)
+    #else:
+    #    print ("done adding....")
 
-def sendBlockLedgerToPeers(devPublicKey, blockLedger):
+def sendTransactionToPeers(devPublicKey, blockLedger):
     global peers
     for peer in peers:
         obj = peer.object
-        logger.debug("sending to: " + peer.peerURI)
+        #logger.debug("sending to: " + peer.peerURI)
         dat = pickle.dumps(blockLedger)
         obj.updateBlockLedger(devPublicKey, dat)
 
-def sendIoTBlockToPeers(IoTBlock):
-    global peers
-    for peer in peers:
-        obj = peer.object
-        logger.debug("sending IoT Block to: " + peer.peerURI)
-        dat = pickle.dumps(IoTBlock)
-        obj.updateIOTBlockLedger(dat)
+# class sendBlks(threading.Thread):
+#     def __init__(self, threadID, iotBlock):
+#         threading.Thread.__init__(self)
+#         self.threadID = threadID
+#         self.iotBlock = iotBlock
+#
+#     def run(self):
+#         print "Starting "
+#         # Get lock to synchronize threads
+#         global peers
+#         for peer in peers:
+#             print ("runnin in a thread: ")
+#             obj = peer.object
+#             #logger.debug("sending IoT Block to: " + peer.peerURI)
+#             dat = pickle.dumps(self.iotBlock)
+#             obj.updateIOTBlockLedger(dat)
+
+def sendBlockToPeers(IoTBlock):
+        global peers
+        for peer in peers:
+            obj = peer.object
+            #logger.debug("sending IoT Block to: " + peer.peerURI)
+            dat = pickle.dumps(IoTBlock)
+            obj.updateIOTBlockLedger(dat)
 
 def syncChain(newPeer):
     #write the code to identify only a change in the iot block and insert.
     return True
 
-def getMyIP():
-    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-    s.connect(("8.8.8.8", 80))
-    myIP = s.getsockname()[0]
-    s.close()
-    return myIP
+
+#this method recieves a nameServer parameter, list all remote objects connected to it, and add these remote objetcts as peers to the current node
+def connectToPeers(nameServer):
+    #print ("found # results:"+str(len(nameServer.list())))
+    for peerURI in nameServer.list():
+        if(peerURI.startswith("PYRO:") and peerURI != myURI):
+            #print ("adding new peer:"+peerURI)
+            addPeer2(peerURI)
+        #else:
+            #print ("nothing to do")
+            #print (peerURI )
+    print ("finished connecting to all peers")
+
+def addPeer2(peerURI):
+            global peers
+            if not (findPeer(peerURI)):
+                #print ("peer not found. Create new node and add to list")
+                #print ("[addPeer2]adding new peer:" + peerURI)
+                newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
+                peers.append(newPeer)
+                #print("Runnin addback...")
+                addBack(newPeer, True)
+                #syncChain(newPeer)
+                #print ("finished addback...")
+                return True
+            return False
 
 #############################################################################
 #############################################################################
@@ -161,6 +244,13 @@ def generateAESKey(devPubKey):
     obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey, randomAESKey)
     genKeysPars.append(obj)
     return randomAESKey
+
+def generateRSAKeyPair():
+    private = RSA.generate(1024)
+    pubKey = private.publickey()
+    prv = private.exportKey()
+    pub = pubKey.exportKey()
+    return pub, prv
 
 #############################################################################
 #############################################################################
@@ -185,18 +275,18 @@ def consensus(newBlock, gatewayPublicKey, devicePublicKey):
     numberOfActivePeers = 0
     for p in peers:
         #  if trusted and active create new thread and sendBlockToConsensus
-        if peerIsTrusted(p.peerURI) and peerIsActive(p.object): 
+        if peerIsTrusted(p.peerURI) and peerIsActive(p.object):
             numberOfActivePeers = numberOfActivePeers + 1
             t = threading.Thread(target=sendBlockToConsensus, args=(newBlock, gatewayPublicKey, devicePublicKey))
             threads.append(t)
-    #  join threads 
+    #  join threads
     for t in threads:
         t.join()
 
-    numberOfTrueResponses = 0 
+    numberOfTrueResponses = 0
     for a in answers[newBlock]:
         if a: numberOfTrueResponses = numberOfTrueResponses + 1
-    #  if more then 2/3 -> true, else -> false 
+    #  if more then 2/3 -> true, else -> false
     del answers[newBlock]
     return numberOfTrueResponses >= int((2*numberOfActivePeers)/3)
 
@@ -237,24 +327,36 @@ def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
 
     now = "{:.0f}".format(((time.time() * 1000) * 1000))
 
-    # check time 
+    # check time
     if not (newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
         print("New block time not valid")
         consensus = False
 
-    # check device time 
+    # check device time
     if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
         print("New block device time not valid")
         consensus = False
 
-    # check device signature with device public key 
+    # check device signature with device public key
     if not (criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
         print("New block device signature not valid")
         consensus = False
     peer = getPeer(peer)
     obj = peer.object
     obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
-    
+
+def isBlockValid(blockHeader):
+    return True
+
+def isTransactionValid(transaction,pubKey):
+    print("validating transaction...")
+    print(str(transaction))
+    res = criptoFunctions.signVerify(str(transaction.data), str(transaction.signature), pubKey)
+    print("result:")
+    print str(res)
+    return True
+
+
 #############################################################################
 #############################################################################
 ######################      R2AC Class    ###################################
@@ -270,17 +372,21 @@ class R2ac(object):
     def info(self, devPublicKey, encryptedObj):
         global gwPvt
         global gwPub
+        #print("package received")
+        t1 = time.time()
         blk = findBlock(devPublicKey)
 
         if (blk != False and blk.index > 0):
             devAESKey = findAESKey(devPublicKey)
             if (devAESKey != False):
                 # plainObject vira com [Assinatura + Time + Data]
+
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
 
                 signature = plainObject[:len(devPublicKey)]
                 devTime = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
                 deviceData = plainObject[len(devPublicKey) + 16:]
+                #print("Device Data: "+str(deviceData))
 
                 deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
 
@@ -289,88 +395,125 @@ class R2ac(object):
                 gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
 
                 # code responsible to create the hash between Info nodes.
-                prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockLedger(blk))
+                prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockTransaction(blk))
 
                 # gera um pacote do tipo Info com o deviceInfo como conteudo
                 newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
 
                 # barbara uni.. aqui!
                 # send to consensus
-                if not consensus(newBlockLedger, gwPub, devPublicKey):
-                    return "Not Approved"
+                #if not consensus(newBlockLedger, gwPub, devPublicKey):
+                #    return "Not Approved"
 
-                addBlockLedger(blk, newBlockLedger)
+                addBlockTransaction(blk, newBlockLedger)
                 logger.debug("block added locally... now sending to peers..")
-                sendBlockLedgerToPeers(devPublicKey, newBlockLedger)
-
-                return "Loucurinha!"
+                t2 = time.time()
+                logger.debug("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                sendTransactionToPeers(devPublicKey, newBlockLedger) # --->> this function should be run in a different thread.
+                #print("all done")
+                return "ok!"
             return "key not found"
 
+    #update local bockchain adding a new transaction
     def updateBlockLedger(self, pubKey, block):
         b = pickle.loads(block)
-        logger.debug("Received block ledger #:" + (str(b.index)))
+        t1 = time.time()
+        logger.debug("Received Transaction #:" + (str(b.index)))
         blk = findBlock(pubKey)
         if blk != False:
-            if not (blockContainsBlockLedger(blk, b)):
-                addBlockLedger(blk, b)
+            if not (blockContainsBlockTransaction(blk, b)):
+                #isTransactionValid(b, pubKey)
+                addBlockTransaction(blk, b)
+        t2 = time.time()
+        logger.debug("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "done"
 
+    # update local bockchain adding a new block
     def updateIOTBlockLedger(self, iotBlock):
         b = pickle.loads(iotBlock)
-        logger.debug("Received IoT Block ledger #:" + (str(b.index)))
+        t1 = time.time()
+        #logger.debug("Received Block #:" + (str(b.index)))
+        addBlockHeader(b)
+        t2 = time.time()
+        logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
         #write here the code to append the new IoT Block to the Ledger
 
     def auth(self, devPubKey):
         aesKey = ''
         t1 = time.time()
-        print(devPubKey)
+        #print(devPubKey)
         blk = findBlock(devPubKey)
         if (blk != False and blk.index > 0):
             aesKey = findAESKey(devPubKey)
             if (aesKey == False):
+                logger.debug("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
         else:
-            print("The device IoT Block Ledger is not present.")
-            print("We should write the code to create a new block here...")
+            #logger.debug("Create New Block Header")
+            logger.debug("***** New Block: Chain size:" + str(len(BlockHeaderChain)))
+            bl = createNewBlock(devPubKey)
+            sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
+            # try:
+            #     #thread.start_new_thread(sendBlockToPeers,(bl))
+            #     t1 = sendBlks(1, bl)
+            #     t1.start()
+            # except:
+            #     print "thread not working..."
+            aesKey = generateAESKey(devPubKey)
+            #print("The device IoT Block Ledger is not present.")
+            #print("We should write the code to create a new block here...")
 
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        logger.debug("Encrypted key:" + encKey)
+        #logger.debug("Encrypted key:" + encKey)
 
         return encKey
 
-    def addPeer(self, peerURI):
+    def addPeer(self, peerURI, isFirst):
         global peers
+        #print("recived call to add peer: "+peerURI)
         if not (findPeer(peerURI)):
-            print ("peer not found. Create new node and add to list")
-            print ("adding new peer:" + peerURI)
+            #print ("peer not found. Create new node and add to list")
+            #print ("[addPeer]adding new peer:" + peerURI)
             newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
             peers.append(newPeer)
-            addBack(newPeer)
+            if(isFirst):
+                #after adding the original peer, send false to avoid loop
+                addBack(newPeer, False)
             syncChain(newPeer)
             return True
-        return False
+        else:
+            print("peer is already on the list")
+            return False
 
     def showIoTLedger(self):
-        logger.debug("Showing IoT Ledger data for peer: " + myURI)
-        size = len(IoTLedger)
+        logger.debug("Showing Block Header data for peer: " + myURI)
+        size = len(BlockHeaderChain)
         logger.debug("IoT Ledger size: " + str(size))
-        logger.debug("---")
-        for b in IoTLedger:
+        logger.debug("|-----------------------------------------|")
+        for b in BlockHeaderChain:
             logger.debug(b.strBlock())
-            logger.debug("---")
+            logger.debug("|-----------------------------------------|")
         return "ok"
 
     def showBlockLedger(self, index):
-        logger.debug("Showing Block Ledger data for peer: " + myURI)
-        blk = IoTLedger[index]
+        logger.debug("Showing Trasactions data for peer: " + myURI)
+        blk = BlockHeaderChain[index]
         size = len(blk.blockLedger)
         logger.debug("Block Ledger size: " + str(size))
         logger.debug("-------")
         for b in blk.blockLedger:
             logger.debug(b.strBlock())
             logger.debug("-------")
+        return "ok"
+
+    def listPeer(self):
+        global peers
+        logger.debug("|--------------------------------------|")
+        for p in peers:
+            logger.debug("PEER URI: "+p.peerURI)
+        logger.debug("|--------------------------------------|")
         return "ok"
 
 #############################################################################
@@ -381,14 +524,25 @@ class R2ac(object):
 
 def main():
     global myURI
-    bootstrapChain()
+    bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
     # Pyro4.config.HOST = str(getMyIP())
 
-    daemon = Pyro4.Daemon()
+    # ns = Pyro4.locateNS()
+    # daemon = Pyro4.Daemon(ns.host)
+    # uri = daemon.register(R2ac)
+    # myURI = str(uri)
+    # print("uri=" + myURI)
+    # daemon.requestLoop()
+
+    names = sys.argv[1]
+    ns = Pyro4.locateNS(names)
+    daemon = Pyro4.Daemon(getMyIP())
     uri = daemon.register(R2ac)
     myURI = str(uri)
+    ns.register(myURI, uri, True)
     print("uri=" + myURI)
+    connectToPeers(ns)
     daemon.requestLoop()
 
     # def runApp():
@@ -400,7 +554,8 @@ if __name__ == '__main__':
 
     if len(sys.argv[1:]) < 1:
         print ("Command Line usage:")
-        print ("    python r2ac.py <computer IP> <port>")
+        print ("    python r2ac.py <Pyro4 Namer Server IP>")
+        print (" *** remember launch in a new terminal or machine the name server: pyro4-ns -n <machine IP>  ***")
         quit()
     os.system("clear")
     main()
