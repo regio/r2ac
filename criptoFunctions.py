@@ -73,7 +73,8 @@ def signInfo(gwPvtKey, data):
 
 
 def signVerify(data, signature, gwPubKey):
-    signer = PKCS1_v1_5.new(gwPubKey)
+    k = RSA.importKey(gwPubKey)
+    signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
     digest.update(data)
     signaturerOr = base64.b64decode(signature)

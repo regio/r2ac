@@ -45,12 +45,22 @@ def authReq():
     #print("AES key encrypted received from server")
     decryptAESKey(serverAESEncKey)
 
+def sendDataTest():
+    pub, priv = generateRSAKeyPair()
+    temperature = readSensorTemperature()
+    t = ((time.time() * 1000) * 1000)
+    timeStr = "{:.0f}".format(t)
+    data = timeStr + temperature
+    signedData = criptoFunctions.signInfo(priv, data)
+    ver = criptoFunctions.signVerify(data, signedData, pub)
+    print ("done: "+str(ver))
+
 
 def sendData():
     temperature = readSensorTemperature()
     t = ((time.time() * 1000) * 1000)
     timeStr = "{:.0f}".format(t)
-    data = temperature + timeStr
+    data = timeStr + temperature
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
     #print ("keySize:"+str(len(serverAESKey)))
@@ -74,7 +84,7 @@ def decryptAESKey(data):
 
 
 def readSensorTemperature():
-    temp = str(random.randint(-10, 40)) + " C"
+    temp = str(random.randint(10, 40)) + " C"
     #print("The device has read the temperature:" + temp)
     return temp
 
@@ -150,6 +160,12 @@ def automa():
             bruteSend(tr)
 
 
+def merkle():
+    blk = int(raw_input("Which block you want to create the merkle tree:"))
+    server.calcMerkleTree(blk)
+    print ("done")
+
+
 #############################################################################
 #############################################################################
 ######################          Main         ################################
@@ -166,7 +182,8 @@ def main():
                6: listBlockLedger,
                7: listPeers,
                8: newKeyPair,
-               9: automa
+               9: automa,
+               10: merkle
                }
 
     mode = -1
@@ -182,6 +199,7 @@ def main():
         print("7 - List PEERS")
         print("8 - Recreate Device KeyPair")
         print("9 - Run a batch operation...")
+        print("10 - Create Merkle Tree for a given block")
         try:
             mode = int(raw_input('Input:'))
         except ValueError:

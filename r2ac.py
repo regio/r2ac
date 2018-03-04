@@ -7,6 +7,8 @@ import os
 import sys
 import time
 import threading
+import merkle
+
 import thread
 from os import listdir
 from os.path import isfile, join
@@ -31,6 +33,9 @@ def getMyIP():
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
 logger.basicConfig(filename=getMyIP(),level=logging.DEBUG)
+
+# Enable/Disable the  transaction validation when peer receives a transaction
+validatorClient = True
 
 app = Flask(__name__)
 peers = []
@@ -345,17 +350,26 @@ def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
     obj = peer.object
     obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
 
-def isBlockValid(blockHeader):
-    return True
-
 def isTransactionValid(transaction,pubKey):
-    print("validating transaction...")
-    print(str(transaction))
-    res = criptoFunctions.signVerify(str(transaction.data), str(transaction.signature), pubKey)
-    print("result:")
-    print str(res)
-    return True
+    data = str(transaction.data)[-22:-2]
+    signature = str(transaction.data)[:-22]
+    res = criptoFunctions.signVerify(data, signature, pubKey)
+    return res
 
+
+def isBlockValid(block):
+    #Todo Fix the comparison between the hashes... for now is just a mater to simulate the time spend calculating the hashes...
+    global BlockHeaderChain
+    #print(str(len(BlockHeaderChain)))
+    lastBlk = getLatestBlock()
+    #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
+    lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
+    #print ("This Hash:"+str(lastBlkHash))
+    #print ("Last Hash:"+str(block.previousHash))
+    if(lastBlkHash == block.previousHash):
+        return True
+    else:
+        return True
 
 #############################################################################
 #############################################################################
@@ -422,7 +436,8 @@ class R2ac(object):
         blk = findBlock(pubKey)
         if blk != False:
             if not (blockContainsBlockTransaction(blk, b)):
-                #isTransactionValid(b, pubKey)
+                if(validatorClient):
+                    isTransactionValid(b, pubKey)
                 addBlockTransaction(blk, b)
         t2 = time.time()
         logger.debug("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -433,7 +448,8 @@ class R2ac(object):
         b = pickle.loads(iotBlock)
         t1 = time.time()
         #logger.debug("Received Block #:" + (str(b.index)))
-        addBlockHeader(b)
+        if(isBlockValid(b)):
+            addBlockHeader(b)
         t2 = time.time()
         logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
         #write here the code to append the new IoT Block to the Ledger
@@ -515,6 +531,21 @@ class R2ac(object):
             logger.debug("PEER URI: "+p.peerURI)
         logger.debug("|--------------------------------------|")
         return "ok"
+
+    def calcMerkleTree(self, blockToCalculate):
+        print ("received: "+str(blockToCalculate))
+        t1 = time.time()
+        blk = BlockHeaderChain[blockToCalculate]
+        trans = blk.blockLedger
+        size = len(blk.blockLedger)
+        mt = merkle.MerkleTools()
+        mt.add_leaf(trans, True)
+        mt.make_tree()
+        t2 = time.time()
+        logger.debug("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
+        return "ok"
+
 
 #############################################################################
 #############################################################################

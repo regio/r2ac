@@ -5,8 +5,8 @@ import BlockIoTLedger
 import BlockLedger
 import criptoFunctions
 
-logging.config.fileConfig('logging.conf')
-logger = logging.getLogger(__name__)
+# logging.config.fileConfig('temp/logging.conf')
+# logger = logging.getLogger(__name__)
 
 
 def getGenesisBlock():
@@ -23,7 +23,11 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
 def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     nextIndex = previousBlock.index + 1
     nextTimestamp = time.time()
+    #print("Create Block:")
+    # print("Index:" + str(nextIndex) + " prevHash:" + str(previousBlock.hash) + " time:" + str(
+    #     nextTimestamp) + " pubKey:")
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
+    #print ("Current block hash:"+str(nextHash))
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = BlockLedger.BlockLedger(0, nextHash, nextTimestamp, blockData, sign)
     return BlockIoTLedger.BlockIoTLedger(nextIndex, previousBlock.hash, nextTimestamp, inf, nextHash, pubKey);
