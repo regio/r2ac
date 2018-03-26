@@ -35,12 +35,12 @@ def setServer():
 
 def authReq():
     global serverAESEncKey
-    serverAESEncKey = server.auth(publicKey)
+    serverAESEncKey = server.addBlock(publicKey)
     while len(serverAESEncKey) < 10:
-        serverAESEncKey = server.auth(publicKey)
+        serverAESEncKey = server.addBlock(publicKey)
     # headers = {'Content-type': 'application/json'}
     # payload = {'publicKey': publicKey}
-    # r = requests.post("http://" + server + ":3001/auth", data=json.dumps(payload), headers=headers)
+    # r = requests.post("http://" + server + ":3001/addBlock", data=json.dumps(payload), headers=headers)
     # serverAESEncKey = r.text
     #print("AES key encrypted received from server")
     decryptAESKey(serverAESEncKey)
@@ -67,11 +67,11 @@ def sendData():
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
 
     #print("package ready to send...")
-    server.info(publicKey, encobj)
+    server.addTransaction(publicKey, encobj)
 
     # headers = {'Content-type': 'application/json'}
     # payload = {'publicKey': publicKey, 'EncObj': encobj}
-    # r = requests.post("http://" + server + ":3001/info", data=json.dumps(payload), headers=headers)
+    # r = requests.post("http://" + server + ":3001/addTransaction", data=json.dumps(payload), headers=headers)
     # asdf = r.text
     #print("maybe worked " + asdf)
 

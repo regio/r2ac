@@ -15,7 +15,7 @@ from os.path import isfile, join
 from flask import Flask, request
 from Crypto.PublicKey import RSA
 
-import BlockLedger
+import Transaction
 import DeviceInfo
 import PeerInfo
 import DeviceKeyMapping
@@ -48,6 +48,7 @@ gwPub = ""
 
 g = chainFunctions.getGenesisBlock()
 BlockHeaderChain.append(g)
+
 
 def bootstrapChain2():
     global gwPub
@@ -383,7 +384,7 @@ class R2ac(object):
     def __init__(self):
         print("R2AC initialized")
 
-    def info(self, devPublicKey, encryptedObj):
+    def addTransaction(self, devPublicKey, encryptedObj):
         global gwPvt
         global gwPub
         #print("package received")
@@ -412,7 +413,7 @@ class R2ac(object):
                 prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockTransaction(blk))
 
                 # gera um pacote do tipo Info com o deviceInfo como conteudo
-                newBlockLedger = BlockLedger.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
+                newBlockLedger = Transaction.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
 
                 # barbara uni.. aqui!
                 # send to consensus
@@ -454,7 +455,7 @@ class R2ac(object):
         logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
         #write here the code to append the new IoT Block to the Ledger
 
-    def auth(self, devPubKey):
+    def addBlock(self, devPubKey):
         aesKey = ''
         t1 = time.time()
         #print(devPubKey)
