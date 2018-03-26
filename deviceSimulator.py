@@ -94,10 +94,10 @@ def addPeer():
     uri = input("Enter the PEER uri: ").strip()
     server.addPeer(uri, True)
 
-def listIoTLedger():
+def listBlockHeader():
     server.showIoTLedger()
 
-def listBlockLedger():
+def listTransactions():
     index = input("Which IoT Block do you want to print?")
     server.showBlockLedger(index)
 
@@ -178,8 +178,8 @@ def main():
                2: addPeer,
                3: authReq,
                4: sendData,
-               5: listIoTLedger,
-               6: listBlockLedger,
+               5: listBlockHeader,
+               6: listTransactions,
                7: listPeers,
                8: newKeyPair,
                9: automa,
@@ -194,8 +194,8 @@ def main():
         print("2 - Add Peer")
         print("3 - Authentication Request [a)Gw Generate AES Key;b)Enc key with RSA;c)Dec AES Key]")
         print("4 - Produce Data [a)sign data;b)encrypt with AES key;c)Send to Gateway;d)GW update ledger and peers")
-        print("5 - List IoT Ledger from connected Gateway")
-        print("6 - List Block Ledger for a given IoT Block")
+        print("5 - List Block Headers from connected Gateway")
+        print("6 - List Transactions for a given Block Header")
         print("7 - List PEERS")
         print("8 - Recreate Device KeyPair")
         print("9 - Run a batch operation...")

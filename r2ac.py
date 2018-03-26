@@ -57,45 +57,45 @@ def bootstrapChain2():
     #generate a key par that represents the gateway
     gwPub, gwPvt = generateRSAKeyPair()
 
-    folder = "./keys/"
-    publicK = []
+    # folder = "./keys/"
+    # publicK = []
 
-    for f in listdir(folder):
-        if isfile(join(folder, f)) and f.startswith("public"):
-            publicK.append(folder + f)
-            fl = open(folder + f, 'r')
-            key = fl.read()
-            newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-            addBlockHeader(newBlock)
-            break
+    # for f in listdir(folder):
+    #     if isfile(join(folder, f)) and f.startswith("public"):
+    #         publicK.append(folder + f)
+    #         fl = open(folder + f, 'r')
+    #         key = fl.read()
+    #         newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
+    #         addBlockHeader(newBlock)
+    #         break
 
 
-# each file read will be mapped to an IoT Ledger Block
-def bootstrapChain():
-    global gwPub
-    global gwPvt
-
-    folder = "./keys/"
-    publicK = []
-
-    for f in listdir(folder):
-        if isfile(join(folder, f)):
-            if f.startswith("Gateway_private"):
-                fl = open(folder + f, 'r')
-                gwPvt = fl.read()
-
-            if f.startswith("Gateway_public"):
-                fl = open(folder + f, 'r')
-                gwPub = fl.read()
-
-    for f in listdir(folder):
-        if isfile(join(folder, f)):
-            if f.startswith("public"):
-                publicK.append(folder + f)
-                fl = open(folder + f, 'r')
-                key = fl.read()
-                newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-                addBlockHeader(newBlock)
+# # each file read will be mapped to an IoT Ledger Block
+# def bootstrapChain():
+#     global gwPub
+#     global gwPvt
+#
+#     folder = "./keys/"
+#     publicK = []
+#
+#     for f in listdir(folder):
+#         if isfile(join(folder, f)):
+#             if f.startswith("Gateway_private"):
+#                 fl = open(folder + f, 'r')
+#                 gwPvt = fl.read()
+#
+#             if f.startswith("Gateway_public"):
+#                 fl = open(folder + f, 'r')
+#                 gwPub = fl.read()
+#
+#     for f in listdir(folder):
+#         if isfile(join(folder, f)):
+#             if f.startswith("public"):
+#                 publicK.append(folder + f)
+#                 fl = open(folder + f, 'r')
+#                 key = fl.read()
+#                 newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
+#                 addBlockHeader(newBlock)
 
 def createNewBlock(devPubKey):
     newBlock = chainFunctions.generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
@@ -558,14 +558,6 @@ def main():
     global myURI
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-    # Pyro4.config.HOST = str(getMyIP())
-
-    # ns = Pyro4.locateNS()
-    # daemon = Pyro4.Daemon(ns.host)
-    # uri = daemon.register(R2ac)
-    # myURI = str(uri)
-    # print("uri=" + myURI)
-    # daemon.requestLoop()
 
     names = sys.argv[1]
     ns = Pyro4.locateNS(names)
@@ -576,11 +568,6 @@ def main():
     print("uri=" + myURI)
     connectToPeers(ns)
     daemon.requestLoop()
-
-    # def runApp():
-    #     app.run(host=sys.argv[1], port=3001, debug=True)
-    #
-    # runApp()
 
 if __name__ == '__main__':
 
