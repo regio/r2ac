@@ -344,8 +344,8 @@ class R2ac(object):
                 devTime = plainObject[-20:-4] # remove the 16 char of timestamp
                 deviceData = plainObject[-4:] # retrieve the las 4 chars which are the data
 
-                #Before proceeding neet to run:
-                # checkDeviceSignature(signature, devPubKey)
+                d = devTime+deviceData
+                criptoFunctions.signVerify(d, signature, devPublicKey)
 
                 deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
                 nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
@@ -420,8 +420,8 @@ class R2ac(object):
             #print("The device IoT Block Ledger is not present.")
             #print("We should write the code to create a new block here...")
 
-        print("AES Key generated size: "+str(len(aesKey)))
-        print(aesKey)
+        # print("AES Key generated size: "+str(len(aesKey)))
+        # print(aesKey)
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))

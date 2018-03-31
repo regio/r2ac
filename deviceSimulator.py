@@ -56,6 +56,7 @@ def sendData():
     t = ((time.time() * 1000) * 1000)
     timeStr = "{:.0f}".format(t)
     data = timeStr + temperature
+    # print("data:"+data)
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
