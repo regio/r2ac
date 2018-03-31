@@ -22,7 +22,7 @@ def calculateHashForBlock(block):
     return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey)
 
 
-def calculateHashForBlockLedger(blockLedger):
+def calculateTransactionHash(blockLedger):
     shaFunc = hashlib.sha256()
     shaFunc.update((str(blockLedger.index) + str(blockLedger.previousHash) + str(blockLedger.timestamp) + str(
         blockLedger.data) + str(blockLedger.signature)).encode('utf-8'))

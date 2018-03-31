@@ -195,9 +195,9 @@ def main():
 
 if __name__ == '__main__':
 
-    if len(sys.argv[1:]) < 1:
-        print ("Command Line usage:")
-        print ("    python deviceSimulator.py TBD")
-        quit()
+    # if len(sys.argv[1:]) < 1:
+    #     print ("Command Line usage:")
+    #     print ("    python deviceSimulator.py TBD")
+    #     quit()
     os.system("clear")
     main()

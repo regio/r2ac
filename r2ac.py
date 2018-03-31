@@ -65,8 +65,8 @@ def addBlockHeader(newBlockHeader):
     global BlockHeaderChain
     BlockHeaderChain.append(newBlockHeader)
 
-def addBlockTransaction(IoTBlock, newBlockLedger):
-    IoTBlock.transactions.append(newBlockLedger)
+def addBlockTransaction(block, transaction):
+    block.transactions.append(transaction)
 
 def getLatestBlock():
     global BlockHeaderChain
@@ -330,14 +330,13 @@ class R2ac(object):
     def addTransaction(self, devPublicKey, encryptedObj):
         global gwPvt
         global gwPub
-        #print("package received")
         t1 = time.time()
         blk = findBlock(devPublicKey)
 
         if (blk != False and blk.index > 0):
             devAESKey = findAESKey(devPublicKey)
             if (devAESKey != False):
-                # plainObject vira com [Assinatura + Time + Data]
+                # plainObject contains [Signature + Time + Data]
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
                 signature = plainObject[:-20] # remove the last 20 chars 
@@ -345,28 +344,31 @@ class R2ac(object):
                 deviceData = plainObject[-4:] # retrieve the las 4 chars which are the data
 
                 d = devTime+deviceData
-                criptoFunctions.signVerify(d, signature, devPublicKey)
+                isSigned = criptoFunctions.signVerify(d, signature, devPublicKey)
 
-                deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
-                nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
-                signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
-                gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
-                # code responsible to create the hash between Info nodes.
-                prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockTransaction(blk))
-                # gera um pacote do tipo Info com o deviceInfo como conteudo
-                newBlockLedger = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
-                # barbara uni.. aqui!
-                # send to consensus
-                #if not consensus(newBlockLedger, gwPub, devPublicKey):
-                #    return "Not Approved"
+                if isSigned:
+                    deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
+                    nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
+                    signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+                    gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
+                    # code responsible to create the hash between Info nodes.
+                    prevInfoHash = criptoFunctions.calculateTransactionHash(getLatestBlockTransaction(blk))
 
-                addBlockTransaction(blk, newBlockLedger)
-                logger.debug("block added locally... now sending to peers..")
-                t2 = time.time()
-                logger.debug("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
-                sendTransactionToPeers(devPublicKey, newBlockLedger) # --->> this function should be run in a different thread.
-                #print("all done")
-                return "ok!"
+                    transaction = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
+
+                    # send to consensus
+                    #if not consensus(newBlockLedger, gwPub, devPublicKey):
+                    #    return "Not Approved"
+
+                    addBlockTransaction(blk, transaction)
+                    logger.debug("block added locally... now sending to peers..")
+                    t2 = time.time()
+                    logger.debug("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
+                    #print("all done")
+                    return "ok!"
+                else:
+                    return "Invalid Signature"
             return "key not found"
 
     #update local bockchain adding a new transaction
@@ -377,7 +379,7 @@ class R2ac(object):
         blk = findBlock(pubKey)
         if blk != False:
             if not (blockContainsBlockTransaction(blk, b)):
-                if(validatorClient):
+                if validatorClient:
                     isTransactionValid(b, pubKey)
                 addBlockTransaction(blk, b)
         t2 = time.time()
@@ -389,20 +391,18 @@ class R2ac(object):
         b = pickle.loads(iotBlock)
         t1 = time.time()
         #logger.debug("Received Block #:" + (str(b.index)))
-        if(isBlockValid(b)):
+        if isBlockValid(b):
             addBlockHeader(b)
         t2 = time.time()
         logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        #write here the code to append the new IoT Block to the Ledger
 
     def addBlock(self, devPubKey):
         aesKey = ''
         t1 = time.time()
-        #print(devPubKey)
         blk = findBlock(devPubKey)
         if (blk != False and blk.index > 0):
             aesKey = findAESKey(devPubKey)
-            if (aesKey == False):
+            if aesKey == False:
                 logger.debug("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
         else:
@@ -417,27 +417,19 @@ class R2ac(object):
             # except:
             #     print "thread not working..."
             aesKey = generateAESKey(devPubKey)
-            #print("The device IoT Block Ledger is not present.")
-            #print("We should write the code to create a new block here...")
 
-        # print("AES Key generated size: "+str(len(aesKey)))
-        # print(aesKey)
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        #logger.debug("Encrypted key:" + encKey)
 
         return encKey
 
     def addPeer(self, peerURI, isFirst):
         global peers
-        #print("recived call to add peer: "+peerURI)
         if not (findPeer(peerURI)):
-            #print ("peer not found. Create new node and add to list")
-            #print ("[addPeer]adding new peer:" + peerURI)
             newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
             peers.append(newPeer)
-            if(isFirst):
+            if isFirst:
                 #after adding the original peer, send false to avoid loop
                 addBack(newPeer, False)
             syncChain(newPeer)
