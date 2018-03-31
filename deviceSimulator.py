@@ -36,13 +36,8 @@ def setServer():
 def authReq():
     global serverAESEncKey
     serverAESEncKey = server.addBlock(publicKey)
-    while len(serverAESEncKey) < 10:
-        serverAESEncKey = server.addBlock(publicKey)
-    # headers = {'Content-type': 'application/json'}
-    # payload = {'publicKey': publicKey}
-    # r = requests.post("http://" + server + ":3001/addBlock", data=json.dumps(payload), headers=headers)
-    # serverAESEncKey = r.text
-    #print("AES key encrypted received from server")
+    #while len(serverAESEncKey) < 10:
+    #    serverAESEncKey = server.addBlock(publicKey)
     decryptAESKey(serverAESEncKey)
 
 def sendDataTest():
@@ -63,29 +58,17 @@ def sendData():
     data = timeStr + temperature
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
-    #print ("keySize:"+str(len(serverAESKey)))
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
-
-    #print("package ready to send...")
     server.addTransaction(publicKey, encobj)
-
-    # headers = {'Content-type': 'application/json'}
-    # payload = {'publicKey': publicKey, 'EncObj': encobj}
-    # r = requests.post("http://" + server + ":3001/addTransaction", data=json.dumps(payload), headers=headers)
-    # asdf = r.text
-    #print("maybe worked " + asdf)
 
 
 def decryptAESKey(data):
     global serverAESKey
     serverAESKey = criptoFunctions.decryptRSA2(privateKey, data)
-    if(len(serverAESEncKey)<32):
-        serverAESKey = criptoFunctions.decryptRSA2(privateKey, data)
 
 
 def readSensorTemperature():
     temp = str(random.randint(10, 40)) + " C"
-    #print("The device has read the temperature:" + temp)
     return temp
 
 def addPeer():

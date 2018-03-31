@@ -50,84 +50,33 @@ g = chainFunctions.getGenesisBlock()
 BlockHeaderChain.append(g)
 
 
+# generate the RSA key pair for the gateway
 def bootstrapChain2():
     global gwPub
     global gwPvt
-
-    #generate a key par that represents the gateway
-    gwPub, gwPvt = generateRSAKeyPair()
-
-    # folder = "./keys/"
-    # publicK = []
-
-    # for f in listdir(folder):
-    #     if isfile(join(folder, f)) and f.startswith("public"):
-    #         publicK.append(folder + f)
-    #         fl = open(folder + f, 'r')
-    #         key = fl.read()
-    #         newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-    #         addBlockHeader(newBlock)
-    #         break
-
-
-# # each file read will be mapped to an IoT Ledger Block
-# def bootstrapChain():
-#     global gwPub
-#     global gwPvt
-#
-#     folder = "./keys/"
-#     publicK = []
-#
-#     for f in listdir(folder):
-#         if isfile(join(folder, f)):
-#             if f.startswith("Gateway_private"):
-#                 fl = open(folder + f, 'r')
-#                 gwPvt = fl.read()
-#
-#             if f.startswith("Gateway_public"):
-#                 fl = open(folder + f, 'r')
-#                 gwPub = fl.read()
-#
-#     for f in listdir(folder):
-#         if isfile(join(folder, f)):
-#             if f.startswith("public"):
-#                 publicK.append(folder + f)
-#                 fl = open(folder + f, 'r')
-#                 key = fl.read()
-#                 newBlock = chainFunctions.generateNextBlock(f, key, getLatestBlock(), gwPvt)
-#                 addBlockHeader(newBlock)
+    gwPub, gwPvt = criptoFunctions.generateRSAKeyPair()
 
 def createNewBlock(devPubKey):
     newBlock = chainFunctions.generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
     addBlockHeader(newBlock)
     return newBlock
 
-def addBlockHeader(newIoTBlock):
+def addBlockHeader(newBlockHeader):
     global BlockHeaderChain
-    # if (isValidNewBlock(newBlock, getLatestBlock())):
-    # logger.debug("---------------------------------------")
-    # logger.debug("[addBlock] Chain size:" + str(len(IoTLedger)))
-    # logger.debug("IoT Block Size:" + str(len(str(newIoTBlock))))
-    # logger.debug("BH - index:" + str(newIoTBlock.index))
-    # logger.debug("BH - previousHash:" + str(newIoTBlock.previousHash))
-    # logger.debug("BH - timestamp:" + str(newIoTBlock.timestamp))
-    # logger.debug("BH - hash:" + str(newIoTBlock.hash))
-    # logger.debug("BH - publicKey:" + str(newIoTBlock.publicKey))
-
-    BlockHeaderChain.append(newIoTBlock)
+    BlockHeaderChain.append(newBlockHeader)
 
 def addBlockTransaction(IoTBlock, newBlockLedger):
-    IoTBlock.blockLedger.append(newBlockLedger)
+    IoTBlock.transactions.append(newBlockLedger)
 
 def getLatestBlock():
     global BlockHeaderChain
     return BlockHeaderChain[len(BlockHeaderChain) - 1]
 
 def getLatestBlockTransaction(blk):
-    return blk.blockLedger[len(blk.blockLedger) - 1]
+    return blk.transactions[len(blk.transactions) - 1]
 
 def blockContainsBlockTransaction(block, blockLedger):
-    for bl in block.blockLedger:
+    for bl in block.transactions:
         if bl == blockLedger:
             return True
     return False
@@ -251,12 +200,6 @@ def generateAESKey(devPubKey):
     genKeysPars.append(obj)
     return randomAESKey
 
-def generateRSAKeyPair():
-    private = RSA.generate(1024)
-    pubKey = private.publickey()
-    prv = private.exportKey()
-    pub = pubKey.exportKey()
-    return pub, prv
 
 #############################################################################
 #############################################################################
@@ -397,24 +340,21 @@ class R2ac(object):
                 # plainObject vira com [Assinatura + Time + Data]
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+                signature = plainObject[:-20] # remove the last 20 chars 
+                devTime = plainObject[-20:-4] # remove the 16 char of timestamp
+                deviceData = plainObject[-4:] # retrieve the las 4 chars which are the data
 
-                signature = plainObject[:len(devPublicKey)]
-                devTime = plainObject[len(devPublicKey):len(devPublicKey) + 16]  # 16 is the timestamp lenght
-                deviceData = plainObject[len(devPublicKey) + 16:]
-                #print("Device Data: "+str(deviceData))
+                #Before proceeding neet to run:
+                # checkDeviceSignature(signature, devPubKey)
 
                 deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
-
-                nextInt = blk.blockLedger[len(blk.blockLedger) - 1].index + 1
+                nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
                 signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
                 gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
-
                 # code responsible to create the hash between Info nodes.
                 prevInfoHash = criptoFunctions.calculateHashForBlockLedger(getLatestBlockTransaction(blk))
-
                 # gera um pacote do tipo Info com o deviceInfo como conteudo
-                newBlockLedger = Transaction.BlockLedger(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
-
+                newBlockLedger = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
                 # barbara uni.. aqui!
                 # send to consensus
                 #if not consensus(newBlockLedger, gwPub, devPublicKey):
@@ -480,6 +420,8 @@ class R2ac(object):
             #print("The device IoT Block Ledger is not present.")
             #print("We should write the code to create a new block here...")
 
+        print("AES Key generated size: "+str(len(aesKey)))
+        print(aesKey)
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -517,10 +459,10 @@ class R2ac(object):
     def showBlockLedger(self, index):
         logger.debug("Showing Trasactions data for peer: " + myURI)
         blk = BlockHeaderChain[index]
-        size = len(blk.blockLedger)
+        size = len(blk.transactions)
         logger.debug("Block Ledger size: " + str(size))
         logger.debug("-------")
-        for b in blk.blockLedger:
+        for b in blk.transactions:
             logger.debug(b.strBlock())
             logger.debug("-------")
         return "ok"
@@ -537,8 +479,8 @@ class R2ac(object):
         print ("received: "+str(blockToCalculate))
         t1 = time.time()
         blk = BlockHeaderChain[blockToCalculate]
-        trans = blk.blockLedger
-        size = len(blk.blockLedger)
+        trans = blk.transactions
+        size = len(blk.transactions)
         mt = merkle.MerkleTools()
         mt.add_leaf(trans, True)
         mt.make_tree()

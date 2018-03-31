@@ -80,3 +80,11 @@ def signVerify(data, signature, gwPubKey):
     signaturerOr = base64.b64decode(signature)
     result = signer.verify(digest, signaturerOr)
     return result
+
+def generateRSAKeyPair():
+    private = RSA.generate(1024)
+    pubKey = private.publickey()
+    prv = private.exportKey()
+    pub = pubKey.exportKey()
+    return pub, prv
+
