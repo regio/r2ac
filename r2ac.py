@@ -39,61 +39,20 @@ validatorClient = True
 
 app = Flask(__name__)
 peers = []
-BlockHeaderChain = []
 genKeysPars = []
 myURI = ""
-
 gwPvt = ""
 gwPub = ""
 
-g = chainFunctions.getGenesisBlock()
-BlockHeaderChain.append(g)
+
 
 
 # generate the RSA key pair for the gateway
 def bootstrapChain2():
     global gwPub
     global gwPvt
+    chainFunctions.startBlockChain()
     gwPub, gwPvt = criptoFunctions.generateRSAKeyPair()
-
-def createNewBlock(devPubKey):
-    newBlock = chainFunctions.generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
-    addBlockHeader(newBlock)
-    return newBlock
-
-def addBlockHeader(newBlockHeader):
-    global BlockHeaderChain
-    BlockHeaderChain.append(newBlockHeader)
-
-def addBlockTransaction(block, transaction):
-    block.transactions.append(transaction)
-
-def getLatestBlock():
-    global BlockHeaderChain
-    return BlockHeaderChain[len(BlockHeaderChain) - 1]
-
-def getLatestBlockTransaction(blk):
-    return blk.transactions[len(blk.transactions) - 1]
-
-def blockContainsBlockTransaction(block, blockLedger):
-    for bl in block.transactions:
-        if bl == blockLedger:
-            return True
-    return False
-
-def findBlock(key):
-    global BlockHeaderChain
-    for b in BlockHeaderChain:
-        if (b.publicKey == key):
-            return b
-    return False
-
-def findAESKey(devPubKey):
-    global genKeysPars
-    for b in genKeysPars:
-        if (b.publicKey == devPubKey):
-            return b.AESKey
-    return False
 
 #############################################################################
 #############################################################################
@@ -201,6 +160,14 @@ def generateAESKey(devPubKey):
     return randomAESKey
 
 
+def findAESKey(devPubKey):
+    global genKeysPars
+    for b in genKeysPars:
+        if (b.publicKey == devPubKey):
+            return b.AESKey
+    return False
+
+
 #############################################################################
 #############################################################################
 #################    Consensus Algorithm Methods    #########################
@@ -259,7 +226,7 @@ def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consens
 
 def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
     newBlock = pickle.loads(data)
-    blockIoT = findBlock(devicePublicKey)
+    blockIoT = chainFunctions.findBlock(devicePublicKey)
     consensus = True
     if blockIoT == False:
         print("Block not found in IoT ledger")
@@ -303,9 +270,9 @@ def isTransactionValid(transaction,pubKey):
 
 def isBlockValid(block):
     #Todo Fix the comparison between the hashes... for now is just a mater to simulate the time spend calculating the hashes...
-    global BlockHeaderChain
+    #global BlockHeaderChain
     #print(str(len(BlockHeaderChain)))
-    lastBlk = getLatestBlock()
+    lastBlk = chainFunctions.getLatestBlock()
     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
     lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
     #print ("This Hash:"+str(lastBlkHash))
@@ -331,7 +298,7 @@ class R2ac(object):
         global gwPvt
         global gwPub
         t1 = time.time()
-        blk = findBlock(devPublicKey)
+        blk = chainFunctions.findBlock(devPublicKey)
 
         if (blk != False and blk.index > 0):
             devAESKey = findAESKey(devPublicKey)
@@ -352,7 +319,7 @@ class R2ac(object):
                     signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
                     gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
                     # code responsible to create the hash between Info nodes.
-                    prevInfoHash = criptoFunctions.calculateTransactionHash(getLatestBlockTransaction(blk))
+                    prevInfoHash = criptoFunctions.calculateTransactionHash(chainFunctions.getLatestBlockTransaction(blk))
 
                     transaction = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
 
@@ -360,7 +327,7 @@ class R2ac(object):
                     #if not consensus(newBlockLedger, gwPub, devPublicKey):
                     #    return "Not Approved"
 
-                    addBlockTransaction(blk, transaction)
+                    chainFunctions.addBlockTransaction(blk, transaction)
                     logger.debug("block added locally... now sending to peers..")
                     t2 = time.time()
                     logger.debug("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -376,12 +343,12 @@ class R2ac(object):
         b = pickle.loads(block)
         t1 = time.time()
         logger.debug("Received Transaction #:" + (str(b.index)))
-        blk = findBlock(pubKey)
+        blk = chainFunctions.findBlock(pubKey)
         if blk != False:
-            if not (blockContainsBlockTransaction(blk, b)):
+            if not (chainFunctions.blockContainsBlockTransaction(blk, b)):
                 if validatorClient:
                     isTransactionValid(b, pubKey)
-                addBlockTransaction(blk, b)
+                chainFunctions.addBlockTransaction(blk, b)
         t2 = time.time()
         logger.debug("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "done"
@@ -392,14 +359,14 @@ class R2ac(object):
         t1 = time.time()
         #logger.debug("Received Block #:" + (str(b.index)))
         if isBlockValid(b):
-            addBlockHeader(b)
+            chainFunctions.addBlockHeader(b)
         t2 = time.time()
         logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
     def addBlock(self, devPubKey):
         aesKey = ''
         t1 = time.time()
-        blk = findBlock(devPubKey)
+        blk = chainFunctions.findBlock(devPubKey)
         if (blk != False and blk.index > 0):
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
@@ -407,8 +374,8 @@ class R2ac(object):
                 aesKey = generateAESKey(blk.publicKey)
         else:
             #logger.debug("Create New Block Header")
-            logger.debug("***** New Block: Chain size:" + str(len(BlockHeaderChain)))
-            bl = createNewBlock(devPubKey)
+            logger.debug("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
+            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
@@ -440,17 +407,18 @@ class R2ac(object):
 
     def showIoTLedger(self):
         logger.debug("Showing Block Header data for peer: " + myURI)
-        size = len(BlockHeaderChain)
+        size = chainFunctions.getBlockchainSize()
         logger.debug("IoT Ledger size: " + str(size))
         logger.debug("|-----------------------------------------|")
-        for b in BlockHeaderChain:
+        theChain = chainFunctions.getFullChain()
+        for b in theChain:
             logger.debug(b.strBlock())
             logger.debug("|-----------------------------------------|")
         return "ok"
 
     def showBlockLedger(self, index):
         logger.debug("Showing Trasactions data for peer: " + myURI)
-        blk = BlockHeaderChain[index]
+        blk = chainFunctions.getBlockByIndex(index)
         size = len(blk.transactions)
         logger.debug("Block Ledger size: " + str(size))
         logger.debug("-------")
@@ -470,7 +438,7 @@ class R2ac(object):
     def calcMerkleTree(self, blockToCalculate):
         print ("received: "+str(blockToCalculate))
         t1 = time.time()
-        blk = BlockHeaderChain[blockToCalculate]
+        blk = chainFunctions.getBlockByIndex(blockToCalculate)
         trans = blk.transactions
         size = len(blk.transactions)
         mt = merkle.MerkleTools()
