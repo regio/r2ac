@@ -8,6 +8,7 @@ import sys
 import time
 import threading
 import merkle
+import asyncio
 
 import thread
 from os import listdir
@@ -177,10 +178,123 @@ def findAESKey(devPubKey):
 answers = {}
 trustedPeers = []
 
+
 def addTrustedPeers():
     global peers
     for p in peers:
         trustedPeers.append(p.peerURI)
+
+#####NEW CONSENSUS @Roben
+
+###########
+###Consensus PBFT @Roben
+###########
+newBlockCandidate = [] ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
+newTransactionCandidate = [] #same as block, for transaction
+
+
+######Consensus for blocks########
+def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
+    threads = []
+    connectedPeers = preparePBFTConsensus() #verify who will participate in consensus
+    commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
+    if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
+        for p in connectedPeers:
+            t = threading.Thread(target=p.object.calcBlockPBFT, args=(newBlock, connectedPeers))
+            threads.append(t)
+        for t in threads:
+            t.join()
+        del newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]
+
+##### consensus for transactions
+def PBFTConsensus(block, newTransaction, generatorGwPub,generatorDevicePub):#######Consensus for transactions
+    connectedPeers = preparePBFTConsensus()
+    commitTransactionPBFT(block, newTransaction, generatorGwPub, generatorDevicePub,connectedPeers)
+    #TODO same as block, but verifications for transaction
+    return True
+
+def preparePBFTConsensus(): #verify all alive peers that will particpate in consensus
+    alivePeers = []
+    global peers
+    for p in peers:
+        if p.peerURI._pyroBind(): #verify if peer is alive
+            alivePeers.append(p.peerURI)
+    return alivePeers
+
+def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
+    threads = []
+    if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
+        print 'block already in consensus'
+        return
+    if verifyBlockCandidate():#verify if the block is valid
+        for p in alivePeers: #call all peers to verify if block is valid
+            t = threading.Thread(target=p.object.verifyBlockCandidate, args=(newBlock,generatorGwPub,generatorDevicePub,alivePeers))
+            #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
+            threads.append(t)
+        #  join threads
+        for t in threads:
+            t.join()
+
+
+def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
+    blockValidation = True
+    lastBlk = chainFunctions.getLatestBlock()
+    # print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
+    lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp,
+                                                lastBlk.publicKey)
+    # print ("This Hash:"+str(lastBlkHash))
+    # print ("Last Hash:"+str(block.previousHash))
+    if (lastBlkHash != newBlock.previousHash):
+        blockValidation = False
+        return blockValidation
+    if (lastBlk.index != (newBlock.index+1)):
+        blockValidation = False
+        return blockValidation
+    if (lastBlk.timestamp >= newBlock.timestamp):
+        blockValidation = False
+        return blockValidation
+   #TODO -> verifySIGNATURE!!!!!
+    if blockValidation:
+        voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)
+        addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
+        for p in alivePeers:
+            p.object.addVoteBlockPBFT(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
+        return True
+    else:
+        return False
+
+#add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
+def addVoteBlockPBFT(newBlock,voterPub,voterSign):
+    global newBlockCandidate
+    newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][voterPub] = voterSign
+    return True
+
+
+def calcBlockPBFT(newBlock,alivePeers):
+    if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
+        chainFunctions.addBlockHeader(newBlock)
+    return True
+
+
+
+def commitTransactionPBFT(block, newTransaction, alivePeers):
+    #TODO similar to what was done with block, just different verifications
+    result = isTransactionValid()#tem que ver o que colocar aqui e verificar se o metodo isValidBlock serve
+    for p in alivePeers:
+        p.sendPBFTAnswer(result) #envia resposta positiva ou negativa de um bloco, precisa enviar junto id do bloco!!!
+
+
+
+################################### Consensus PBFT END
+
+############################ Consensus PoW
+####TODO -> should create a nonce in the block and in the transaction in order to generate it
+#### we could add also a signature set (at least 5 as ethereum or 8 as bitcoin?) to do before send the block for update
+#### peers should verify both block data, hash, timestamp, etc and the signatures, very similar to what is done by verifyBlockCandidate
+#### maybe this verifications could be put in a another method... maybe something called " verifyBlockData "
+ ###########################END NEW CONSENSUS @Roben
+ ##########################
+
 
 def consensus(newBlock, gatewayPublicKey, devicePublicKey):
     addTrustedPeers() # just for testing, delete after
