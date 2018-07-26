@@ -8,9 +8,8 @@ import sys
 import time
 import threading
 import merkle
-import asyncio
+#import asyncio
 
-import thread
 from os import listdir
 from os.path import isfile, join
 from flask import Flask, request
@@ -33,10 +32,11 @@ def getMyIP():
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
-logger.basicConfig(filename=getMyIP(),level=logging.DEBUG)
+logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
+
 
 app = Flask(__name__)
 peers = []
@@ -110,11 +110,16 @@ def sendTransactionToPeers(devPublicKey, blockLedger):
 
 def sendBlockToPeers(IoTBlock):
         global peers
+        logger.debug("Running through peers")
         for peer in peers:
             obj = peer.object
-            #logger.debug("sending IoT Block to: " + peer.peerURI)
+            logger.debug("sending IoT Block to: " + str(peer.peerURI))
             dat = pickle.dumps(IoTBlock)
+            print("sending....")
+            print(str(dat))
+            #dat = "oi"
             obj.updateIOTBlockLedger(dat)
+            logger.debug("obj sent....")
 
 def syncChain(newPeer):
     #write the code to identify only a change in the iot block and insert.
@@ -308,6 +313,7 @@ def isBlockValid(block):
 class R2ac(object):
     def __init__(self):
         print("R2AC initialized")
+        logger.debug("R2AC initialized")
 
     def addTransaction(self, devPublicKey, encryptedObj):
         global gwPvt
@@ -343,9 +349,9 @@ class R2ac(object):
                     #    return "Not Approved"
 
                     chainFunctions.addBlockTransaction(blk, transaction)
-                    logger.debug("block added locally... now sending to peers..")
+                    logger.info("block added locally... now sending to peers..")
                     t2 = time.time()
-                    logger.debug("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
                     sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
                     #print("all done")
                     return "ok!"
@@ -357,7 +363,7 @@ class R2ac(object):
     def updateBlockLedger(self, pubKey, block):
         b = pickle.loads(block)
         t1 = time.time()
-        logger.debug("Received Transaction #:" + (str(b.index)))
+        logger.info("Received Transaction #:" + (str(b.index)))
         blk = chainFunctions.findBlock(pubKey)
         if blk != False:
             if not (chainFunctions.blockContainsBlockTransaction(blk, b)):
@@ -365,33 +371,37 @@ class R2ac(object):
                     isTransactionValid(b, pubKey)
                 chainFunctions.addBlockTransaction(blk, b)
         t2 = time.time()
-        logger.debug("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "done"
 
     # update local bockchain adding a new block
     def updateIOTBlockLedger(self, iotBlock):
+        logger.debug("updateIoTBlockLedger Function")
+        print(str(iotBlock))
         b = pickle.loads(iotBlock)
+        print("picked....")
         t1 = time.time()
-        #logger.debug("Received Block #:" + (str(b.index)))
+        logger.debug("Received Block #:" + (str(b.index)))
         if isBlockValid(b):
             chainFunctions.addBlockHeader(b)
         t2 = time.time()
-        logger.debug("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
     def addBlock(self, devPubKey):
+        logger.debug("AddBlock Function")
         aesKey = ''
         t1 = time.time()
         blk = chainFunctions.findBlock(devPubKey)
         if (blk != False and blk.index > 0):
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
-                logger.debug("Using existent block data")
+                logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
         else:
-            #logger.debug("Create New Block Header")
-            logger.debug("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
+            logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
+            logger.debug("Block sent to peers")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
             #     t1 = sendBlks(1, bl)
@@ -402,7 +412,7 @@ class R2ac(object):
 
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
-        logger.debug("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
         return encKey
 
@@ -421,33 +431,33 @@ class R2ac(object):
             return False
 
     def showIoTLedger(self):
-        logger.debug("Showing Block Header data for peer: " + myURI)
+        logger.info("Showing Block Header data for peer: " + myURI)
         size = chainFunctions.getBlockchainSize()
-        logger.debug("IoT Ledger size: " + str(size))
-        logger.debug("|-----------------------------------------|")
+        logger.info("IoT Ledger size: " + str(size))
+        logger.info("|-----------------------------------------|")
         theChain = chainFunctions.getFullChain()
         for b in theChain:
-            logger.debug(b.strBlock())
-            logger.debug("|-----------------------------------------|")
+            logger.info(b.strBlock())
+            logger.info("|-----------------------------------------|")
         return "ok"
 
     def showBlockLedger(self, index):
-        logger.debug("Showing Trasactions data for peer: " + myURI)
+        logger.info("Showing Trasactions data for peer: " + myURI)
         blk = chainFunctions.getBlockByIndex(index)
         size = len(blk.transactions)
-        logger.debug("Block Ledger size: " + str(size))
-        logger.debug("-------")
+        logger.info("Block Ledger size: " + str(size))
+        logger.info("-------")
         for b in blk.transactions:
-            logger.debug(b.strBlock())
-            logger.debug("-------")
+            logger.info(b.strBlock())
+            logger.info("-------")
         return "ok"
 
     def listPeer(self):
         global peers
-        logger.debug("|--------------------------------------|")
+        logger.info("|--------------------------------------|")
         for p in peers:
-            logger.debug("PEER URI: "+p.peerURI)
-        logger.debug("|--------------------------------------|")
+            logger.info("PEER URI: "+p.peerURI)
+        logger.info("|--------------------------------------|")
         return "ok"
 
     def calcMerkleTree(self, blockToCalculate):
@@ -460,7 +470,7 @@ class R2ac(object):
         mt.add_leaf(trans, True)
         mt.make_tree()
         t2 = time.time()
-        logger.debug("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "ok"
 
@@ -641,7 +651,7 @@ def main():
     global myURI
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-
+    logger.debug("Peer initialized")
     names = sys.argv[1]
     ns = Pyro4.locateNS(names)
     daemon = Pyro4.Daemon(getMyIP())
