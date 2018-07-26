@@ -115,11 +115,7 @@ def sendBlockToPeers(IoTBlock):
             obj = peer.object
             logger.debug("sending IoT Block to: " + str(peer.peerURI))
             dat = pickle.dumps(IoTBlock)
-            print("sending....")
-            print(str(dat))
-            #dat = "oi"
             obj.updateIOTBlockLedger(dat)
-            logger.debug("obj sent....")
 
 def syncChain(newPeer):
     #write the code to identify only a change in the iot block and insert.
@@ -377,7 +373,6 @@ class R2ac(object):
     # update local bockchain adding a new block
     def updateIOTBlockLedger(self, iotBlock):
         logger.debug("updateIoTBlockLedger Function")
-        print(str(iotBlock))
         b = pickle.loads(iotBlock)
         print("picked....")
         t1 = time.time()
