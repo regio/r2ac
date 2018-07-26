@@ -26,8 +26,6 @@ def generateRSAKeyPair():
 
 def setServer():
     global server
-    if sys.version_info < (3, 0):
-        input = raw_input
     #server = raw_input('Gateway IP:')
     uri = input("Enter the uri of the gateway: ").strip()
     server = Pyro4.Proxy(uri)
@@ -73,8 +71,8 @@ def readSensorTemperature():
     return temp
 
 def addPeer():
-    if sys.version_info < (3, 0):
-        input = raw_input
+    # if sys.version_info < (3, 0):
+    #     input = raw_input
     uri = input("Enter the PEER uri: ").strip()
     server.addPeer(uri, True)
 
@@ -130,12 +128,12 @@ def bruteSend(retry):
 
 
 def automa():
-    blocks = int(raw_input('How many Blocks:'))
-    trans = int(raw_input('How many Transactions:'))
+    blocks = int(input('How many Blocks:'))
+    trans = int(input('How many Transactions:'))
 
-    print "Block #:"
+    print ("Block #:")
     for blk in range(0, blocks):
-        print str(blk)
+        print (str(blk))
         newKeyPair()
         authReq()
         #brutePairAuth(blk)
@@ -145,7 +143,7 @@ def automa():
 
 
 def merkle():
-    blk = int(raw_input("Which block you want to create the merkle tree:"))
+    blk = int(input("Which block you want to create the merkle tree:"))
     server.calcMerkleTree(blk)
     print ("done")
 
@@ -185,9 +183,9 @@ def main():
         print("9 - Run a batch operation...")
         print("10 - Create Merkle Tree for a given block")
         try:
-            mode = int(raw_input('Input:'))
+            mode = int(input('Input:'))
         except ValueError:
-            print "Not a number"
+            print ("Not a number")
         if (mode == 0):
             break
         options[mode]()
