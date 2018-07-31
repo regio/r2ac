@@ -13,6 +13,7 @@ def startBlockChain():
 
 def createNewBlock(devPubKey, gwPvt):
     newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
+    ##@Regio addBlockHeader is done during consensus! please take it off for running pbft
     addBlockHeader(newBlock)
     return newBlock
 
