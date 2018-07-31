@@ -16,6 +16,8 @@ serverAESKey = ""
 privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
 publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
 
+import __builtin__; input = getattr(__builtin__, 'raw_input', input)
+
 def generateRSAKeyPair():
     private = RSA.generate(1024)
     pubKey = private.publickey()
@@ -26,8 +28,6 @@ def generateRSAKeyPair():
 
 def setServer():
     global server
-    if sys.version_info < (3, 0):
-        input = raw_input
     #server = raw_input('Gateway IP:')
     uri = input("Enter the uri of the gateway: ").strip()
     server = Pyro4.Proxy(uri)
@@ -73,8 +73,8 @@ def readSensorTemperature():
     return temp
 
 def addPeer():
-    if sys.version_info < (3, 0):
-        input = raw_input
+    # if sys.version_info < (3, 0):
+    #     input = raw_input
     uri = input("Enter the PEER uri: ").strip()
     server.addPeer(uri, True)
 
@@ -130,12 +130,12 @@ def bruteSend(retry):
 
 
 def automa():
-    blocks = int(raw_input('How many Blocks:'))
-    trans = int(raw_input('How many Transactions:'))
+    blocks = int(input('How many Blocks:'))
+    trans = int(input('How many Transactions:'))
 
-    print "Block #:"
+    print ("Block #:")
     for blk in range(0, blocks):
-        print str(blk)
+        print (str(blk))
         newKeyPair()
         authReq()
         #brutePairAuth(blk)
@@ -145,7 +145,7 @@ def automa():
 
 
 def merkle():
-    blk = int(raw_input("Which block you want to create the merkle tree:"))
+    blk = int(input("Which block you want to create the merkle tree:"))
     server.calcMerkleTree(blk)
     print ("done")
 
@@ -185,9 +185,9 @@ def main():
         print("9 - Run a batch operation...")
         print("10 - Create Merkle Tree for a given block")
         try:
-            mode = int(raw_input('Input:'))
+            mode = int(input('Input:'))
         except ValueError:
-            print "Not a number"
+            print ("Not a number")
         if (mode == 0):
             break
         options[mode]()

@@ -13,7 +13,7 @@ unpad = lambda s: s[0:-ord(s[-1])]
 
 def calculateHash(index, previousHash, timestamp, key):
     shaFunc = hashlib.sha256()
-    shaFunc.update((str(index) + str(previousHash) + str(timestamp) + key).encode('utf-8'))
+    shaFunc.update((str(index) + str(previousHash) + str(timestamp) + str(key)).encode('utf-8'))
     val = shaFunc.hexdigest()
     return val
 
@@ -66,7 +66,7 @@ def signInfo(gwPvtKey, data):
     k = RSA.importKey(gwPvtKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
-    digest.update(data)
+    digest.update(data.encode('utf-8')) #added encode to support python 3 , need to evluate if it is still working
     s = signer.sign(digest)
     sinature = base64.b64encode(s)
     return sinature
@@ -76,7 +76,7 @@ def signVerify(data, signature, gwPubKey):
     k = RSA.importKey(gwPubKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
-    digest.update(data)
+    digest.update(data.encode('utf-8')) #added encode to support python 3 , need to evluate if it is still working
     signaturerOr = base64.b64decode(signature)
     result = signer.verify(digest, signaturerOr)
     return result

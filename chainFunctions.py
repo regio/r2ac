@@ -76,7 +76,7 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
 
 
 def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
-    nextIndex = previousBlock.index + 1
+    nextIndex = previousBlock.index + 1    
     nextTimestamp = time.time()
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
