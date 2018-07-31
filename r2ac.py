@@ -312,6 +312,7 @@ class R2ac(object):
         logger.debug("R2AC initialized")
 
     def addTransaction(self, devPublicKey, encryptedObj):
+        logger.debug("transaction received")
         global gwPvt
         global gwPub
         t1 = time.time()
@@ -343,6 +344,8 @@ class R2ac(object):
                     # send to consensus
                     #if not consensus(newBlockLedger, gwPub, devPublicKey):
                     #    return "Not Approved"
+                    # if not PBFTConsensus(blk, gwPub, devPublicKey):
+                    #     return "Consensus Not Reached"
 
                     chainFunctions.addBlockTransaction(blk, transaction)
                     logger.info("block added locally... now sending to peers..")
@@ -374,7 +377,7 @@ class R2ac(object):
     def updateIOTBlockLedger(self, iotBlock):
         logger.debug("updateIoTBlockLedger Function")
         b = pickle.loads(iotBlock)
-        print("picked....")
+        #print("picked....")
         t1 = time.time()
         logger.debug("Received Block #:" + (str(b.index)))
         if isBlockValid(b):
@@ -560,7 +563,7 @@ def calcBlockPBFT(newBlock,alivePeers):
 ######
 
 ##### consensus for transactions
-def PBFTConsensus(block, newTransaction, generatorGwPub,generatorDevicePub):#######Consensus for transactions
+def PBFTConsensusTransaction(block, newTransaction, generatorGwPub,generatorDevicePub):#######Consensus for transactions
     threads = []
     connectedPeers = preparePBFTConsensus()
     commitTransactionPBFT(block, newTransaction, generatorGwPub, generatorDevicePub,connectedPeers)
@@ -642,6 +645,12 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 #############################################################################
 #############################################################################
 
+def saveURItoFile(uri):
+    fname = socket.gethostname()
+    text_file = open(fname, "w")
+    text_file.write(uri)
+    text_file.close()
+
 def main():
     global myURI
     bootstrapChain2()
@@ -653,6 +662,7 @@ def main():
     uri = daemon.register(R2ac)
     myURI = str(uri)
     ns.register(myURI, uri, True)
+    saveURItoFile(myURI)
     print("uri=" + myURI)
     connectToPeers(ns)
     daemon.requestLoop()

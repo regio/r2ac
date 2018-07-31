@@ -6,6 +6,7 @@ import requests
 import sys
 import traceback
 import time
+import socket
 from Crypto.PublicKey import RSA
 
 import criptoFunctions
@@ -120,19 +121,21 @@ def bruteSend(retry):
             sys.exit()
         except:
             print("failed to execute sendData:"+str(retry))
-            # exc_type, exc_value, exc_traceback = sys.exc_info()
-            # print "*** print_exception:"
-            # traceback.print_exception(exc_type, exc_value, exc_traceback,
-            #                           limit=2, file=sys.stdout)
+            exc_type, exc_value, exc_traceback = sys.exc_info()
+            print "*** print_exception:"
+            traceback.print_exception(exc_type, exc_value, exc_traceback,
+                                      limit=2, file=sys.stdout)
             global serverAESKey
             print("the size of the serverAESKey is: "+str(len(serverAESKey)))
             return
 
 
-def automa():
+def automa2():
     blocks = int(input('How many Blocks:'))
     trans = int(input('How many Transactions:'))
+    automa(blocks, trans)
 
+def automa(blocks, trans):
     print ("Block #:")
     for blk in range(0, blocks):
         print (str(blk))
@@ -148,6 +151,17 @@ def merkle():
     blk = int(input("Which block you want to create the merkle tree:"))
     server.calcMerkleTree(blk)
     print ("done")
+
+def loadConnection():
+    global server
+    fname = socket.gethostname()
+    text_file = open(fname, "r")
+    uri = text_file.read()
+    print(uri)
+    server = Pyro4.Proxy(uri)
+    text_file.close()
+    #os.remove(fname)
+
 
 
 #############################################################################
@@ -166,7 +180,7 @@ def main():
                6: listTransactions,
                7: listPeers,
                8: newKeyPair,
-               9: automa,
+               9: automa2,
                10: merkle
                }
 
@@ -195,9 +209,14 @@ def main():
 
 if __name__ == '__main__':
 
-    # if len(sys.argv[1:]) < 1:
-    #     print ("Command Line usage:")
-    #     print ("    python deviceSimulator.py TBD")
-    #     quit()
-    os.system("clear")
-    main()
+    if len(sys.argv[1:]) > 1:
+        os.system("clear")
+        print("running automatically")
+        loadConnection()
+        bl = sys.argv[1]
+        tr = sys.argv[2]
+        automa(int(bl), int(tr))
+    else:
+        os.system("clear")
+        loadConnection()
+        main()
