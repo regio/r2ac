@@ -8,6 +8,7 @@ import sys
 import time
 import threading
 import merkle
+import traceback
 #import asyncio
 
 from os import listdir
@@ -32,7 +33,9 @@ def getMyIP():
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
-logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG)
+#https://docs.python.org/3/library/logging.html#logrecord-attributes
+FORMAT = "[%(levelname)s][%(lineno)s - %(funcName)20s()] %(message)s"
+logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
@@ -44,8 +47,6 @@ genKeysPars = []
 myURI = ""
 gwPvt = ""
 gwPub = ""
-
-
 
 
 # generate the RSA key pair for the gateway
@@ -386,6 +387,7 @@ class R2ac(object):
         logger.info("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
     def addBlock(self, devPubKey):
+        global gwPub
         logger.debug("AddBlock Function")
         aesKey = ''
         t1 = time.time()
@@ -398,8 +400,22 @@ class R2ac(object):
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
-            logger.debug("Block sent to peers")
+            #sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
+            #logger.debug("Block sent to peers")
+            logger.debug("starting block consensus")
+            try:
+                PBFTConsensus(bl, gwPub, devPubKey)
+            except KeyboardInterrupt:
+                sys.exit()
+            except:
+                print("failed to execute:")
+                logger.error("failed to execute:")
+                exc_type, exc_value, exc_traceback = sys.exc_info()
+                print "*** print_exception:"    
+                traceback.print_exception(exc_type, exc_value, exc_traceback,
+                                      limit=6, file=sys.stdout)
+            
+            logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
             #     t1 = sendBlks(1, bl)
@@ -473,20 +489,34 @@ class R2ac(object):
         return "ok"
 
 #####NEW CONSENSUS @Roben
+    
+    def verifyBlockCandidateRemote(self, newBlock,generatorGwPub,generatorDevicePub,alivePeers):
+        return verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers)
+
+    #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
+    def addVoteBlockPBFTRemote(self, newBlock,voterPub,voterSign):
+        return addVoteBlockPBFT(newBlock, voterPub, voterSign)
+
+
+    def calcBlockPBFTRemote(self, newBlock,alivePeers):
+        logger.debug("Received remote execution called...")
+        return calcBlockPBFT(newBlock, alivePeers)
+
 
 ###########
 ###Consensus PBFT @Roben
 ###########
-newBlockCandidate = [] ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
-newTransactionCandidate = [] #same as block, for transaction
+newBlockCandidate = {} ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
+newTransactionCandidate = {} #same as block, for transaction
 
 def preparePBFTConsensus(): #verify all alive peers that will particpate in consensus
     alivePeers = []
     global peers
     for p in peers:
-        if p.peerURI._pyroBind(): #verify if peer is alive
+        #if p.peerURI._pyroBind(): #verify if peer is alive
             alivePeers.append(p.peerURI)
-    return alivePeers
+    #return alivePeers
+    return peers
 
 
 ######Consensus for blocks########
@@ -496,23 +526,33 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
     if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
         for p in connectedPeers:
-            t = threading.Thread(target=p.object.calcBlockPBFT, args=(newBlock, connectedPeers))
-            threads.append(t)
-        for t in threads:
-            t.join()
-        del newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]
-        return True
+            logger.debug("calling thread to:"+str(p.peerURI))
+            p.object.calcBlockPBFTRemote(newBlock, connectedPeers)
+        #     t = threading.Thread(target=p.object.calcBlockPBFTRemote, args=(newBlock, connectedPeers))
+        #     t.start()
+        #     threads.append(t)
+        # for t in threads:
+        #     t.join()
+        blkHash = criptoFunctions.calculateHashForBlock(newBlock)
+        if(blkHash in newBlockCandidate):
+            del newBlockCandidate[blkHash]
+        #del newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]
+            return True
     return False
 
 
 def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
-    if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
+    nbc = ""
+    hashblk = criptoFunctions.calculateHashForBlock(newBlock)
+    if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
+    #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
         print ("block already in consensus")
         return
-    if verifyBlockCandidate():#verify if the block is valid
+        #newBlock,generatorGwPub,generatorDevicePub,alivePeers
+    if verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers):#verify if the block is valid
         for p in alivePeers: #call all peers to verify if block is valid
-            t = threading.Thread(target=p.object.verifyBlockCandidate, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub,alivePeers))
+            t = threading.Thread(target=p.object.verifyBlockCandidateRemote, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub,alivePeers))
             #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
             threads.append(t)
         #  join threads
@@ -541,7 +581,7 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)
         addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
         for p in alivePeers:
-            p.object.addVoteBlockPBFT(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
+            p.object.addVoteBlockPBFTRemote(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
         return True
     else:
         return False
@@ -549,12 +589,16 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
 #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
 def addVoteBlockPBFT(newBlock,voterPub,voterSign):
     global newBlockCandidate
-    newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][voterPub] = voterSign
+    #newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][voterPub] = voterSign
+    newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)] = voterPub
     return True
 
-
 def calcBlockPBFT(newBlock,alivePeers):
-    if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
+    logger.debug("Running the calc blockc pbft operation")
+    blHash = criptoFunctions.calculateHashForBlock(newBlock)
+    logger.debug("Hash calculated")
+    #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
+    if (blHash in newBlockCandidate) and (len(newBlockCandidate[blHash]) > ((2/3)*len(alivePeers))):
         chainFunctions.addBlockHeader(newBlock)
     return True
 
@@ -655,12 +699,12 @@ def main():
     global myURI
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-    logger.debug("Peer initialized")
     names = sys.argv[1]
     ns = Pyro4.locateNS(names)
     daemon = Pyro4.Daemon(getMyIP())
     uri = daemon.register(R2ac)
     myURI = str(uri)
+    logger.debug("My object address: "+myURI)
     ns.register(myURI, uri, True)
     saveURItoFile(myURI)
     print("uri=" + myURI)
