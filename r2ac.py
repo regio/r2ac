@@ -401,7 +401,14 @@ class R2ac(object):
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             #sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
-            #logger.debug("Block sent to peers")
+            logger.debug("----------------------------------------")
+            bbbb = criptoFunctions.calculateHashForBlock(bl)
+            logger.debug("new block hash:"+str(bbbb))
+            logger.debug("previous hash :"+str(bl.previousHash))
+            lastBlk = chainFunctions.getLatestBlock()
+            lastblockhash = criptoFunctions.calculateHashForBlock(lastBlk)
+            logger.debug("last block hash:"+str(lastblockhash))
+            logger.debug("----------------------------------------")
             logger.debug("starting block consensus")
             try:
                 PBFTConsensus(bl, gwPub, devPubKey)
@@ -490,17 +497,28 @@ class R2ac(object):
 
 #####NEW CONSENSUS @Roben
     
-    def verifyBlockCandidateRemote(self, newBlock,generatorGwPub,generatorDevicePub,alivePeers):
-        return verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers)
+    def verifyBlockCandidateRemote(self, newBlock,generatorGwPub,generatorDevicePub):
+        logger.debug("Received remote verify block candidate called...")
+        global peers
+        newBlock = pickle.loads(newBlock)
+        logger.debug("Block received to verify:"+str(newBlock.strBlock()))
+        return verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, peers)
 
     #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
     def addVoteBlockPBFTRemote(self, newBlock,voterPub,voterSign):
+        logger.debug("Received remote add vote...")
         return addVoteBlockPBFT(newBlock, voterPub, voterSign)
 
 
-    def calcBlockPBFTRemote(self, newBlock,alivePeers):
-        logger.debug("Received remote execution called...")
-        return calcBlockPBFT(newBlock, alivePeers)
+    def calcBlockPBFTRemote(self, newBlock):
+        logger.debug("Received remote calcBlock called...")
+        global peers
+        return calcBlockPBFT(newBlock, peers)
+
+    def getGwPubkey(self):
+        global gwPub
+        return gwPub
+
 
 
 ###########
@@ -522,75 +540,115 @@ def preparePBFTConsensus(): #verify all alive peers that will particpate in cons
 ######Consensus for blocks########
 def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     threads = []
+    logger.debug("newBlock:"+str(newBlock.strBlock()))
     connectedPeers = preparePBFTConsensus() #verify who will participate in consensus
+    # send the new block to the peers in order to get theirs vote.
     commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
-    if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
-        for p in connectedPeers:
-            logger.debug("calling thread to:"+str(p.peerURI))
-            p.object.calcBlockPBFTRemote(newBlock, connectedPeers)
-        #     t = threading.Thread(target=p.object.calcBlockPBFTRemote, args=(newBlock, connectedPeers))
-        #     t.start()
-        #     threads.append(t)
-        # for t in threads:
-        #     t.join()
-        blkHash = criptoFunctions.calculateHashForBlock(newBlock)
-        if(blkHash in newBlockCandidate):
-            del newBlockCandidate[blkHash]
-        #del newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]
-            return True
-    return False
+
+
+    # if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
+    #     for p in connectedPeers:
+    #         logger.debug("calling to:"+str(p.peerURI))
+    #         x = p.object.calcBlockPBFTRemote(newBlock)            
+    #         logger.debug("return from peer:"+str(x))
+    #     #     t = threading.Thread(target=p.object.calcBlockPBFTRemote, args=(newBlock, connectedPeers))
+    #     #     t.start()
+    #     #     threads.append(t)
+    #     # for t in threads:
+    #     #     t.join()
+    #     blkHash = criptoFunctions.calculateHashForBlock(newBlock)
+    #     if(blkHash in newBlockCandidate):
+    #         del newBlockCandidate[blkHash]
+    #     #del newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]
+    #         return True
+    # return False
 
 
 def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
     nbc = ""
     hashblk = criptoFunctions.calculateHashForBlock(newBlock)
-    if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
-    #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
-        print ("block already in consensus")
-        return
+    logger.debug("commiting block: "+str(hashblk))
+    for p in alivePeers:
+        logger.debug("Asking for confirmation from: "+str(p.peerURI))
+        verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
+        logger.debug("Answer received: "+str(verifyRet))
+        if(verifyRet):
+            peerPubKey = p.object.getGwPubkey()
+            logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
+            logger.debug("Running the add vote to block")
+            addVoteBlockPBFT(newBlock, peerPubKey, verifyRet)
+            calcRet = calcBlockPBFT(newBlock, alivePeers)
+            logger.debug("Result from calcBlockPBFT:"+str(calcRet))
+            if(calcRet):
+                return
+
+    #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
+        #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
+    #    print ("block already in consensus")
+    #    return
         #newBlock,generatorGwPub,generatorDevicePub,alivePeers
-    if verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers):#verify if the block is valid
-        for p in alivePeers: #call all peers to verify if block is valid
-            t = threading.Thread(target=p.object.verifyBlockCandidateRemote, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub,alivePeers))
-            #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
-            threads.append(t)
-        #  join threads
-        for t in threads:
-            t.join()
+    # if verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers):#verify if the block is valid
+    #     for p in alivePeers: #call all peers to verify if block is valid
+    #         t = threading.Thread(target=p.object.verifyBlockCandidateRemote, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub))
+    #         #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
+    #         threads.append(t)
+    #     #  join threads
+    #     for t in threads:
+    #         t.join()
 
 
 def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     blockValidation = True
     lastBlk = chainFunctions.getLatestBlock()
+    logger.debug("last block:"+str(lastBlk.strBlock()))
+    lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
     # print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-    lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp,
-                                                lastBlk.publicKey)
+    # lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp,
+    #                                             lastBlk.publicKey)
     # print ("This Hash:"+str(lastBlkHash))
     # print ("Last Hash:"+str(block.previousHash))
+
     if (lastBlkHash != newBlock.previousHash):
+        logger.debug("lastBlkHash="+str(lastBlkHash))
+        logger.debug("newBlock-previousHash="+str(newBlock.previousHash))
         blockValidation = False
         return blockValidation
-    if (lastBlk.index != (newBlock.index+1)):
+    if (int(lastBlk.index+1) != int(newBlock.index)):
+        logger.debug("lastBlk Index="+str(lastBlk.index))
+        logger.debug("newBlock Index="+str(newBlock.index))
         blockValidation = False
         return blockValidation
     if (lastBlk.timestamp >= newBlock.timestamp):
+        logger.debug("lastBlk time:"+str(lastBlk.timestamp))
+        logger.debug("lastBlk time:"+str(newBlock.timestamp))
         blockValidation = False
         return blockValidation
     if blockValidation:
+        logger.debug("block successfully validated")
         voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)
-        addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
-        for p in alivePeers:
-            p.object.addVoteBlockPBFTRemote(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
-        return True
+        addVoteBlockPBFT(newBlock, gwPub, voteSignature)
+        return voteSignature
+        #addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
+        # for p in alivePeers:
+        #     p.object.addVoteBlockPBFTRemote(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
+        #return True
     else:
+        logger.debug("Failed to validate")
         return False
+
 
 #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
 def addVoteBlockPBFT(newBlock,voterPub,voterSign):
     global newBlockCandidate
+    blockHahs = criptoFunctions.calculateHashForBlock(newTransaction)
+    logger.debug("Adding the block to my local dictionary")
+    if(blkHash not in newBlockCandidate):
+        logger.debug("Block is not in the dictionary... creating a new one")
+        newBlockCandidate[blkHash] = {}
+    newBlockCandidate[blkHash][voterPub] = voterSign
+
     #newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][voterPub] = voterSign
-    newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)] = voterPub
     return True
 
 def calcBlockPBFT(newBlock,alivePeers):
@@ -599,8 +657,13 @@ def calcBlockPBFT(newBlock,alivePeers):
     logger.debug("Hash calculated")
     #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
     if (blHash in newBlockCandidate) and (len(newBlockCandidate[blHash]) > ((2/3)*len(alivePeers))):
+        logger.debug("Consensus achieved!")
         chainFunctions.addBlockHeader(newBlock)
-    return True
+        # for p in alivePeers:
+        #     p.object.insertBlock(blkHash)
+        return True
+    else:
+        return False
 
 ######
 #########################Transaction PBFT

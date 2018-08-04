@@ -78,7 +78,9 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
 def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     nextIndex = previousBlock.index + 1    
     nextTimestamp = time.time()
-    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
+    #nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
+    previousBlockHash = criptoFunctions.calculateHashForBlock(previousBlock)
+    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey)
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = Transaction.Transaction(0, nextHash, nextTimestamp, blockData, sign)
-    return BlockHeader.BlockHeader(nextIndex, previousBlock.hash, nextTimestamp, inf, nextHash, pubKey);
+    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey);
