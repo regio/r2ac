@@ -497,12 +497,15 @@ class R2ac(object):
 
 #####NEW CONSENSUS @Roben
     
-    def verifyBlockCandidateRemote(self, newBlock,generatorGwPub,generatorDevicePub):
+    def verifyBlockCandidateRemote(self, newBlock):
         logger.debug("Received remote verify block candidate called...")
         global peers
         newBlock = pickle.loads(newBlock)
         logger.debug("Block received to verify:"+str(newBlock.strBlock()))
-        return verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, peers)
+        ret = verifyBlockCandidate(newBlock, gwPub, newBlock.publicKey, peers)
+        logger.debug("validation reulsts:"+str(ret))
+        pi = pickle.dumps(ret)
+        return pi
 
     #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
     def addVoteBlockPBFTRemote(self, newBlock,voterPub,voterSign):
@@ -571,7 +574,10 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     logger.debug("commiting block: "+str(hashblk))
     for p in alivePeers:
         logger.debug("Asking for confirmation from: "+str(p.peerURI))
-        verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
+        #verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
+        picked = pickle.dumps(newBlock)
+        logger.debug("ready to send...")
+        verifyRet = p.object.verifyBlockCandidateRemote(picked)
         logger.debug("Answer received: "+str(verifyRet))
         if(verifyRet):
             peerPubKey = p.object.getGwPubkey()
@@ -626,8 +632,10 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         return blockValidation
     if blockValidation:
         logger.debug("block successfully validated")
-        voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)
+        voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)#identify the problem in this line!!
+        logger.debug("block successfully signed")
         addVoteBlockPBFT(newBlock, gwPub, voteSignature)
+        logger.debug("block successfully added locally")
         return voteSignature
         #addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
         # for p in alivePeers:
