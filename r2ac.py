@@ -388,7 +388,8 @@ class R2ac(object):
 
     def addBlock(self, devPubKey):
         global gwPub
-        logger.debug("AddBlock Function")
+        logger.debug("|---------------------------------------------------------------------|")
+        logger.debug("Block received from device")
         aesKey = ''
         t1 = time.time()
         blk = chainFunctions.findBlock(devPubKey)
@@ -401,26 +402,26 @@ class R2ac(object):
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             #sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
-            logger.debug("----------------------------------------")
-            bbbb = criptoFunctions.calculateHashForBlock(bl)
-            logger.debug("new block hash:"+str(bbbb))
-            logger.debug("previous hash :"+str(bl.previousHash))
-            lastBlk = chainFunctions.getLatestBlock()
-            lastblockhash = criptoFunctions.calculateHashForBlock(lastBlk)
-            logger.debug("last block hash:"+str(lastblockhash))
-            logger.debug("----------------------------------------")
+            # logger.debug("----------------------------------------")
+            # bbbb = criptoFunctions.calculateHashForBlock(bl)
+            # logger.debug("new block hash:"+str(bbbb))
+            # logger.debug("previous hash :"+str(bl.previousHash))
+            # lastBlk = chainFunctions.getLatestBlock()
+            # lastblockhash = criptoFunctions.calculateHashForBlock(lastBlk)
+            # logger.debug("last block hash:"+str(lastblockhash))
+            # logger.debug("----------------------------------------")
             logger.debug("starting block consensus")
-            try:
-                PBFTConsensus(bl, gwPub, devPubKey)
-            except KeyboardInterrupt:
-                sys.exit()
-            except:
-                print("failed to execute:")
-                logger.error("failed to execute:")
-                exc_type, exc_value, exc_traceback = sys.exc_info()
-                print "*** print_exception:"    
-                traceback.print_exception(exc_type, exc_value, exc_traceback,
-                                      limit=6, file=sys.stdout)
+            #try:
+            PBFTConsensus(bl, gwPub, devPubKey)
+            # except KeyboardInterrupt:
+            #     sys.exit()
+            # except:
+            #     print("failed to execute:")
+            #     logger.error("failed to execute:")
+            #     exc_type, exc_value, exc_traceback = sys.exc_info()
+            #     print "*** print_exception:"    
+            #     traceback.print_exception(exc_type, exc_value, exc_traceback,
+            #                           limit=6, file=sys.stdout)
             
             logger.debug("end block consensus")
             # try:
@@ -434,7 +435,7 @@ class R2ac(object):
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-
+        logger.debug("|---------------------------------------------------------------------|")
         return encKey
 
     def addPeer(self, peerURI, isFirst):
@@ -497,15 +498,16 @@ class R2ac(object):
 
 #####NEW CONSENSUS @Roben
     
-    def verifyBlockCandidateRemote(self, newBlock):
-        logger.debug("Received remote verify block candidate called...")
+    def verifyBlockCandidateRemote(self, newBlock, askerPubKey):
         global peers
         newBlock = pickle.loads(newBlock)
-        logger.debug("Block received to verify:"+str(newBlock.strBlock()))
-        ret = verifyBlockCandidate(newBlock, gwPub, newBlock.publicKey, peers)
+        logger.debug("|---------------------------------------------------------------------|")
+        logger.debug("Verify for newBlock asked - index:"+str(newBlock.index))
+        ret = verifyBlockCandidate(newBlock, askerPubKey, newBlock.publicKey, peers)
         logger.debug("validation reulsts:"+str(ret))
-        pi = pickle.dumps(ret)
-        return pi
+        logger.debug("|---------------------------------------------------------------------|")
+        #pi = pickle.dumps(ret)
+        return ret
 
     #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
     def addVoteBlockPBFTRemote(self, newBlock,voterPub,voterSign):
@@ -542,9 +544,11 @@ def preparePBFTConsensus(): #verify all alive peers that will particpate in cons
 
 ######Consensus for blocks########
 def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
+    global peers
     threads = []
-    logger.debug("newBlock:"+str(newBlock.strBlock()))
-    connectedPeers = preparePBFTConsensus() #verify who will participate in consensus
+    logger.debug("newBlock received for PBFT Consensus")
+    #connectedPeers = preparePBFTConsensus() #verify who will participate in consensus
+    connectedPeers = peers
     # send the new block to the peers in order to get theirs vote.
     commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
 
@@ -571,22 +575,23 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
     nbc = ""
     hashblk = criptoFunctions.calculateHashForBlock(newBlock)
-    logger.debug("commiting block: "+str(hashblk))
+    logger.debug("Running commit function to block: "+str(hashblk))
     for p in alivePeers:
-        logger.debug("Asking for confirmation from: "+str(p.peerURI))
+        logger.debug("Asking for block verification from: "+str(p.peerURI))
         #verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
         picked = pickle.dumps(newBlock)
-        logger.debug("ready to send...")
-        verifyRet = p.object.verifyBlockCandidateRemote(picked)
+        verifyRet = p.object.verifyBlockCandidateRemote(picked, generatorGwPub)
         logger.debug("Answer received: "+str(verifyRet))
         if(verifyRet):
             peerPubKey = p.object.getGwPubkey()
-            logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
+            #logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
             logger.debug("Running the add vote to block")
             addVoteBlockPBFT(newBlock, peerPubKey, verifyRet)
             calcRet = calcBlockPBFT(newBlock, alivePeers)
             logger.debug("Result from calcBlockPBFT:"+str(calcRet))
             if(calcRet):
+                logger.debug("Consensus was achieve, updating peers and finishing operation")
+                sendBlockToPeers(newBlock)
                 return
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
@@ -607,7 +612,7 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
 def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     blockValidation = True
     lastBlk = chainFunctions.getLatestBlock()
-    logger.debug("last block:"+str(lastBlk.strBlock()))
+    #logger.debug("last block:"+str(lastBlk.strBlock()))
     lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
     # print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
     # lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp,
@@ -632,10 +637,10 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         return blockValidation
     if blockValidation:
         logger.debug("block successfully validated")
-        voteSignature=criptoFunctions.signInfo(gwPvt, newBlock)#identify the problem in this line!!
+        voteSignature=criptoFunctions.signInfo(gwPvt, newBlock.__str__())#identify the problem in this line!!
         logger.debug("block successfully signed")
-        addVoteBlockPBFT(newBlock, gwPub, voteSignature)
-        logger.debug("block successfully added locally")
+        #addVoteBlockPBFT(newBlock, gwPub, voteSignature)
+        #logger.debug("block successfully added locally")
         return voteSignature
         #addVoteBlockPBFT(newBlock, gwPub, voteSignature) #vote positively, signing the candidate block
         # for p in alivePeers:
@@ -649,10 +654,10 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
 #add the signature of a peer into the newBlockCandidate, using a list to all gw for a single hash, if the block is valid put the signature
 def addVoteBlockPBFT(newBlock,voterPub,voterSign):
     global newBlockCandidate
-    blockHahs = criptoFunctions.calculateHashForBlock(newTransaction)
+    blkHash = criptoFunctions.calculateHashForBlock(newBlock)
     logger.debug("Adding the block to my local dictionary")
     if(blkHash not in newBlockCandidate):
-        logger.debug("Block is not in the dictionary... creating a new one")
+        logger.debug("Block is not in the dictionary... creating a new entry for it")
         newBlockCandidate[blkHash] = {}
     newBlockCandidate[blkHash][voterPub] = voterSign
 
@@ -662,15 +667,20 @@ def addVoteBlockPBFT(newBlock,voterPub,voterSign):
 def calcBlockPBFT(newBlock,alivePeers):
     logger.debug("Running the calc blockc pbft operation")
     blHash = criptoFunctions.calculateHashForBlock(newBlock)
-    logger.debug("Hash calculated")
+    locDicCount = int(len(newBlockCandidate[blHash]))
+    peerCount = int(len(alivePeers))
+    logger.debug("local dictionary value:"+str(locDicCount))
+    logger.debug("alivePeers: "+str(peerCount))
+    cont = int(float(0.667)*float(peerCount))
     #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
-    if (blHash in newBlockCandidate) and (len(newBlockCandidate[blHash]) > ((2/3)*len(alivePeers))):
+    if (blHash in newBlockCandidate) and (locDicCount >= cont):
         logger.debug("Consensus achieved!")
         chainFunctions.addBlockHeader(newBlock)
         # for p in alivePeers:
         #     p.object.insertBlock(blkHash)
         return True
     else:
+        logger.debug("Consensus Not achieved yet!")
         return False
 
 ######

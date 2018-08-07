@@ -67,6 +67,7 @@ def signInfo(gwPvtKey, data):
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
     digest.update(data.encode('utf-8')) #added encode to support python 3 , need to evluate if it is still working
+    #digest.update(data)
     s = signer.sign(digest)
     sinature = base64.b64encode(s)
     return sinature
@@ -77,6 +78,7 @@ def signVerify(data, signature, gwPubKey):
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
     digest.update(data.encode('utf-8')) #added encode to support python 3 , need to evluate if it is still working
+    #digest.update(data)
     signaturerOr = base64.b64decode(signature)
     result = signer.verify(digest, signaturerOr)
     return result
