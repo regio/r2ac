@@ -34,8 +34,8 @@ def getMyIP():
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
 #https://docs.python.org/3/library/logging.html#logrecord-attributes
-FORMAT = "[%(levelname)s][%(lineno)s - %(funcName)20s()] %(message)s"
-logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
+FORMAT = "[%(levelname)s-%(lineno)s-%(funcName)17s()] %(message)s"
+logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.INFO, format=FORMAT)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
@@ -550,7 +550,12 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     #connectedPeers = preparePBFTConsensus() #verify who will participate in consensus
     connectedPeers = peers
     # send the new block to the peers in order to get theirs vote.
-    commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
+    #commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
+    t = threading.Thread(target=commitBlockPBFT, args=(newBlock,generatorGwPub,generatorDevicePub,connectedPeers))
+    t.start()
+    # threads.append(t)
+    # for t in threads:
+    #     t.join()    
 
 
     # if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
