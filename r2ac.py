@@ -601,7 +601,7 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
                 logger.info("Consensus was achieve, updating peers and finishing operation")
                 sendBlockToPeers(newBlock)                
                 return
-    logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)") will not added")
+    logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
         #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
@@ -630,19 +630,19 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     # print ("Last Hash:"+str(block.previousHash))
 
     if (lastBlkHash != newBlock.previousHash):
-        logger.error("Failed to validate new block("+str(newBlock.index)") HASH value")
+        logger.error("Failed to validate new block("+str(newBlock.index)+") HASH value")
         logger.debug("lastBlkHash="+str(lastBlkHash))
         logger.debug("newBlock-previousHash="+str(newBlock.previousHash))
         blockValidation = False
         return blockValidation
     if (int(lastBlk.index+1) != int(newBlock.index)):
-        logger.error("Failed to validate new block("+str(newBlock.index)") INDEX value")
+        logger.error("Failed to validate new block("+str(newBlock.index)+") INDEX value")
         logger.debug("lastBlk Index="+str(lastBlk.index))
         logger.debug("newBlock Index="+str(newBlock.index))
         blockValidation = False
         return blockValidation
     if (lastBlk.timestamp >= newBlock.timestamp):
-        logger.error("Failed to validate new block("+str(newBlock.index)") TIME value")
+        logger.error("Failed to validate new block("+str(newBlock.index)+") TIME value")
         logger.debug("lastBlk time:"+str(lastBlk.timestamp))
         logger.debug("lastBlk time:"+str(newBlock.timestamp))
         blockValidation = False
