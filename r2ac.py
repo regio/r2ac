@@ -582,13 +582,15 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
     nbc = ""
     pbftFinished = True
-    while (pbftFinished):
+    i = 0
+    while (pbftFinished and i<20):
         pbftAchieved = handlePBFT(newBlock, generatorGwPub, generatorGwPub, alivePeers)
         if(not pbftAchieved):
             oldId = newBlock.index
-            logger.info("PBFT not achieve, Recreating block")
+            logger.info("PBFT not achieve, Recreating block="+ str(chainFunctions.getBlockchainSize()))
             newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
+            i = i + 1
         else:
             pbftFinished = False
     
