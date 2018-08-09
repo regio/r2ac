@@ -581,7 +581,33 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
 def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
     nbc = ""
-    pbftAchieved = False
+    pbftFinished = True
+    while (pbftFinished):
+        pbftAchieved = handlePBFT(newBlock, generatorGwPub, generatorGwPub, alivePeers)
+        if(not pbftAchieved):
+            oldId = newBlock.index
+            logger.info("PBFT not achieve, Recreating block")
+            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt)
+            logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
+        else:
+            pbftFinished = False
+    
+
+    #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
+        #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
+    #    print ("block already in consensus")
+    #    return
+        #newBlock,generatorGwPub,generatorDevicePub,alivePeers
+    # if verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers):#verify if the block is valid
+    #     for p in alivePeers: #call all peers to verify if block is valid
+    #         t = threading.Thread(target=p.object.verifyBlockCandidateRemote, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub))
+    #         #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
+    #         threads.append(t)
+    #     #  join threads
+    #     for t in threads:
+    #         t.join()
+
+def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     hashblk = criptoFunctions.calculateHashForBlock(newBlock)
     logger.debug("Running commit function to block: "+str(hashblk))
     for p in alivePeers:
@@ -600,22 +626,9 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             if(calcRet):
                 logger.info("Consensus was achieve, updating peers and finishing operation")
                 sendBlockToPeers(newBlock)                
-                return
+                return True
     logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
-
-    #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
-        #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
-    #    print ("block already in consensus")
-    #    return
-        #newBlock,generatorGwPub,generatorDevicePub,alivePeers
-    # if verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub, alivePeers):#verify if the block is valid
-    #     for p in alivePeers: #call all peers to verify if block is valid
-    #         t = threading.Thread(target=p.object.verifyBlockCandidateRemote, args=(pickle.dumps(newBlock),generatorGwPub,generatorDevicePub))
-    #         #### @Regio -> would it be better to use "pickle.dumps(newBlock)"  instead of newBlock?
-    #         threads.append(t)
-    #     #  join threads
-    #     for t in threads:
-    #         t.join()
+    return False
 
 
 def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
