@@ -581,6 +581,7 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
 def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     threads = []
     nbc = ""
+    pbftAchieved = False
     hashblk = criptoFunctions.calculateHashForBlock(newBlock)
     logger.debug("Running commit function to block: "+str(hashblk))
     for p in alivePeers:
@@ -597,9 +598,10 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             calcRet = calcBlockPBFT(newBlock, alivePeers)
             logger.debug("Result from calcBlockPBFT:"+str(calcRet))
             if(calcRet):
-                logger.debug("Consensus was achieve, updating peers and finishing operation")
-                sendBlockToPeers(newBlock)
+                logger.info("Consensus was achieve, updating peers and finishing operation")
+                sendBlockToPeers(newBlock)                
                 return
+    logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)") will not added")
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
         #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
@@ -628,22 +630,25 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     # print ("Last Hash:"+str(block.previousHash))
 
     if (lastBlkHash != newBlock.previousHash):
+        logger.error("Failed to validate new block("+str(newBlock.index)") HASH value")
         logger.debug("lastBlkHash="+str(lastBlkHash))
         logger.debug("newBlock-previousHash="+str(newBlock.previousHash))
         blockValidation = False
         return blockValidation
     if (int(lastBlk.index+1) != int(newBlock.index)):
+        logger.error("Failed to validate new block("+str(newBlock.index)") INDEX value")
         logger.debug("lastBlk Index="+str(lastBlk.index))
         logger.debug("newBlock Index="+str(newBlock.index))
         blockValidation = False
         return blockValidation
     if (lastBlk.timestamp >= newBlock.timestamp):
+        logger.error("Failed to validate new block("+str(newBlock.index)") TIME value")
         logger.debug("lastBlk time:"+str(lastBlk.timestamp))
         logger.debug("lastBlk time:"+str(newBlock.timestamp))
         blockValidation = False
         return blockValidation
     if blockValidation:
-        logger.debug("block successfully validated")
+        logger.info("block successfully validated")
         voteSignature=criptoFunctions.signInfo(gwPvt, newBlock.__str__())#identify the problem in this line!!
         logger.debug("block successfully signed")
         #addVoteBlockPBFT(newBlock, gwPub, voteSignature)
@@ -654,7 +659,7 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         #     p.object.addVoteBlockPBFTRemote(newBlock, gwPub, voteSignature) #put its vote in the list of each peer
         #return True
     else:
-        logger.debug("Failed to validate")
+        logger.info("Failed to validate")
         return False
 
 
