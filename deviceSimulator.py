@@ -7,9 +7,16 @@ import sys
 import traceback
 import time
 import socket
+import logging.config
+import logging as logger
 from Crypto.PublicKey import RSA
 
 import criptoFunctions
+
+fname = socket.gethostname()
+FORMAT = "[%(levelname)s-%(lineno)s-%(funcName)17s()] %(message)s"
+logger.basicConfig(filename=str(fname)+"log",level=logging.DEBUG, format=FORMAT)
+
 
 server = "localhost"
 serverAESEncKey = ""
@@ -49,6 +56,7 @@ def sendDataTest():
     data = timeStr + temperature
     signedData = criptoFunctions.signInfo(priv, data)
     ver = criptoFunctions.signVerify(data, signedData, pub)
+    logger.debug("Sending data teste: " + str(ver))
     print ("done: "+str(ver))
 
 
@@ -108,6 +116,7 @@ def brutePairAuth(retry):
         except KeyboardInterrupt:
             sys.exit()
         except:
+            logger.debug("failed to execute:"+str(retry))
             print("failed to execute:"+str(retry))
             isOk = True
 
@@ -120,8 +129,12 @@ def bruteSend(retry):
         except KeyboardInterrupt:
             sys.exit()
         except:
+            logger.debug("failed to execute:"+str(retry))
             print("failed to execute sendData:"+str(retry))
             exc_type, exc_value, exc_traceback = sys.exc_info()
+            logger.debug("*** print_exception:")
+            logger.debug(str(traceback.print_exception(exc_type, exc_value, exc_traceback,
+                                      limit=2, file=sys.stdout)))
             print "*** print_exception:"
             traceback.print_exception(exc_type, exc_value, exc_traceback,
                                       limit=2, file=sys.stdout)
@@ -137,7 +150,9 @@ def automa2():
 
 def automa(blocks, trans):
     print ("Block #:")
+    logger.debug("Block #:")
     for blk in range(0, blocks):
+        logger.debug(str(blk))
         print (str(blk))
         newKeyPair()
         authReq()
