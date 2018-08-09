@@ -40,6 +40,7 @@ logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.INFO, forma
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
 
+myName=socket.gethostname()
 
 app = Flask(__name__)
 peers = []
@@ -116,7 +117,7 @@ def sendBlockToPeers(IoTBlock):
             obj = peer.object
             logger.debug("sending IoT Block to: " + str(peer.peerURI))
             dat = pickle.dumps(IoTBlock)
-            obj.updateIOTBlockLedger(dat)
+            obj.updateIOTBlockLedger(dat,myName)
 
 def syncChain(newPeer):
     #write the code to identify only a change in the iot block and insert.
@@ -375,12 +376,13 @@ class R2ac(object):
         return "done"
 
     # update local bockchain adding a new block
-    def updateIOTBlockLedger(self, iotBlock):
+    def updateIOTBlockLedger(self, iotBlock, gwName):
         logger.debug("updateIoTBlockLedger Function")
         b = pickle.loads(iotBlock)
         #print("picked....")
         t1 = time.time()
         logger.debug("Received Block #:" + (str(b.index)))
+        logger.info("Received block #:"+str(b.index)+" From:"+str(gwName))
         if isBlockValid(b):
             chainFunctions.addBlockHeader(b)
         t2 = time.time()
