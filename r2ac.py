@@ -197,33 +197,6 @@ def addTrustedPeers():
  ###########################END NEW CONSENSUS @Roben
  ##########################
 
-
-#### Consensus made by someone/....
-
-# def consensus(newBlock, gatewayPublicKey, devicePublicKey):
-#     addTrustedPeers() # just for testing, delete after
-#     global peers, answers
-#     threads = []
-#     answers[newBlock] = []
-#     #  run through peers
-#     numberOfActivePeers = 0
-#     for p in peers:
-#         #  if trusted and active create new thread and sendBlockToConsensus
-#         if peerIsTrusted(p.peerURI) and peerIsActive(p.object):
-#             numberOfActivePeers = numberOfActivePeers + 1
-#             t = threading.Thread(target=sendBlockToConsensus, args=(newBlock, gatewayPublicKey, devicePublicKey))
-#             threads.append(t)
-#     #  join threads
-#     for t in threads:
-#         t.join()
-#
-#     numberOfTrueResponses = 0
-#     for a in answers[newBlock]:
-#         if a: numberOfTrueResponses = numberOfTrueResponses + 1
-#     #  if more then 2/3 -> true, else -> false
-#     del answers[newBlock]
-#     return numberOfTrueResponses >= int((2*numberOfActivePeers)/3)
-
 def peerIsTrusted(i):
     global trustedPeers
     for p in trustedPeers:
@@ -292,13 +265,20 @@ def isBlockValid(block):
     #print(str(len(BlockHeaderChain)))
     lastBlk = chainFunctions.getLatestBlock()
     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-    lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
+    #lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
+    lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
     #print ("This Hash:"+str(lastBlkHash))
     #print ("Last Hash:"+str(block.previousHash))
     if(lastBlkHash == block.previousHash):
+        logger.info("isBlockValid == true")
         return True
     else:
-        return True
+        logger.error("isBlockValid == false")
+        logger.error("lastBlkHash="+str(lastBlkHash))
+        logger.error("block.previous="+str(block.previousHash))
+        logger.error("lastBlk Index="+str(lastBlk.index))
+        logger.error("block.index="+str(block.index))
+        return False
 
 #############################################################################
 #############################################################################
@@ -403,15 +383,6 @@ class R2ac(object):
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            #sendBlockToPeers(bl)  # --->> this function should be run in a different thread.
-            # logger.debug("----------------------------------------")
-            # bbbb = criptoFunctions.calculateHashForBlock(bl)
-            # logger.debug("new block hash:"+str(bbbb))
-            # logger.debug("previous hash :"+str(bl.previousHash))
-            # lastBlk = chainFunctions.getLatestBlock()
-            # lastblockhash = criptoFunctions.calculateHashForBlock(lastBlk)
-            # logger.debug("last block hash:"+str(lastblockhash))
-            # logger.debug("----------------------------------------")
             logger.debug("starting block consensus")
             #try:
             PBFTConsensus(bl, gwPub, devPubKey)
