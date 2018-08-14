@@ -859,7 +859,7 @@ def main():
     connectToPeers(ns)
     if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
         logger.debug("Starging the Gateway Orchestrator")
-        saveOrchestratorURI(uri)
+        saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         threading.Thread(target=runMasterThread).start()
     else:
