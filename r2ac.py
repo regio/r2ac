@@ -524,7 +524,7 @@ def addNewBlockToSyncList(devPubKey):
         lock.acquire(1)
         logger.debug("running critical was acquire")
         global blockConsesusCandiateList
-        logger.debug("Appending block to list :"+srt(len(blockConsesusCandiateList)))
+        logger.debug("Appending block to list :")#+srt(len(blockConsesusCandiateList)))
         blockConsesusCandiateList.append(devPubKey)
         lock.release()
 
@@ -539,7 +539,7 @@ def getBlockFromSyncList():
             logger.debug("there is a candidade, pop it!!!")
             devPubKey = blockConsesusCandiateList.pop(0)
         lock.release()
-        logger.debug("Removing block from list :"+srt(len(blockConsesusCandiateList)))
+        logger.debug("Removing block from list :")#+srt(len(blockConsesusCandiateList)))
         return devPubKey
 
 
