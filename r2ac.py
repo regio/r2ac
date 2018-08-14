@@ -33,6 +33,7 @@ def getMyIP():
 
 orchestratorObject=""
 lock=thread.allocate_lock()
+lock.release()
 blockConsesusCandiateList = []
 
 # logging.config.fileConfig('logging.conf')
@@ -519,7 +520,7 @@ class R2ac(object):
 
 
 def addNewBlockToSyncList(devPubKey):
-        logger.debug
+        logger.debug("running critical stuffff......")
         global lock
         lock.acquire()
         global blockConsesusCandiateList
