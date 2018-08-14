@@ -832,7 +832,6 @@ def runMasterThread():
 
 
 def saveOrchestratorURI(uri):
-    fname = socket.gethostname()
     text_file = open("/home/core/nodes/Gw1.txt", "w")
     text_file.write(uri)
     text_file.close()
@@ -861,6 +860,7 @@ def main():
     if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
         logger.debug("Starging the Gateway Orchestrator")
         saveOrchestratorURI(uri)
+        logger.debug("Creatin thread....")
         threading.Thread(target=runMasterThread).start()
     else:
         loadOrchestrator()   
