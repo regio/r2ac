@@ -521,7 +521,8 @@ class R2ac(object):
 def addNewBlockToSyncList(devPubKey):
         logger.debug("running critical stuffff......")
         global lock
-        lock.acquire()
+        lock.acquire(1)
+        logger.debug("running critical was acquire")
         global blockConsesusCandiateList
         logger.debug("Appending block to list :"+srt(len(blockConsesusCandiateList)))
         blockConsesusCandiateList.append(devPubKey)
@@ -529,10 +530,13 @@ def addNewBlockToSyncList(devPubKey):
 
 
 def getBlockFromSyncList():
+        logger.debug("running critical stuffff to get sync list......")
         global lock
-        lock.acquire()    
+        lock.acquire(1)    
+        logger.debug("lock aquired by get method......")
         global blockConsesusCandiateList
         if(len(blockConsesusCandiateList)>0):
+            logger.debug("there is a candidade, pop it!!!")
             devPubKey = blockConsesusCandiateList.pop(0)
         lock.release()
         logger.debug("Removing block from list :"+srt(len(blockConsesusCandiateList)))
