@@ -33,7 +33,6 @@ def getMyIP():
 
 orchestratorObject=""
 lock=thread.allocate_lock()
-lock.release()
 blockConsesusCandiateList = []
 
 # logging.config.fileConfig('logging.conf')
