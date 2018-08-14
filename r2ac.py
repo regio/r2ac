@@ -377,8 +377,9 @@ class R2ac(object):
         global blockConsesusCandiateList
         logger.debug("================================================")
         logger.debug("This method is executed by orchestrator.")
-        logger.debug("received new block consensus candidate. Queue Size:"+srt(len(blockConsesusCandiateList)))
+        #logger.debug("received new block consensus candidate. Queue Size:"+srt(len(blockConsesusCandiateList)))
         addNewBlockToSyncList(devPubKey)
+        logger.debug("added to the sync list")
         logger.debug("================================================")
 
 
