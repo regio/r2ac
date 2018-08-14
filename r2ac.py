@@ -9,7 +9,7 @@ import time
 import threading
 import merkle
 import traceback
-#import asyncio
+import thread
 
 from os import listdir
 from os.path import isfile, join
@@ -31,11 +31,15 @@ def getMyIP():
     s.close()
     return myIP
 
+orchestratorObject=""
+lock=thread.allocate_lock()
+blockConsesusCandiateList = []
+
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
 #https://docs.python.org/3/library/logging.html#logrecord-attributes
 FORMAT = "[%(levelname)s-%(lineno)s-%(funcName)17s()] %(message)s"
-logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.INFO, format=FORMAT)
+logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
@@ -368,6 +372,17 @@ class R2ac(object):
         t2 = time.time()
         logger.info("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
+
+    def addBlockConsensusCandiate(self, devPubKey):
+        global blockConsesusCandiateList
+        logger.debug("================================================")
+        logger.debug("This method is executed by orchestrator.")
+        logger.debug("received new block consensus candidate. Queue Size:"+srt(len(blockConsesusCandiateList)))
+        addNewBlockToSyncList(devPubKey)
+        logger.debug("================================================")
+
+
+
     def addBlock(self, devPubKey):
         global gwPub
         logger.debug("|---------------------------------------------------------------------|")
@@ -382,10 +397,12 @@ class R2ac(object):
                 aesKey = generateAESKey(blk.publicKey)
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+            #bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             logger.debug("starting block consensus")
+            orchestratorObject.addBlockConsensusCandiate(devPubKey)
+
             #try:
-            PBFTConsensus(bl, gwPub, devPubKey)
+            #PBFTConsensus(bl, gwPub, devPubKey)
             # except KeyboardInterrupt:
             #     sys.exit()
             # except:
@@ -498,12 +515,39 @@ class R2ac(object):
         return gwPub
 
 
+def addNewBlockToSyncList(devPubKey):
+        global lock
+        lock.acquire()
+        global blockConsesusCandiateList
+        logger.debug("Appending block to list :"+srt(len(blockConsesusCandiateList)))
+        blockConsesusCandiateList.append(devPubKey)
+        lock.release()
+
+
+def getBlockFromSyncList():
+        global lock
+        lock.acquire()    
+        global blockConsesusCandiateList
+        if(len(blockConsesusCandiateList)>0):
+            devPubKey = blockConsesusCandiateList.pop(0)
+        lock.release()
+        logger.debug("Removing block from list :"+srt(len(blockConsesusCandiateList)))
+        return devPubKey
+
 
 ###########
 ###Consensus PBFT @Roben
 ###########
 newBlockCandidate = {} ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
 newTransactionCandidate = {} #same as block, for transaction
+
+def runPBFT():
+    global gwPvt
+    devPubKey = getBlockFromSyncList()
+    #TODO: randomize selection of gw to orchestrate the block creation
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt)
+    logger.debug("Running PBFT function to block("+str(blk.index)+")")
+    PBFTConsensus(blk, gwPub, devPubKey)
 
 def preparePBFTConsensus(): #verify all alive peers that will particpate in consensus
     alivePeers = []
@@ -524,8 +568,11 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     connectedPeers = peers
     # send the new block to the peers in order to get theirs vote.
     #commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
-    t = threading.Thread(target=commitBlockPBFT, args=(newBlock,generatorGwPub,generatorDevicePub,connectedPeers))
-    t.start()
+    
+    #t = threading.Thread(target=commitBlockPBFT, args=(newBlock,generatorGwPub,generatorDevicePub,connectedPeers))
+    #t.start()
+    commitBlockPBFT(newBlock,generatorGwPub, generatorDevicePub, connectedPeers)
+
     # threads.append(t)
     # for t in threads:
     #     t.join()    
@@ -767,6 +814,29 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 ######################          Main         ################################
 #############################################################################
 #############################################################################
+def loadOrchestrator():
+    global orchestratorObject
+    text_file = open("/home/core/nodes/Gw1.txt", "r")
+    uri = text_file.read()
+    print(uri)
+    logger.debug("Orchestrator address loaded")
+    orchestratorObject = Pyro4.Proxy(uri)
+    text_file.close()
+
+
+def runMasterThread():
+    while(True):
+        if(len(blockConsesusCandiateList)>0):
+            runPBFT()
+        time.sleep(1)
+
+
+def saveOrchestratorURI(uri):
+    fname = socket.gethostname()
+    text_file = open("/home/core/nodes/Gw1.txt", "w")
+    text_file.write(uri)
+    text_file.close()
+
 
 def saveURItoFile(uri):
     fname = socket.gethostname()
@@ -778,7 +848,7 @@ def main():
     global myURI
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-    names = sys.argv[1]
+    names = sys.argv[1]        
     ns = Pyro4.locateNS(names)
     daemon = Pyro4.Daemon(getMyIP())
     uri = daemon.register(R2ac)
@@ -788,6 +858,12 @@ def main():
     saveURItoFile(myURI)
     print("uri=" + myURI)
     connectToPeers(ns)
+    if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
+        logger.debug("Starging the Gateway Orchestrator")
+        saveOrchestratorURI(uri)
+        threading.Thread(target=runMasterThread).start()
+    else:
+        loadOrchestrator()   
     daemon.requestLoop()
 
 if __name__ == '__main__':
