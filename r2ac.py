@@ -376,9 +376,10 @@ class R2ac(object):
     def addBlockConsensusCandiate(self, devPubKey):
         global blockConsesusCandiateList
         logger.debug("================================================")
-        logger.debug("This method is executed by orchestrator.")
+        devKey = pickle.loads(devPubKey)
+        logger.debug("This method is executed by orchestrator."+str(devKey))
         #logger.debug("received new block consensus candidate. Queue Size:"+srt(len(blockConsesusCandiateList)))
-        addNewBlockToSyncList(devPubKey)
+        addNewBlockToSyncList(devKey)
         logger.debug("added to the sync list")
         logger.debug("================================================")
 
@@ -400,7 +401,8 @@ class R2ac(object):
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             #bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             logger.debug("starting block consensus")
-            orchestratorObject.addBlockConsensusCandiate(devPubKey)
+            pickedKey = pickle.dumps(devPubKey)
+            orchestratorObject.addBlockConsensusCandiate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -517,6 +519,7 @@ class R2ac(object):
 
 
 def addNewBlockToSyncList(devPubKey):
+        logger.debug
         global lock
         lock.acquire()
         global blockConsesusCandiateList
