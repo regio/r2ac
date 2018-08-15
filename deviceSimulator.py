@@ -160,7 +160,8 @@ def automa(blocks, trans):
         for tr in range(0, trans):
             #sendData()
             while (not (server.isBlockInTheChain(publicKey))):
-                time.sleep(1)
+                continue
+                #time.sleep(1)
             bruteSend(tr)
 
 

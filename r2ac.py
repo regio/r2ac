@@ -353,6 +353,7 @@ class R2ac(object):
         logger.info("Received Transaction #:" + (str(b.index)))
         blk = chainFunctions.findBlock(pubKey)
         if blk != False:
+            logger.info("Transaction size in the block:"+str(len(b.transactions)))            
             if not (chainFunctions.blockContainsBlockTransaction(blk, b)):
                 if validatorClient:
                     isTransactionValid(b, pubKey)
@@ -520,15 +521,11 @@ class R2ac(object):
         return gwPub
 
     def isBlockInTheChain(self, devPubKey):
-        logger.debug("---------------running isBlockInTheChain1----------")
         blk = chainFunctions.findBlock(devPubKey)
-        logger.debug("---------------running isBlockInTheChain2----------")
         if(blk == False):
             logger.debug("Block is false="+str(devPubKey))
             return False
         else:
-            logger.debug("Block is True="+str(devPubKey))
-            logger.debug("Block is True="+str(blk.publicKey))
             return True
 
 
@@ -850,7 +847,7 @@ def runMasterThread():
     while(True):
         if(len(blockConsesusCandiateList)>0):
             runPBFT()
-        time.sleep(1)
+        time.sleep(0.001)
 
 
 def saveOrchestratorURI(uri):
