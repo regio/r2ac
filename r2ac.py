@@ -303,10 +303,10 @@ class R2ac(object):
         global gwPub
         t1 = time.time()
         blk = chainFunctions.findBlock(devPublicKey)
-
         if (blk != False and blk.index > 0):
             devAESKey = findAESKey(devPublicKey)
             if (devAESKey != False):
+                logger.debug("Transaction is going to be appended to block#("+str(blk.index)+")")
                 # plainObject contains [Signature + Time + Data]
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
@@ -341,7 +341,9 @@ class R2ac(object):
                     #print("all done")
                     return "ok!"
                 else:
+                    logger.debug("--Transaction not appended--Transaction Invalid Signature")
                     return "Invalid Signature"
+            logger.debug("--Transaction not appended--Key not found")
             return "key not found"
 
     #update local bockchain adding a new transaction
@@ -516,6 +518,13 @@ class R2ac(object):
     def getGwPubkey(self):
         global gwPub
         return gwPub
+
+    def isBlockInTheChain(self, devPubKey):
+        blk = chainFunctions.findBlock(devPubKey)
+        if(blk == False):
+            return False
+        else:
+            return True
 
 
 def addNewBlockToSyncList(devPubKey):

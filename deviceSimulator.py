@@ -159,6 +159,8 @@ def automa(blocks, trans):
         #brutePairAuth(blk)
         for tr in range(0, trans):
             #sendData()
+            while not (server.isBlockInTheChain(str(publicKey)))
+                time.sleep(1)
             bruteSend(tr)
 
 
