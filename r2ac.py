@@ -520,7 +520,9 @@ class R2ac(object):
         return gwPub
 
     def isBlockInTheChain(self, devPubKey):
+        logger.debug("---------------running isBlockInTheChain1----------")
         blk = chainFunctions.findBlock(devPubKey)
+        logger.debug("---------------running isBlockInTheChain2----------")
         if(blk == False):
             logger.debug("Block is false="+str(devPubKey))
             logger.debug("Block is false="+str(blk.publicKey))
