@@ -522,8 +522,12 @@ class R2ac(object):
     def isBlockInTheChain(self, devPubKey):
         blk = chainFunctions.findBlock(devPubKey)
         if(blk == False):
+            logger.debug("Block is false="+str(devPubKey))
+            logger.debug("Block is false="+str(blk.publicKey))
             return False
         else:
+            logger.debug("Block is True="+str(devPubKey))
+            logger.debug("Block is True="+str(blk.publicKey))
             return True
 
 
