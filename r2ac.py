@@ -89,13 +89,13 @@ def addBack(peer, isFirst):
     #else:
     #    print ("done adding....")
 
-def sendTransactionToPeers(devPublicKey, blockLedger):
+def sendTransactionToPeers(devPublicKey, transaction):
     global peers
     for peer in peers:
         obj = peer.object
         #logger.debug("sending to: " + peer.peerURI)
-        dat = pickle.dumps(blockLedger)
-        obj.updateBlockLedger(devPublicKey, dat)
+        trans = pickle.dumps(transaction)
+        obj.updateBlockLedger(devPublicKey, trans)
 
 # class sendBlks(threading.Thread):
 #     def __init__(self, threadID, iotBlock):
@@ -347,17 +347,17 @@ class R2ac(object):
             return "key not found"
 
     #update local bockchain adding a new transaction
-    def updateBlockLedger(self, pubKey, block):
-        b = pickle.loads(block)
+    def updateBlockLedger(self, pubKey, transaction):
+        trans = pickle.loads(transaction)
         t1 = time.time()
-        logger.info("Received Transaction #:" + (str(b.index)))
+        logger.info("Received Transaction #:" + (str(trans.index)))
         blk = chainFunctions.findBlock(pubKey)
         if blk != False:
-            logger.info("Transaction size in the block:"+str(len(b.transactions)))            
-            if not (chainFunctions.blockContainsBlockTransaction(blk, b)):
+            logger.info("Transaction size in the block:"+str(len(blk.transactions)))            
+            if not (chainFunctions.blockContainsBlockTransaction(blk, trans)):
                 if validatorClient:
-                    isTransactionValid(b, pubKey)
-                chainFunctions.addBlockTransaction(blk, b)
+                    isTransactionValid(trans, pubKey)
+                chainFunctions.addBlockTransaction(blk, trans)
         t2 = time.time()
         logger.info("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "done"
