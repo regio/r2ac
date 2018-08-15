@@ -525,7 +525,6 @@ class R2ac(object):
         logger.debug("---------------running isBlockInTheChain2----------")
         if(blk == False):
             logger.debug("Block is false="+str(devPubKey))
-            logger.debug("Block is false="+str(blk.publicKey))
             return False
         else:
             logger.debug("Block is True="+str(devPubKey))
