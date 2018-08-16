@@ -847,7 +847,7 @@ def runMasterThread():
     while(True):
         if(len(blockConsesusCandiateList)>0):
             runPBFT()
-        time.sleep(0.001)
+        #time.sleep(0.001)
 
 
 def saveOrchestratorURI(uri):
