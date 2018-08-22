@@ -39,7 +39,8 @@ blockConsesusCandiateList = []
 # logger = logging.getLogger(__name__)
 #https://docs.python.org/3/library/logging.html#logrecord-attributes
 FORMAT = "[%(levelname)s-%(lineno)s-%(funcName)17s()] %(message)s"
-logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
+#logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
+logger.basicConfig(filename=getMyIP(),level=logging.INFO, format=FORMAT)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
@@ -402,10 +403,14 @@ class R2ac(object):
                 aesKey = generateAESKey(blk.publicKey)
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            #bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            logger.debug("starting block consensus")
-            pickedKey = pickle.dumps(devPubKey)
-            orchestratorObject.addBlockConsensusCandiate(pickedKey)
+            #####No Consensus
+            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+            sendBlockToPeers(bl)
+            
+            ####Consensus uncoment the 3 lines
+            # logger.debug("starting block consensus")
+            # pickedKey = pickle.dumps(devPubKey)
+            # orchestratorObject.addBlockConsensusCandiate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -735,7 +740,8 @@ def calcBlockPBFT(newBlock,alivePeers):
     peerCount = int(len(alivePeers))
     logger.debug("local dictionary value:"+str(locDicCount))
     logger.debug("alivePeers: "+str(peerCount))
-    cont = int(float(0.667)*float(peerCount))
+    #cont = int(float(0.667)*float(peerCount))
+    cont = int(float(0.1)*float(peerCount))
     #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
     if (blHash in newBlockCandidate) and (locDicCount >= cont):
         logger.debug("Consensus achieved!")
@@ -876,13 +882,14 @@ def main():
     saveURItoFile(myURI)
     print("uri=" + myURI)
     connectToPeers(ns)
-    if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
-        logger.debug("Starging the Gateway Orchestrator")
-        saveOrchestratorURI(myURI)
-        logger.debug("Creatin thread....")
-        threading.Thread(target=runMasterThread).start()
-    else:
-        loadOrchestrator()   
+    ####Consensus
+    # if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
+    #     logger.debug("Starging the Gateway Orchestrator")
+    #     saveOrchestratorURI(myURI)
+    #     logger.debug("Creatin thread....")
+    #     threading.Thread(target=runMasterThread).start()
+    # else:
+    #     loadOrchestrator()   
     daemon.requestLoop()
 
 if __name__ == '__main__':
