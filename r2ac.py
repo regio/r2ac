@@ -566,12 +566,15 @@ newBlockCandidate = {} ## the idea newBlockCandidate[newBlockHash][gwPubKey] = s
 newTransactionCandidate = {} #same as block, for transaction
 
 def runPBFT():
+    t1 = time.time()
     global gwPvt
     devPubKey = getBlockFromSyncList()
     #TODO: randomize selection of gw to orchestrate the block creation
     blk = chainFunctions.createNewBlock(devPubKey, gwPvt)
     logger.debug("Running PBFT function to block("+str(blk.index)+")")
     PBFTConsensus(blk, gwPub, devPubKey)
+    t2 = time.time()
+    logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
 def preparePBFTConsensus(): #verify all alive peers that will particpate in consensus
     alivePeers = []
