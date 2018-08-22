@@ -404,13 +404,13 @@ class R2ac(object):
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             #####No Consensus
-            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            sendBlockToPeers(bl)
+            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+            # sendBlockToPeers(bl)
             
             ####Consensus uncoment the 3 lines
-            # logger.debug("starting block consensus")
-            # pickedKey = pickle.dumps(devPubKey)
-            # orchestratorObject.addBlockConsensusCandiate(pickedKey)
+            logger.debug("starting block consensus")
+            pickedKey = pickle.dumps(devPubKey)
+            orchestratorObject.addBlockConsensusCandiate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -883,13 +883,13 @@ def main():
     print("uri=" + myURI)
     connectToPeers(ns)
     ####Consensus
-    # if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
-    #     logger.debug("Starging the Gateway Orchestrator")
-    #     saveOrchestratorURI(myURI)
-    #     logger.debug("Creatin thread....")
-    #     threading.Thread(target=runMasterThread).start()
-    # else:
-    #     loadOrchestrator()   
+    if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
+        logger.debug("Starging the Gateway Orchestrator")
+        saveOrchestratorURI(myURI)
+        logger.debug("Creatin thread....")
+        threading.Thread(target=runMasterThread).start()
+    else:
+        loadOrchestrator()   
     daemon.requestLoop()
 
 if __name__ == '__main__':
