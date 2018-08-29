@@ -447,7 +447,7 @@ class R2ac(object):
         logger.debug("Received Transaction #:" + (str(b.index)))
         blk = chainFunctions.findBlock(pubKey)
         if blk != False:
-            if not (chainFunctions.blockContainsBlockTransaction(blk, b)):
+            if not (chainFunctions.blockContainsTransaction(blk, b)):
                 if validatorClient:
                     isTransactionValid(b, pubKey)
                 chainFunctions.addBlockTransaction(blk, b)

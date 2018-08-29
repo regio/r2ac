@@ -55,8 +55,8 @@ gwPvt = ""
 gwPub = ""
 
 
-# generate the RSA key pair for the gateway
 def bootstrapChain2():
+    """ generate the RSA key pair for the gateway and create the blockchain"""
     global gwPub
     global gwPvt
     chainFunctions.startBlockChain()
@@ -129,8 +129,12 @@ def syncChain(newPeer):
     return True
 
 
-#this method recieves a nameServer parameter, list all remote objects connected to it, and add these remote objetcts as peers to the current node
+
 def connectToPeers(nameServer):
+    """this method recieves a nameServer parameter, list all remote objects connected to it, and 
+    add these remote objetcts as peers to the current node \n
+    @param nameServer - list all remote objects connected to it
+    """
     #print ("found # results:"+str(len(nameServer.list())))
     for peerURI in nameServer.list():
         if(peerURI.startswith("PYRO:") and peerURI != myURI):
@@ -355,7 +359,7 @@ class R2ac(object):
         blk = chainFunctions.findBlock(pubKey)
         if blk != False:
             logger.info("Transaction size in the block:"+str(len(blk.transactions)))            
-            if not (chainFunctions.blockContainsBlockTransaction(blk, trans)):
+            if not (chainFunctions.blockContainsTransaction(blk, trans)):
                 if validatorClient:
                     isTransactionValid(trans, pubKey)
                 chainFunctions.addBlockTransaction(blk, trans)
@@ -872,7 +876,10 @@ def saveURItoFile(uri):
     text_file.close()
 
 def main():
+    """ Main function initiate the system"""
     global myURI
+
+    #create the blockchain
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
     names = sys.argv[1]        
@@ -891,8 +898,8 @@ def main():
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         threading.Thread(target=runMasterThread).start()
-    else:
-        loadOrchestrator()   
+    #else:
+        #loadOrchestrator()   
     daemon.requestLoop()
 
 if __name__ == '__main__':
