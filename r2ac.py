@@ -25,6 +25,9 @@ import criptoFunctions
 
 
 def getMyIP():
+    """ Return the IP from the gateway
+    @return str 
+    """
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
     myIP = s.getsockname()[0]
@@ -56,7 +59,7 @@ gwPub = ""
 
 
 def bootstrapChain2():
-    """ generate the RSA key pair for the gateway and create the blockchain"""
+    """ generate the RSA key pair for the gateway and create the chain"""
     global gwPub
     global gwPvt
     chainFunctions.startBlockChain()
@@ -69,6 +72,11 @@ def bootstrapChain2():
 #############################################################################
 
 def findPeer(peerURI):
+    """ Receive the peer URI generated automatically by pyro4 and verify if it on the network\n
+        @param peerURI URI from the peer wanted\n
+        @return True - peer found\n
+        @return False - peer not found
+    """
     global peers
     for p in peers:
         if p.peerURI == peerURI:
@@ -76,6 +84,11 @@ def findPeer(peerURI):
     return False
 
 def getPeer(peerURI):
+    """ Receive the peer URI generated automatically by pyro4 and return the peer object\n 
+        @param peerURI URI from the peer wanted\n
+        @return p - peer object \n
+        @return False - peer not found
+    """
     global peers
     for p in peers:
         if p.peerURI == peerURI:
@@ -83,6 +96,11 @@ def getPeer(peerURI):
     return False
 
 def addBack(peer, isFirst):
+    """ Receive a peer object add it to a list of peers.\n
+        the var isFirst is used to ensure that the peer will only be added once.\n
+        @param peer - peer object\n
+        @param isFirst - Boolean condition to add only one time a peer
+    """
     global myURI
     if(isFirst):
         obj = peer.object
@@ -91,6 +109,10 @@ def addBack(peer, isFirst):
     #    print ("done adding....")
 
 def sendTransactionToPeers(devPublicKey, transaction):
+    """ Send a transaction received to all peers connected.\n
+        @param devPublickey - public key from the sending device\n
+        @param transaction - info to be add to a block
+    """
     global peers
     for peer in peers:
         obj = peer.object
@@ -116,15 +138,25 @@ def sendTransactionToPeers(devPublicKey, transaction):
 #             obj.updateIOTBlockLedger(dat)
 
 def sendBlockToPeers(IoTBlock):
-        global peers
-        logger.debug("Running through peers")
-        for peer in peers:
-            obj = peer.object
-            logger.debug("sending IoT Block to: " + str(peer.peerURI))
-            dat = pickle.dumps(IoTBlock)
-            obj.updateIOTBlockLedger(dat,myName)
+    """  
+    Receive a block and send it to all peers connected.\n
+    @param IoTBlock - BlockHeader object
+    """
+    global peers
+    logger.debug("Running through peers")
+    for peer in peers:
+        obj = peer.object
+        logger.debug("sending IoT Block to: " + str(peer.peerURI))
+        dat = pickle.dumps(IoTBlock)
+        obj.updateIOTBlockLedger(dat,myName)
 
 def syncChain(newPeer):
+    """
+    Send the actual chain to a new peer\n
+    @param newPeer - peer object
+
+    TODO atualizar este pydoc apos escrever o metodo
+    """
     #write the code to identify only a change in the iot block and insert.
     return True
 
@@ -146,18 +178,23 @@ def connectToPeers(nameServer):
     print ("finished connecting to all peers")
 
 def addPeer2(peerURI):
-            global peers
-            if not (findPeer(peerURI)):
-                #print ("peer not found. Create new node and add to list")
-                #print ("[addPeer2]adding new peer:" + peerURI)
-                newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
-                peers.append(newPeer)
-                #print("Runnin addback...")
-                addBack(newPeer, True)
-                #syncChain(newPeer)
-                #print ("finished addback...")
-                return True
-            return False
+    """ Receive a peerURI and add the peer to the network if it is not already in\n
+        @param peerURI - peer id on the network\n
+        @return True - peer added to the network\n
+        @return False - peer already in the network
+    """
+    global peers
+    if not (findPeer(peerURI)):
+        #print ("peer not found. Create new node and add to list")
+        #print ("[addPeer2]adding new peer:" + peerURI)
+        newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
+        peers.append(newPeer)
+        #print("Runnin addback...")
+        addBack(newPeer, True)
+        #syncChain(newPeer)
+        #print ("finished addback...")
+        return True
+    return False
 
 #############################################################################
 #############################################################################
@@ -166,6 +203,10 @@ def addPeer2(peerURI):
 #############################################################################
 
 def generateAESKey(devPubKey):
+    """ Receive a public key and generate a private key to it with AES 256\n
+        @param devPubKey - device public key\n
+        @return randomAESKey - private key linked to the device public key
+    """
     global genKeysPars
     randomAESKey = os.urandom(32)  # AES key: 256 bits
     obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey, randomAESKey)
@@ -174,6 +215,11 @@ def generateAESKey(devPubKey):
 
 
 def findAESKey(devPubKey):
+    """ Receive the public key from a device and found the private key linked to it\n
+        @param devPubKey - device public key\n
+        @return AESkey - found the key\n
+        @return False - public key not found
+    """
     global genKeysPars
     for b in genKeysPars:
         if (b.publicKey == devPubKey):
@@ -192,6 +238,7 @@ trustedPeers = []
 
 
 def addTrustedPeers():
+    """ Run on the peers list and add all to a list called trustedPeers """
     global peers
     for p in peers:
         trustedPeers.append(p.peerURI)
@@ -206,21 +253,40 @@ def addTrustedPeers():
  ###########################END NEW CONSENSUS @Roben
  ##########################
 
-def peerIsTrusted(i):
+def peerIsTrusted(peerObj):
+    """ Run on the trustedPeers list looking for a specific peer\n
+        @param peerObj - peer object to search on the list\n
+        @return True - peer founded on the list\n
+        @return False - peer not found on the list
+    """
     global trustedPeers
     for p in trustedPeers:
-        if p == i: return True
+        if p == peerObj: return True
     return False
 
-def peerIsActive(i):
-    return True # TO DO
+def peerIsActive(peerObj):
+    """ Receive a peer and return if it is active on the network\n
+        @param peerObj - peer wanted\n
+        @return True - The peer is active\n
+        @return False - The peer is not active
+    """
+    return True # TODO
 
 def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
+    """ Send a newBlock to be validated by the the peers\n
+        @param newBlock - BlockHeader object\n
+        @param getwayPublicKey - Public key from the sending peer\n
+        @param devicePublicKey - Public key from the sending device\n
+    """
     obj = peer.object
     data = pickle.dumps(newBlock)
     obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
 
 def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consensus):
+    """ Receive a block to be validated\n
+    @param self
+    
+    """
     newBlock = pickle.loads(data)
     answer[newBlock].append(consensus)
 
