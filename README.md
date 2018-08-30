@@ -14,7 +14,7 @@ to install use: sudo ./installDependencies.sh
 to run it look at howto.txt
 
 
-The key folder is just a bunch of random public and private keys created for tests purpose.
+The key folder is just a bunch of random public and private keys created for tests purpose..
 
 
 
