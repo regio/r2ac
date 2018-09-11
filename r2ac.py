@@ -854,9 +854,9 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
 
 def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     """ Checks whether the new block has the following characteristics: \n
-        ° The hash of the previous block are correct in the new block data\n
-        ° The new block index is equals to the previous block index plus one\n
-        ° The generation time of the last block is smaller than the new one \n
+        * The hash of the previous block are correct in the new block data\n
+        * The new block index is equals to the previous block index plus one\n
+        * The generation time of the last block is smaller than the new one \n
         If the new block have it all, sign it with the peer private key\n
         @return False - The block does not have one or more of the previous characteristics\n
         @return voteSignature - The block has been verified and approved
@@ -908,7 +908,7 @@ def verifyBlockCandidate(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
 def addVoteBlockPBFT(newBlock,voterPub,voterSign):
     """ add the signature of a peer into the newBlockCandidate,
         using a list to all gw for a single hash, if the block is valid put the signature \n
-        @return True - ¿ why not ? :P   ... TODO why return
+        @return True -  why not ? :P   ... TODO why return
     """
     global newBlockCandidate
     blkHash = criptoFunctions.calculateHashForBlock(newBlock)
@@ -999,11 +999,11 @@ def commitTransactionPBFT(block, newTransaction, generatorGwPub, generatorDevice
 
 def verifyTransactionCandidate(block,newTransaction, generatorGwPub,generatorDevicePub,alivePeers):
     """ Checks whether the new transaction has the following characteristics:\n
-        ° The block is on the chain\n
-        ° The last transaction hash on the chain and the new transaction are the same\n
-        ° The index of the new transaction are the index of the last transaction plus one\n
-        ° The generation time of the last transaction is smaller than the new one \n 
-        ° The data is sign by the TODO (generator device or gateway)
+        * The block is on the chain\n
+        * The last transaction hash on the chain and the new transaction are the same\n
+        * The index of the new transaction are the index of the last transaction plus one\n
+        * The generation time of the last transaction is smaller than the new one \n 
+        * The data is sign by the TODO (generator device or gateway)
         @param block - BlockHeader object where the transaction will be add\n
         @param newTransaction - the transaction who will be add\n
         @param generatorGwPub - Sender peer public key\n
