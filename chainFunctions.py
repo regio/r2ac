@@ -21,7 +21,7 @@ def createNewBlock(devPubKey, gwPvt):
     """
     newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
     ##@Regio addBlockHeader is done during consensus! please take it off for running pbft
-    #addBlockHeader(newBlock)
+    addBlockHeader(newBlock)
     return newBlock
 
 
@@ -129,6 +129,7 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     @param gwPvtKey - private key of the gateway\n
     @return BlockHeader - the new block
     """
+    print("Generating Block ")
     nextIndex = previousBlock.index + 1    
     nextTimestamp = time.time()
     #nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);

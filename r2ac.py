@@ -81,7 +81,7 @@ serverAESKey = "TheCoolestKeyaaa"
 
 @app.route('/vote', methods=['POST'])
 def addVote():
-  #creates transaction data based on post body
+  #creates transaction data of vote based on post body and converts it to string
   transactionData = json.dumps(transactionDataFromRequestValues(request.values))
 
   #declares temporary user public and private keys
@@ -89,8 +89,6 @@ def addVote():
   global publicKey
   pubKey = publicKey
   priKey = privateKey
-
-  print(r2acSharedInstance.isBlockInTheChain(pubKey))
 
   #if there is no block for given publick key, create a new one
   if (not r2acSharedInstance.isBlockInTheChain(pubKey)):
@@ -103,10 +101,10 @@ def addVote():
   signedData = criptoFunctions.signInfo(priKey, transactionData)
   toSend = signedData + timeStr + transactionData
   encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
+  logger.info("Begin adding transaction")
   r2acSharedInstance.addTransaction(pubKey, encobj)
-  logger.info("Finished adding transaction")
 
-  return jsonify(transactionData)
+  return jsonify(json.loads(transactionData))
 
 @app.route("/votesBy/<userId>")
 def getAllVotesBy(userId):
@@ -117,25 +115,30 @@ def getAllVotesBy(userId):
   #get all transactions
   transactions = block.transactions
   #decripty transactions and retrieve data 
-  blocksJSONED = map(lambda transaction: getJson(transaction.data.data), transactions)
-  #return
+  blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
+  
   return jsonify(blocksJSONED)
 
 @app.route("/votesTo/<newsURL>")
 def getAllVotesTo(newsURL):
   #get all blocks
   chain = chainFunctions.getFullChain()
-  #get all transactions
-  transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
-  #decripty transactions
-  allBlocks = map(lambda transaction: getJson(transaction.data.data), transactions)
-  #filter by newsURL
-  filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
-  #return
-  return jsonify(filteredBlocks)
 
-def getJson(data):
-  return {"vote": data.vote, "userId": data.userId, "newsURL": data.newsURL}
+  if(chain):
+    logger.info("---- chain")
+    logger.info(chain)
+
+    #get all transactions
+    transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
+    logger.info("---- transactions")
+    logger.info(chain)
+
+    #decripty transactions
+    allBlocks = map(lambda transaction: json.loads(transaction.data.data), transactions)
+    #filter by newsURL
+    filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
+    #return
+    return jsonify(filteredBlocks)
 
 def transactionDataFromRequestValues(values):
   return {"vote": values['vote'], "userId": values['userId'], "newsURL": values['newsURL']}
@@ -465,14 +468,17 @@ class R2ac(object):
             @return "Key not found" - the device's key are not found
         """
         logger.debug("transaction received")
+        logger.info("transaction received")
         global gwPvt
         global gwPub
         t1 = time.time()
         blk = chainFunctions.findBlock(devPublicKey)
         if (blk != False and blk.index > 0):
+            logger.info("block exists")
             devAESKey = findAESKey(devPublicKey)
             if (devAESKey != False):
                 logger.debug("Transaction is going to be appended to block#("+str(blk.index)+")")
+                logger.info("Transaction is going to be appended to block#("+str(blk.index)+")")
                 # plainObject contains [Signature + Time + Data]
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
@@ -508,8 +514,10 @@ class R2ac(object):
                     return "ok!"
                 else:
                     logger.debug("--Transaction not appended--Transaction Invalid Signature")
+                    logger.info("--Transaction not appended--Transaction Invalid Signature")
                     return "Invalid Signature"
             logger.debug("--Transaction not appended--Key not found")
+            logger.info("--Transaction not appended--Key not found")
             return "key not found"
 
     #update local bockchain adding a new transaction
@@ -583,13 +591,13 @@ class R2ac(object):
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             #####No Consensus
-            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            # sendBlockToPeers(bl)
+            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+            sendBlockToPeers(bl)
             
             ####Consensus uncoment the 3 lines
-            logger.debug("starting block consensus")
-            pickedKey = pickle.dumps(devPubKey)
-            orchestratorObject.addBlockConsensusCandidate(pickedKey)
+            # logger.debug("starting block consensus")
+            # pickedKey = pickle.dumps(devPubKey)
+            # orchestratorObject.addBlockConsensusCandidate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -603,7 +611,7 @@ class R2ac(object):
             #     traceback.print_exception(exc_type, exc_value, exc_traceback,
             #                           limit=6, file=sys.stdout)
             
-            logger.debug("end block consensus")
+            # logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
             #     t1 = sendBlks(1, bl)
