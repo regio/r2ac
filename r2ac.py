@@ -79,63 +79,66 @@ serverAESKey = ""
 blocks = []
 
 class FakeBlock:
-   def __init__(self, vote, userId, newsURL):
-       self.vote = vote
-       self.userId = userId
-       self.newsURL = newsURL
-       self.date = datetime.datetime.now()
+  def __init__(self, vote, userId, newsURL):
+    self.vote = vote
+    self.userId = userId
+    self.newsURL = newsURL
+    self.date = datetime.datetime.now()
 
 @app.route('/vote', methods=['POST'])
 def addVote():
-   print('----------------------')
-   print('received vote')
-   print(request.values)
-   newBlock = FakeBlock(request.values['vote'], request.values['userId'], request.values['newsURL'])
+  #creates transaction data based on post body
+  transactionData = transactionDataFromRequestValues(request.values)
 
-   print("opa: ", r2acSharedInstance)
+  #declares temporary user public and private keys
+  pubKey = publicKey
+  priKey = privateKey
 
-   if (not r2acSharedInstance.isBlockInTheChain(publicKey)):
-    r2acSharedInstance.addBlock(publicKey)
+   #if there is no block for given publick key, create a new one
+  if (not r2acSharedInstance.isBlockInTheChain(pubKey)):
+    r2acSharedInstance.addBlock(pubKey)
 
-   t = ((time.time() * 1000) * 1000)
-   timeStr = "{:.0f}".format(t)
-   data = timeStr + newBlock
-   # print("data:"+data)
-   signedData = criptoFunctions.signInfo(privateKey, data)
-   toSend = signedData + timeStr + newBlock
-   encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
-   r2acSharedInstance.addTransaction(publicKey, encobj)
+  t = ((time.time() * 1000) * 1000)
+  timeStr = "{:.0f}".format(t)
+  data = timeStr + transactionData
+  signedData = criptoFunctions.signInfo(priKey, transactionData)
+  toSend = signedData + timeStr + transactionData
+  encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
+  r2acSharedInstance.addTransaction(pubKey, encobj)
 
-   # blocks.append(newBlock)
-   return jsonify(json(newBlock))
+  return jsonify(json(transactionData))
 
 @app.route("/votesBy/<userId>")
 def getAllVotesBy(userId):
-   #get block by user public ket
-   #get all transactions
-   #decripty transactions and retrieve data
-   #convert to json
-   #return
-
-   filteredBlocks = filter(lambda block: block.userId == userId, blocks)
-   blocksJSONED = map(lambda block: json(block), filteredBlocks)
-   return jsonify(blocksJSONED)
+  #declares temporary user public key
+  pKey = publicKey
+  #get block by user public key
+  block = chainFunctions.findBlock(pKey)
+  #get all transactions
+  transactions = block.transactions
+  #decripty transactions and retrieve data 
+  blocksJSONED = map(lambda transaction: json(transaction.data.data), transactions)
+  #return
+  return jsonify(blocksJSONED)
 
 @app.route("/votesTo/<newsURL>")
 def getAllVotesTo(newsURL):
-   #get all blocks
-   #get all transactions
-   #decripty transactions
-   #filter by newsURL
-   #convert to json
-   #return
+  #get all blocks
+  chain = chainFunctions.getFullChain()
+  #get all transactions
+  transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
+  #decripty transactions
+  allBlocks = map(lambda transaction: json(transaction.data.data), transactions)
+  #filter by newsURL
+  filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
+  #return
+  return jsonify(filteredBlocks)
 
-   filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
-   blocksJSONED = map(lambda block: json(block), filteredBlocks)
-   return jsonify(blocksJSONED)
+def json(data):
+  return {"vote": data.vote, "userId": data.userId, "newsURL": data.newsURL, "date": data.date}
 
-def json(block):
-    return {"vote": block.vote, "userId": block.userId, "newsURL": block.newsURL, "date": block.date}
+def transactionDataFromRequestValues(values):
+  return {"vote": values['vote'], "userId": values['userId'], "newsURL": values['newsURL'], "date": datetime.datetime.now()}
 
 #############################################################################
 #############################################################################
