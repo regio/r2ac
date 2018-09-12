@@ -10,10 +10,11 @@ import threading
 import merkle
 import traceback
 import thread
+import json
 
 from os import listdir
 from os.path import isfile, join
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from Crypto.PublicKey import RSA
 
 import Transaction
@@ -22,6 +23,7 @@ import PeerInfo
 import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
+import datetime
 
 
 def getMyIP():
@@ -57,6 +59,7 @@ myURI = ""
 gwPvt = ""
 gwPub = ""
 
+r2acSharedInstance = ""
 
 def bootstrapChain2():
     """ generate the RSA key pair for the gateway and create the chain"""
@@ -73,30 +76,26 @@ def bootstrapChain2():
 
 privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
 publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
-serverAESEncKey = ""
-serverAESKey = ""
-
-blocks = []
-
-class FakeBlock:
-  def __init__(self, vote, userId, newsURL):
-    self.vote = vote
-    self.userId = userId
-    self.newsURL = newsURL
-    self.date = datetime.datetime.now()
+serverAESEncKey = "MyCoolKey"
+serverAESKey = "TheCoolestKeyaaa"
 
 @app.route('/vote', methods=['POST'])
 def addVote():
   #creates transaction data based on post body
-  transactionData = transactionDataFromRequestValues(request.values)
+  transactionData = json.dumps(transactionDataFromRequestValues(request.values))
 
   #declares temporary user public and private keys
+  global privateKey
+  global publicKey
   pubKey = publicKey
   priKey = privateKey
 
-   #if there is no block for given publick key, create a new one
+  print(r2acSharedInstance.isBlockInTheChain(pubKey))
+
+  #if there is no block for given publick key, create a new one
   if (not r2acSharedInstance.isBlockInTheChain(pubKey)):
     r2acSharedInstance.addBlock(pubKey)
+    logger.info("Finished adding block")
 
   t = ((time.time() * 1000) * 1000)
   timeStr = "{:.0f}".format(t)
@@ -105,8 +104,9 @@ def addVote():
   toSend = signedData + timeStr + transactionData
   encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
   r2acSharedInstance.addTransaction(pubKey, encobj)
+  logger.info("Finished adding transaction")
 
-  return jsonify(json(transactionData))
+  return jsonify(transactionData)
 
 @app.route("/votesBy/<userId>")
 def getAllVotesBy(userId):
@@ -117,7 +117,7 @@ def getAllVotesBy(userId):
   #get all transactions
   transactions = block.transactions
   #decripty transactions and retrieve data 
-  blocksJSONED = map(lambda transaction: json(transaction.data.data), transactions)
+  blocksJSONED = map(lambda transaction: getJson(transaction.data.data), transactions)
   #return
   return jsonify(blocksJSONED)
 
@@ -128,17 +128,17 @@ def getAllVotesTo(newsURL):
   #get all transactions
   transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
   #decripty transactions
-  allBlocks = map(lambda transaction: json(transaction.data.data), transactions)
+  allBlocks = map(lambda transaction: getJson(transaction.data.data), transactions)
   #filter by newsURL
   filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
   #return
   return jsonify(filteredBlocks)
 
-def json(data):
-  return {"vote": data.vote, "userId": data.userId, "newsURL": data.newsURL, "date": data.date}
+def getJson(data):
+  return {"vote": data.vote, "userId": data.userId, "newsURL": data.newsURL}
 
 def transactionDataFromRequestValues(values):
-  return {"vote": values['vote'], "userId": values['userId'], "newsURL": values['newsURL'], "date": datetime.datetime.now()}
+  return {"vote": values['vote'], "userId": values['userId'], "newsURL": values['newsURL']}
 
 #############################################################################
 #############################################################################
@@ -589,7 +589,7 @@ class R2ac(object):
             ####Consensus uncoment the 3 lines
             logger.debug("starting block consensus")
             pickedKey = pickle.dumps(devPubKey)
-            orchestratorObject.addBlockConsensusCandiate(pickedKey)
+            orchestratorObject.addBlockConsensusCandidate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -1200,17 +1200,25 @@ def main():
     ns.register(myURI, uri, True)
     saveURItoFile(myURI)
     print("uri=" + myURI)
+
+    global r2acSharedInstance
+    r2acSharedInstance = Pyro4.Proxy(str(uri))
+
     connectToPeers(ns)
-    #runs flask
-    app.run()
+
     ####Consensus
     if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
         logger.debug("Starging the Gateway Orchestrator")
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         threading.Thread(target=runMasterThread).start()
-    #else:
-        #loadOrchestrator()   
+    else:
+        global orchestratorObject
+        orchestratorObject = Pyro4.Proxy(str(uri))
+        #loadOrchestrator()
+
+    #runs flask
+    app.run(threaded=True)
     daemon.requestLoop()
 
 if __name__ == '__main__':

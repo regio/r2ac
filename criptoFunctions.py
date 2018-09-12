@@ -99,6 +99,8 @@ def signInfo(gwPvtKey, data):
         @param data - data to sign\n
         @return sinature - signature of the data maked with the private key
     """
+    print(data)
+    print(str(data))
     k = RSA.importKey(gwPvtKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
