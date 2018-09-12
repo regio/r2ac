@@ -67,6 +67,78 @@ def bootstrapChain2():
 
 #############################################################################
 #############################################################################
+#########################    REST FAKE API  #################################
+#############################################################################
+#############################################################################
+
+privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
+publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+serverAESEncKey = ""
+serverAESKey = ""
+
+blocks = []
+
+class FakeBlock:
+   def __init__(self, vote, userId, newsURL):
+       self.vote = vote
+       self.userId = userId
+       self.newsURL = newsURL
+       self.date = datetime.datetime.now()
+
+@app.route('/vote', methods=['POST'])
+def addVote():
+   print('----------------------')
+   print('received vote')
+   print(request.values)
+   newBlock = FakeBlock(request.values['vote'], request.values['userId'], request.values['newsURL'])
+
+   print("opa: ", r2acSharedInstance)
+
+   if (not r2acSharedInstance.isBlockInTheChain(publicKey)):
+    r2acSharedInstance.addBlock(publicKey)
+
+   t = ((time.time() * 1000) * 1000)
+   timeStr = "{:.0f}".format(t)
+   data = timeStr + newBlock
+   # print("data:"+data)
+   signedData = criptoFunctions.signInfo(privateKey, data)
+   toSend = signedData + timeStr + newBlock
+   encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
+   r2acSharedInstance.addTransaction(publicKey, encobj)
+
+   # blocks.append(newBlock)
+   return jsonify(json(newBlock))
+
+@app.route("/votesBy/<userId>")
+def getAllVotesBy(userId):
+   #get block by user public ket
+   #get all transactions
+   #decripty transactions and retrieve data
+   #convert to json
+   #return
+
+   filteredBlocks = filter(lambda block: block.userId == userId, blocks)
+   blocksJSONED = map(lambda block: json(block), filteredBlocks)
+   return jsonify(blocksJSONED)
+
+@app.route("/votesTo/<newsURL>")
+def getAllVotesTo(newsURL):
+   #get all blocks
+   #get all transactions
+   #decripty transactions
+   #filter by newsURL
+   #convert to json
+   #return
+
+   filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
+   blocksJSONED = map(lambda block: json(block), filteredBlocks)
+   return jsonify(blocksJSONED)
+
+def json(block):
+    return {"vote": block.vote, "userId": block.userId, "newsURL": block.newsURL, "date": block.date}
+
+#############################################################################
+#############################################################################
 #########################    PEER MANAGEMENT  ###############################
 #############################################################################
 #############################################################################
@@ -1126,6 +1198,8 @@ def main():
     saveURItoFile(myURI)
     print("uri=" + myURI)
     connectToPeers(ns)
+    #runs flask
+    app.run()
     ####Consensus
     if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
         logger.debug("Starging the Gateway Orchestrator")
