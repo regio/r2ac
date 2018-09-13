@@ -12,7 +12,7 @@ def startBlockChain():
     BlockHeaderChain.append(getGenesisBlock())
 
 
-def createNewBlock(devPubKey, gwPvt):
+def createNewBlock(devPubKey, gwPvt, useConsensus):
     """ Receive the device public key and the gateway private key then it generates a new block \n
     @param devPubKey - Public key of the requesting device \n
     @param gwPvt - Private key of the gateway \n
@@ -21,7 +21,10 @@ def createNewBlock(devPubKey, gwPvt):
     """
     newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
     ##@Regio addBlockHeader is done during consensus! please take it off for running pbft
-    addBlockHeader(newBlock)
+    
+    if(not useConsensus):
+        addBlockHeader(newBlock)
+
     return newBlock
 
 
@@ -129,7 +132,6 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     @param gwPvtKey - private key of the gateway\n
     @return BlockHeader - the new block
     """
-    print("Generating Block ")
     nextIndex = previousBlock.index + 1    
     nextTimestamp = time.time()
     #nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);

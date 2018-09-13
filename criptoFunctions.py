@@ -49,7 +49,8 @@ def encryptRSA2(key, text):
         @paran text - text that will be encrypted\n
         @return enc64 - text encrypted
     """
-    k = RSA.importKey(key)
+    theKey = base64.b64decode(key)
+    k = RSA.importKey(theKey)
     enc = k.encrypt(text, 42)[0]
     enc64 = base64.b64encode(enc)
     return enc64

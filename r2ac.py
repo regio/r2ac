@@ -16,6 +16,7 @@ from os import listdir
 from os.path import isfile, join
 from flask import Flask, request, jsonify
 from Crypto.PublicKey import RSA
+from base64 import b64decode,b64encode
 
 import Transaction
 import DeviceInfo
@@ -25,6 +26,7 @@ import chainFunctions
 import criptoFunctions
 import datetime
 
+useConsensus = False
 
 def getMyIP():
     """ Return the IP from the gateway
@@ -76,8 +78,16 @@ def bootstrapChain2():
 
 privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
 publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
+
 serverAESEncKey = "MyCoolKey"
 serverAESKey = "TheCoolestKeyaaa"
+
+@app.route('/createBlock', methods=['POST'])
+def addBlock():
+    pubKey = request.values['publicKey']
+    aesKey = r2acSharedInstance.addBlock(pubKey)
+    return jsonify(aesKey=aesKey, success=True)
+
 
 @app.route('/vote', methods=['POST'])
 def addVote():
@@ -590,14 +600,16 @@ class R2ac(object):
                 aesKey = generateAESKey(blk.publicKey)
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            #####No Consensus
-            bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            sendBlockToPeers(bl)
             
-            ####Consensus uncoment the 3 lines
-            # logger.debug("starting block consensus")
-            # pickedKey = pickle.dumps(devPubKey)
-            # orchestratorObject.addBlockConsensusCandidate(pickedKey)
+            if (useConsensus):
+                ###Consensus uncoment the 3 lines
+                logger.debug("starting block consensus")
+                pickedKey = pickle.dumps(devPubKey)
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
+            else:
+                #####No Consensus
+                bl = chainFunctions.createNewBlock(devPubKey, gwPvt, useConsensus)
+                sendBlockToPeers(bl)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -807,7 +819,7 @@ def runPBFT():
     global gwPvt
     devPubKey = getBlockFromSyncList()
     #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt)
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt, useConsensus)
     logger.debug("Running PBFT function to block("+str(blk.index)+")")
     PBFTConsensus(blk, gwPub, devPubKey)
     t2 = time.time()
@@ -883,7 +895,7 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         if(not pbftAchieved):
             oldId = newBlock.index
             logger.info("PBFT not achieve, Recreating block="+ str(chainFunctions.getBlockchainSize()))
-            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt)
+            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, useConsensus)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
         else:
@@ -1215,15 +1227,14 @@ def main():
     connectToPeers(ns)
 
     ####Consensus
-    if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
-        logger.debug("Starging the Gateway Orchestrator")
-        saveOrchestratorURI(myURI)
-        logger.debug("Creatin thread....")
-        threading.Thread(target=runMasterThread).start()
-    else:
-        global orchestratorObject
-        orchestratorObject = Pyro4.Proxy(str(uri))
-        #loadOrchestrator()
+    if (useConsensus):
+        if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
+            logger.debug("Starging the Gateway Orchestrator")
+            saveOrchestratorURI(myURI)
+            logger.debug("Creatin thread....")
+            threading.Thread(target=runMasterThread).start()
+        else:
+            loadOrchestrator()
 
     #runs flask
     app.run(threaded=True)
