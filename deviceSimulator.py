@@ -212,7 +212,7 @@ def loadConnection():
 #############################################################################
 #############################################################################
 def main():
-    """ Creates an interactive screen for the user with all option of a device""""
+    """ Creates an interactive screen for the user with all option of a device"""
     global server
     options = {
                1: setServer,
