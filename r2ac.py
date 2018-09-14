@@ -76,65 +76,50 @@ def bootstrapChain2():
 #############################################################################
 #############################################################################
 
-privateKey = "-----BEGIN PRIVATE KEY-----\nMIIBVAIBADANBgkqhkiG9w0BAQEFAASCAT4wggE6AgEAAkEA7P6DKm54NjLE7ajy\nTks298FEJeHJNxGT+7DjbTQgJdZKjQ6X9lYW8ittiMnvds6qDL95eYFgZCvO22YT\nd1vU1QIDAQABAkBEzTajEOMRSPfmzw9ZL3jLwG3aWYwi0pWVkirUPze+A8MTp1Gj\njaGgR3sPinZ3EqtiTA+PveMQqBsCv0rKA8NZAiEA/swxaCp2TnJ4zDHyUTipvJH2\nqe+KTPBHMvOAX5zLNNcCIQDuHM/gISL2hF2FZHBBMT0kGFOCcWBW1FMbsUqtWcpi\nMwIhAM5s0a5JkHV3qkQMRvvkgydBvevpJEu28ofl3OAZYEwbAiBJHKmrfSE6Jlx8\n5+Eb8119psaFiAB3yMwX9bEjVy2wRwIgd5X3n2wD8tQXcq1T6S9nr1U1dmTz7407\n1UbKzu4J8GQ=\n-----END PRIVATE KEY-----\n"
-publicKey = "-----BEGIN PUBLIC KEY-----\nMFwwDQYJKoZIhvcNAQEBBQADSwAwSAJBAOz+gypueDYyxO2o8k5LNvfBRCXhyTcR\nk/uw4200ICXWSo0Ol/ZWFvIrbYjJ73bOqgy/eXmBYGQrzttmE3db1NUCAwEAAQ==\n-----END PUBLIC KEY-----\n"
-
-serverAESEncKey = "MyCoolKey"
-serverAESKey = "TheCoolestKeyaaa"
+kUserPublicKey = 'userPublicKey'
+kEncryptedVote = 'encryptedVote'
+kVote = 'vote'
+kNewsURL = 'newsURL'
+kAESKey = 'aesKey'
+kDate = 'date'
 
 @app.route('/createBlock', methods=['POST'])
 def addBlock():
-    pubKey = request.values['publicKey']
+    pubKey = request.values['userPublicKey']
     aesKey = r2acSharedInstance.addBlock(pubKey)
     return jsonify(aesKey=aesKey, success=True)
 
-
 @app.route('/vote', methods=['POST'])
 def addVote():
-  #creates transaction data of vote based on post body and converts it to string
-  transactionData = json.dumps(transactionDataFromRequestValues(request.values))
+    logger.info("Received vote request for public key: ")
+    pubKey = request.values[kUserPublicKey]
+    logger.info(pubKey)
+    encryptedVote = request.values[kEncryptedVote]
+    
+    result = r2acSharedInstance.addVoteTransaction(pubKey, encobj)
 
-  #declares temporary user public and private keys
-  global privateKey
-  global publicKey
-  pubKey = publicKey
-  priKey = privateKey
+    if (result == 200):
+        return jsonify(result)
+    else:
+        return jsonify(result), 400
 
-  #if there is no block for given publick key, create a new one
-  if (not r2acSharedInstance.isBlockInTheChain(pubKey)):
-    r2acSharedInstance.addBlock(pubKey)
-    logger.info("Finished adding block")
+@app.route("/votesBy/<userPublicKey>")
+def getAllVotesBy(userPublicKey):
+    #get block by user public key
+    block = chainFunctions.findBlock(userPublicKey)
+    #get all transactions
+    transactions = block.transactions
+    #decripty transactions and retrieve data
+    blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
 
-  t = ((time.time() * 1000) * 1000)
-  timeStr = "{:.0f}".format(t)
-  data = timeStr + transactionData
-  signedData = criptoFunctions.signInfo(priKey, transactionData)
-  toSend = signedData + timeStr + transactionData
-  encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
-  logger.info("Begin adding transaction")
-  r2acSharedInstance.addTransaction(pubKey, encobj)
-
-  return jsonify(json.loads(transactionData))
-
-@app.route("/votesBy/<userId>")
-def getAllVotesBy(userId):
-  #declares temporary user public key
-  pKey = publicKey
-  #get block by user public key
-  block = chainFunctions.findBlock(pKey)
-  #get all transactions
-  transactions = block.transactions
-  #decripty transactions and retrieve data 
-  blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
-  
-  return jsonify(blocksJSONED)
+    return jsonify(blocksJSONED)
 
 @app.route("/votesTo/<newsURL>")
 def getAllVotesTo(newsURL):
-  #get all blocks
-  chain = chainFunctions.getFullChain()
+    #get all blocks
+    chain = chainFunctions.getFullChain()
 
-  if(chain):
+    if(chain):
     logger.info("---- chain")
     logger.info(chain)
 
@@ -149,9 +134,6 @@ def getAllVotesTo(newsURL):
     filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
     #return
     return jsonify(filteredBlocks)
-
-def transactionDataFromRequestValues(values):
-  return {"vote": values['vote'], "userId": values['userId'], "newsURL": values['newsURL']}
 
 #############################################################################
 #############################################################################
@@ -467,6 +449,66 @@ class R2ac(object):
         """ Init the R2AC chain on the peer"""
         print("R2AC initialized")
         logger.debug("R2AC initialized")
+
+    def addVoteTransaction(self, devPublicKey, encryptedObj):
+        """ Receive a new vote transaction to be add to the chain, add the transaction 
+            to a block and send it to all peers\n
+            @param devPublicKey - Public key from the sender device\n
+            @param encryptedObj - Info of the transaction encrypted with AES 256\n
+            @return 200 - Success\n
+            @return "Invalid Signature" - an invalid key are found\n
+            @return "Key not found" - the device's key are not found
+        """
+        logger.info("transaction received")
+        t2 = time.time()
+        global gwPvt
+        global gwPub
+        blk = chainFunctions.findBlock(devPublicKey)
+        if (blk != False and blk.index > 0):
+            logger.info("block exists")
+            devAESKey = findAESKey(devPublicKey)
+            if (devAESKey != False):
+                logger.info("Transaction will try to be appended to block#("+str(blk.index)+")")
+
+                plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+                signature = plainObject[:-20] # remove the last 20 chars 
+                deviceData = plainObject[20:] # retrieve the unsigned data
+                
+                isSigned = criptoFunctions.signVerify(deviceData, signature, base64.b64decode(devPublickey))
+
+                if isSigned:
+                    # deviceData is base64encoded
+                    base64DecodedVote = base64.b64decode(deviceData)
+                    voteData = pickle.loads(base64DecodedVote)
+
+                    deviceInfo = DeviceInfo.DeviceInfo(signature, voteData[kDate], voteData)
+                    nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
+                    signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+                    gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
+                    # code responsible to create the hash between Info nodes.
+                    prevInfoHash = criptoFunctions.calculateTransactionHash(chainFunctions.getLatestBlockTransaction(blk))
+
+                    transaction = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
+
+                    # send to consensus
+                    #if not consensus(newBlockLedger, gwPub, devPublicKey):
+                    #    return "Not Approved"
+                    # if not PBFTConsensus(blk, gwPub, devPublicKey):
+                    #     return "Consensus Not Reached"
+
+                    chainFunctions.addBlockTransaction(blk, transaction)
+                    logger.info("block added locally... now sending to peers..")
+                    t2 = time.time()
+                    logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
+                    return 200
+                else:
+                    logger.debug("--Transaction not appended--Transaction Invalid Signature")
+                    logger.info("--Transaction not appended--Transaction Invalid Signature")
+                    return "Invalid Signature"
+            logger.debug("--Transaction not appended--Key not found")
+            logger.info("--Transaction not appended--Key not found")
+            return "key not found"
 
     def addTransaction(self, devPublicKey, encryptedObj):
         """ Receive a new transaction to be add to the chain, add the transaction 
