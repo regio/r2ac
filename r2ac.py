@@ -474,27 +474,24 @@ class R2ac(object):
                 signature = plainObject[:-20] # remove the last 20 chars 
                 deviceData = plainObject[20:] # retrieve the unsigned data
                 
-                isSigned = criptoFunctions.signVerify(deviceData, signature, base64.b64decode(devPublickey))
+                # deviceData and devPublicKey are base64encoded
+                base64DecodedVote = base64.b64decode(deviceData)
+                base64DecodedPublicKey = base64.b64decode(devPublickey)
+
+                isSigned = criptoFunctions.signVerify(base64DecodedVote, signature, base64DecodedPublicKey)
 
                 if isSigned:
-                    # deviceData is base64encoded
-                    base64DecodedVote = base64.b64decode(deviceData)
+                    #get vote data as dictionary
                     voteData = pickle.loads(base64DecodedVote)
 
                     deviceInfo = DeviceInfo.DeviceInfo(signature, voteData[kDate], voteData)
                     nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
                     signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
                     gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
-                    # code responsible to create the hash between Info nodes.
+
                     prevInfoHash = criptoFunctions.calculateTransactionHash(chainFunctions.getLatestBlockTransaction(blk))
 
                     transaction = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
-
-                    # send to consensus
-                    #if not consensus(newBlockLedger, gwPub, devPublicKey):
-                    #    return "Not Approved"
-                    # if not PBFTConsensus(blk, gwPub, devPublicKey):
-                    #     return "Consensus Not Reached"
 
                     chainFunctions.addBlockTransaction(blk, transaction)
                     logger.info("block added locally... now sending to peers..")
