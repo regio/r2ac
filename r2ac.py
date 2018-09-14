@@ -14,7 +14,6 @@ import json
 
 from os import listdir
 from os.path import isfile, join
-from flask import Flask, request, jsonify
 from Crypto.PublicKey import RSA
 from base64 import b64decode,b64encode
 
@@ -54,14 +53,11 @@ validatorClient = True
 
 myName=socket.gethostname()
 
-app = Flask(__name__)
 peers = []
 genKeysPars = []
 myURI = ""
 gwPvt = ""
 gwPub = ""
-
-r2acSharedInstance = ""
 
 def bootstrapChain2():
     """ generate the RSA key pair for the gateway and create the chain"""
@@ -69,71 +65,6 @@ def bootstrapChain2():
     global gwPvt
     chainFunctions.startBlockChain()
     gwPub, gwPvt = criptoFunctions.generateRSAKeyPair()
-
-#############################################################################
-#############################################################################
-#########################    REST FAKE API  #################################
-#############################################################################
-#############################################################################
-
-kUserPublicKey = 'userPublicKey'
-kEncryptedVote = 'encryptedVote'
-kVote = 'vote'
-kNewsURL = 'newsURL'
-kAESKey = 'aesKey'
-kDate = 'date'
-
-@app.route('/createBlock', methods=['POST'])
-def addBlock():
-    pubKey = request.values['userPublicKey']
-    aesKey = r2acSharedInstance.addBlock(pubKey)
-    return jsonify(aesKey=aesKey, success=True)
-
-@app.route('/vote', methods=['POST'])
-def addVote():
-    logger.info("Received vote request for public key: ")
-    pubKey = request.values[kUserPublicKey]
-    logger.info(pubKey)
-    encryptedVote = request.values[kEncryptedVote]
-    
-    result = r2acSharedInstance.addVoteTransaction(pubKey, encobj)
-
-    if (result == 200):
-        return jsonify(result)
-    else:
-        return jsonify(result), 400
-
-@app.route("/votesBy/<userPublicKey>")
-def getAllVotesBy(userPublicKey):
-    #get block by user public key
-    block = chainFunctions.findBlock(userPublicKey)
-    #get all transactions
-    transactions = block.transactions
-    #decripty transactions and retrieve data
-    blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
-
-    return jsonify(blocksJSONED)
-
-@app.route("/votesTo/<newsURL>")
-def getAllVotesTo(newsURL):
-    #get all blocks
-    chain = chainFunctions.getFullChain()
-
-    if(chain):
-    logger.info("---- chain")
-    logger.info(chain)
-
-    #get all transactions
-    transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
-    logger.info("---- transactions")
-    logger.info(chain)
-
-    #decripty transactions
-    allBlocks = map(lambda transaction: json.loads(transaction.data.data), transactions)
-    #filter by newsURL
-    filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
-    #return
-    return jsonify(filteredBlocks)
 
 #############################################################################
 #############################################################################
@@ -1260,9 +1191,6 @@ def main():
     saveURItoFile(myURI)
     print("uri=" + myURI)
 
-    global r2acSharedInstance
-    r2acSharedInstance = Pyro4.Proxy(str(uri))
-
     connectToPeers(ns)
 
     ####Consensus
@@ -1275,8 +1203,6 @@ def main():
         else:
             loadOrchestrator()
 
-    #runs flask
-    app.run(threaded=True)
     daemon.requestLoop()
 
 if __name__ == '__main__':
