@@ -15,7 +15,7 @@ import json
 from os import listdir
 from os.path import isfile, join
 from Crypto.PublicKey import RSA
-from base64 import b64decode,b64encode
+import base64
 
 import Transaction
 import DeviceInfo
@@ -212,6 +212,8 @@ def generateAESKey(devPubKey):
     randomAESKey = os.urandom(32)  # AES key: 256 bits
     obj = DeviceKeyMapping.DeviceKeyMapping(devPubKey, randomAESKey)
     genKeysPars.append(obj)
+    logger.info("This is the aesKey--------")
+    logger.info(randomAESKey)
     return randomAESKey
 
 
@@ -391,31 +393,33 @@ class R2ac(object):
             @return "Key not found" - the device's key are not found
         """
         logger.info("transaction received")
-        t2 = time.time()
+        t1 = time.time()
         global gwPvt
         global gwPub
         blk = chainFunctions.findBlock(devPublicKey)
         if (blk != False and blk.index > 0):
             logger.info("block exists")
             devAESKey = findAESKey(devPublicKey)
+
             if (devAESKey != False):
                 logger.info("Transaction will try to be appended to block#("+str(blk.index)+")")
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-                signature = plainObject[:-20] # remove the last 20 chars 
-                deviceData = plainObject[20:] # retrieve the unsigned data
+                jsonObj = json.loads(plainObject)
+                signature = jsonObj['signature']
+                deviceData = jsonObj['vote']
                 
-                # deviceData and devPublicKey are base64encoded
-                base64DecodedVote = base64.b64decode(deviceData)
-                base64DecodedPublicKey = base64.b64decode(devPublickey)
+                # deviceData and signature are base64 encoded
+                decodedDeviceData = base64.b64decode(deviceData)
+                decodedSignature = base64.b64decode(signature)
 
-                isSigned = criptoFunctions.signVerify(base64DecodedVote, signature, base64DecodedPublicKey)
+                isSigned = criptoFunctions.signVerify(decodedDeviceData, signature, devPublicKey)
 
                 if isSigned:
                     #get vote data as dictionary
-                    voteData = pickle.loads(base64DecodedVote)
+                    voteData = json.loads(decodedDeviceData)
 
-                    deviceInfo = DeviceInfo.DeviceInfo(signature, voteData[kDate], voteData)
+                    deviceInfo = DeviceInfo.DeviceInfo(signature, voteData['date'], voteData)
                     nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
                     signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
                     gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))

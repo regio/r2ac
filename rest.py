@@ -4,6 +4,7 @@ import json
 from flask import Flask, request, jsonify
 import Transaction
 import chainFunctions
+import base64
 
 #############################################################################
 #############################################################################
@@ -24,22 +25,25 @@ kDate = 'date'
 
 @app.route('/createBlock', methods=['POST'])
 def addBlock():
-    logger.info("--------Got to create block request!!")
+    print("--------Got to create block request!!")
     pubKey = request.values['userPublicKey']
     aesKey = r2acSharedInstance.addBlock(pubKey)
+    print(aesKey)
     return jsonify(aesKey=aesKey, success=True)
 
 @app.route('/vote', methods=['POST'])
 def addVote():
-    logger.info("Received vote request for public key: ")
+    print("Received vote request for public key: ")
     pubKey = request.values[kUserPublicKey]
-    logger.info(pubKey)
+    print(pubKey)
     encryptedVote = request.values[kEncryptedVote]
+    print("encryptedVote")
+    print(encryptedVote)
     
-    result = r2acSharedInstance.addVoteTransaction(pubKey, encobj)
+    result = r2acSharedInstance.addVoteTransaction(pubKey, encryptedVote)
 
     if (result == 200):
-        return jsonify(result)
+        return jsonify(success=True), 200
     else:
         return jsonify(result), 400
 
@@ -75,7 +79,7 @@ def getAllVotesTo(newsURL):
     #return
     return jsonify(filteredBlocks)
 
-uri = "PYRO:obj_cab2f7ab38df4757ad35a671e3e51d4a@10.41.40.31:51578"
+uri = "PYRO:obj_aaeefbd79c1748d7bccfec3eab62d8b4@192.168.25.7:51381"
 r2acSharedInstance = Pyro4.Proxy(uri)
 
 #runs flask

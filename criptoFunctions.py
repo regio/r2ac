@@ -10,7 +10,6 @@ BS = 32
 pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 unpad = lambda s: s[0:-ord(s[-1])]
 
-
 def calculateHash(index, previousHash, timestamp, key):
     """ Calculate the hash of 4 infos concatenated index+previousHash+timestamp+key\n
         @param index - block index\n
@@ -100,8 +99,6 @@ def signInfo(gwPvtKey, data):
         @param data - data to sign\n
         @return sinature - signature of the data maked with the private key
     """
-    print(data)
-    print(str(data))
     k = RSA.importKey(gwPvtKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
@@ -118,13 +115,14 @@ def signVerify(data, signature, gwPubKey):
         @param signature - singature of the data to be validated\n
         @param gwPubKey - peer's private key
     """
-    k = RSA.importKey(gwPubKey)
+    pubKey = base64.b64decode(gwPubKey)
+    k = RSA.importKey(pubKey)
     signer = PKCS1_v1_5.new(k)
     digest = SHA256.new()
     digest.update(data.encode('utf-8')) #added encode to support python 3 , need to evluate if it is still working
     #digest.update(data)
     signaturerOr = base64.b64decode(signature)
-    result = signer.verify(digest, signaturerOr)
+    result = signer.verify(digest, str(signaturerOr))
     return result
 
 def generateRSAKeyPair():
