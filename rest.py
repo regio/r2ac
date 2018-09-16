@@ -2,6 +2,7 @@ import Pyro4
 import json
 from flask import Flask, request, jsonify
 import urllib
+import sys
 
 #############################################################################
 #############################################################################
@@ -11,9 +12,7 @@ import urllib
 
 app = Flask(__name__)
 
-# Blockchain object address
-uri = "PYRO:obj_c3e627722bec4cd29bb212e7786aa725@192.168.25.7:59794"
-r2acSharedInstance = Pyro4.Proxy(uri)
+r2acSharedInstance = ""
 
 # Route paths
 createBlockPath = '/createBlock'
@@ -149,5 +148,19 @@ def getAllVotesTo(newsURL):
 
     return jsonify(filteredVotes)
 
-#runs flask
-app.run()
+def main():
+    uri = ""
+    try:
+        uri = str(input('Enter the blockchain address: '))
+    except ValueError:
+        print ("Not acceptable")
+
+    print(uri)
+    global r2acSharedInstance
+    r2acSharedInstance = Pyro4.Proxy(uri)
+    #runs flask
+    app.run()
+
+
+if __name__ == '__main__':
+    main()
