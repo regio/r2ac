@@ -5,6 +5,9 @@ from flask import Flask, request, jsonify
 import Transaction
 import chainFunctions
 import base64
+import Transaction
+import DeviceInfo
+import BlockHeader
 
 #############################################################################
 #############################################################################
@@ -50,36 +53,24 @@ def addVote():
 @app.route("/votesBy/<userPublicKey>")
 def getAllVotesBy(userPublicKey):
     #get block by user public key
-    block = chainFunctions.findBlock(userPublicKey)
+    allVotes = r2acSharedInstance.findDataOf(userPublicKey)
     #get all transactions
-    transactions = block.transactions
-    #decripty transactions and retrieve data
-    blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
+    # transactions = block.transactions
+    # #decripty transactions and retrieve data
+    # blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
 
-    return jsonify(blocksJSONED)
+    return jsonify(allVotes)
 
 @app.route("/votesTo/<newsURL>")
 def getAllVotesTo(newsURL):
-    #get all blocks
-    chain = chainFunctions.getFullChain()
-
-    if(chain):
-        logger.info("---- chain")
-        logger.info(chain)
-
-    #get all transactions
-    transactions = reduce(lambda allTransactions, block: allTransactions.extend(block.transactions), chain)
-    logger.info("---- transactions")
-    logger.info(chain)
-
-    #decripty transactions
-    allBlocks = map(lambda transaction: json.loads(transaction.data.data), transactions)
-    #filter by newsURL
-    filteredBlocks = filter(lambda block: block.newsURL == newsURL, blocks)
+    print("Requested all votes to news")
+    #get all votes
+    allVotes = r2acSharedInstance.getAllTransactionsData()
+    filteredVotes = filter(lambda vote: vote.newsURL == newsURL, allVotes)
     #return
-    return jsonify(filteredBlocks)
+    return jsonify(filteredVotes)
 
-uri = "PYRO:obj_aaeefbd79c1748d7bccfec3eab62d8b4@192.168.25.7:51381"
+uri = "PYRO:obj_699bf42d89b44c60b8b4314d42147437@192.168.25.7:54158"
 r2acSharedInstance = Pyro4.Proxy(uri)
 
 #runs flask

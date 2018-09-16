@@ -383,6 +383,30 @@ class R2ac(object):
         print("R2AC initialized")
         logger.debug("R2AC initialized")
 
+    def getAllTransactionsData(self):
+        chain = chainFunctions.getFullChain()
+        print("chain------")
+        allData = []
+
+        for block in chain:
+            print("-------- Bock")
+            print(block)
+            for transaction in block.transactions:
+                print("------- Trasaction")
+                print(transaction)
+                if(not isinstance(transaction.data, basestring)):
+                    print("diz que tem----")
+                    print(transaction.data)
+                    allData.extend(transaction.data.data)
+        
+        print(allData)
+        return allData
+
+    def findDataOf(self, pubKey):
+        block = chainFunctions.findBlock(pubKey)
+        allVotes = map(lambda transaction: transaction.data.data, block.transaction)
+        return allVotes
+
     def addVoteTransaction(self, devPublicKey, encryptedObj):
         """ Receive a new vote transaction to be add to the chain, add the transaction 
             to a block and send it to all peers\n
