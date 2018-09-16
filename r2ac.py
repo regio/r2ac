@@ -577,7 +577,7 @@ class R2ac(object):
 
 
 
-    def addBlock(self, devPubKey):
+    def addBlock(self, devPubKey, **kwargs):
         """ Receive a device public key from a device and link it to A block on the chain\n
             @param devPubKey - request's device public key\n
             @return encKey - RSA encrypted key for the device be able to communicate with the peers
