@@ -11,15 +11,18 @@ def startBlockChain():
     """ Add the genesis block to the chain """
     BlockHeaderChain.append(getGenesisBlock())
 
-
-def createNewBlock(devPubKey, gwPvt, useConsensus):
+def createNewBlock(devPubKey, gwPvt, useConsensus, **kwargs):
     """ Receive the device public key and the gateway private key then it generates a new block \n
     @param devPubKey - Public key of the requesting device \n
     @param gwPvt - Private key of the gateway \n
 
     @return BlockHeader
     """
-    newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
+    blockType = kwargs.get('type', None)
+    if (blockType):
+        newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt, type=blockType)
+    else:
+        newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
     ##@Regio addBlockHeader is done during consensus! please take it off for running pbft
     
     if(not useConsensus):
@@ -100,6 +103,9 @@ def getFullChain():
     """
     return BlockHeaderChain
 
+def getAllBlockVotes():
+    return filter(lambda block: block.type == 1000, BlockHeaderChain)
+
 
 def getBlockByIndex(index):
     """ Return the block on a specific position of the chain\n
@@ -124,7 +130,7 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
     return blk
 
 
-def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
+def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, **kwargs):
     """ Receive the information of a new block and create it\n
     @param blockData - information of the new block\n
     @param pubKey - public key of the device how wants to generate the new block\n
@@ -139,4 +145,9 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey)
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = Transaction.Transaction(0, nextHash, nextTimestamp, blockData, sign)
-    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey);
+
+    blockType = kwargs.get('type', None)
+    if (blockType):
+        return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey, type=blockType)
+    else:
+        return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey)

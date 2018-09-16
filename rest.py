@@ -28,7 +28,6 @@ kDate = 'date'
 
 # Response keys
 kAESKey = 'aesKey'
-kSuccess = 'success'
 
 @app.route(createBlockPath, methods=['POST'])
 def addBlock():
@@ -49,14 +48,19 @@ def addBlock():
     arg: Dictionary
         {kAESKey}: str
             The 32 bytes AES server communication key encrypted using raw RSA with the given public key
-            
+    
+    500 Error - For Invalid key format
     """
     print("--------Received create block request!!")
 
     pubKey = request.values[kUserPublicKey]
-    aesKey = r2acSharedInstance.addBlock(pubKey)
+    aesKey = r2acSharedInstance.addBlockForVote(pubKey)
 
-    return jsonify({kAESKey: aesKey})
+    if (aesKey == 10):
+        print("Invalid public key format")
+        return "", "500 " + str(aesKey)
+    else:
+        return jsonify({kAESKey: aesKey})
 
 @app.route(votePath, methods=['POST'])
 def addVote():
@@ -81,9 +85,11 @@ def addVote():
 
     Returns
     -------
-    arg: Dictionary
-        {kSuccess}: Boolean
-            Indicates the success of the request
+    200 - Success
+    500 - Error with statusMessage indicating error
+        11 - No block found for given public key
+        12 - No communicatino key (AES) found for given public key
+        13 - Invalid signature
     """
     print("Received vote request")
 
@@ -93,9 +99,21 @@ def addVote():
     result = r2acSharedInstance.addVoteTransaction(pubKey, encryptedVote)
 
     if (result == 200):
-        return jsonify({kSuccess: True}), 200
-    else:
-        return jsonify({kSuccess: False}), 500
+        print("Successfully added")
+        return jsonify(), 200
+
+    if (result == 11):
+        print("No block found for given public key")
+        return "", "500 " + str(result)
+    if (result == 12):
+        print("No communication key found for given public key")
+        return "", "500 " + str(result)
+    if (result == 13):
+        print("Invalid signature")
+        return "", "500 " + str(result)
+
+    print("Unhandled error!")
+    return jsonify(), 500
 
 @app.route(votesByUserPath)
 def getAllVotesBy():

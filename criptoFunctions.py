@@ -42,18 +42,47 @@ def calculateTransactionHash(blockLedger):
     val = shaFunc.hexdigest()
     return val
 
+def encryptRSA(key, text):
+    """ Receive a key and a text and encrypt it on Base 64\n
+        @param key - key to make the encrypt\n
+        @paran text - text that will be encrypted\n
+        @return enc64 - text encrypted
+        @return 10 in case of error with the key
+    """
+    try:
+        k = RSA.importKey(key)
+    except (ValueError, IndexError, TypeError):
+        return False
+
+    enc = k.encrypt(text, 42)[0]
+    enc64 = base64.b64encode(enc)
+    return enc64    
+
+def decryptRSA(key, text):
+    """ Receive a key and a text and decrypt the text with the key using Base 64 \n
+        @param key - key to make te decrypt\n
+        @param text - text encrypted\n
+        @return data - text decrypted
+    """
+    try:
+        k = RSA.importKey(key)
+    except (ValueError, IndexError, TypeError):
+        return False
+        
+    deb = base64.b64decode(text)
+    data = k.decrypt(deb)
+    return data
+
 def encryptRSA2(key, text):
     """ Receive a key and a text and encrypt it on Base 64\n
         @param key - key to make the encrypt\n
         @paran text - text that will be encrypted\n
         @return enc64 - text encrypted
     """
-    theKey = base64.b64decode(key)
-    k = RSA.importKey(theKey)
+    k = RSA.importKey(key)
     enc = k.encrypt(text, 42)[0]
     enc64 = base64.b64encode(enc)
     return enc64
-
 
 def decryptRSA2(key, text):
     """ Receive a key and a text and decrypt the text with the key using Base 64 \n

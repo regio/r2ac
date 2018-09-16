@@ -375,6 +375,13 @@ def addTrustedPeers():
 #############################################################################
 #############################################################################
 
+# Error codes
+invalidBlockAttemptPublicKeyErrorCode = 10
+invalidTransactionAttemptNoBlockForPublicKey = 11
+invalidTransactionAttemptNoAESKeyForPublicKey = 12
+invalidTransactionAttemptInvalidSignature = 13
+successCode = 200
+
 @Pyro4.expose
 @Pyro4.behavior(instance_mode="single")
 class R2ac(object):
@@ -384,7 +391,7 @@ class R2ac(object):
         logger.debug("R2AC initialized")
 
     def getAllTransactionsData(self):
-        chain = chainFunctions.getFullChain()
+        chain = chainFunctions.getAllBlockVotes()
         allData = []
 
         for block in chain:
@@ -410,8 +417,9 @@ class R2ac(object):
             @param devPublicKey - Public key from the sender device\n
             @param encryptedObj - Info of the transaction encrypted with AES 256\n
             @return 200 - Success\n
-            @return "Invalid Signature" - an invalid key are found\n
-            @return "Key not found" - the device's key are not found
+            @return 13 - Invalid key\n
+            @return 12 - the server aes communication key was not found
+            @return 11 - No block found for given public key
         """
         logger.info("transaction received")
         t1 = time.time()
@@ -454,14 +462,58 @@ class R2ac(object):
                     t2 = time.time()
                     logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
                     sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
-                    return 200
+                    return successCode
                 else:
                     logger.debug("--Transaction not appended--Transaction Invalid Signature")
                     logger.info("--Transaction not appended--Transaction Invalid Signature")
-                    return "Invalid Signature"
+                    return invalidTransactionAttemptInvalidSignature
             logger.debug("--Transaction not appended--Key not found")
             logger.info("--Transaction not appended--Key not found")
-            return "key not found"
+            return invalidTransactionAttemptNoAESKeyForPublicKey
+        logger.info("-- Block does not exist")
+        return invalidTransactionAttemptNoBlockForPublicKey
+
+    def addBlockForVote(self, devPubKey):
+        """ Receive a device public key from a device and link it to A block on the chain\n
+            @param devPubKey - request's device public key\n
+            @return encKey - RSA encrypted key for the device be able to communicate with the peers
+            @return 10 if issue with the devPubKey
+        """
+
+        global gwPub
+        aesKey = ''
+        t1 = time.time()
+        blk = chainFunctions.findBlock(devPubKey)
+        if (blk != False and blk.index > 0):
+            aesKey = findAESKey(devPubKey)
+            if aesKey == False:
+                logger.info("Using existent block data")
+                aesKey = generateAESKey(blk.publicKey)
+        else:
+            logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
+            
+            if (useConsensus):
+                ###Consensus uncoment the 3 lines
+                logger.debug("starting block consensus")
+                pickedKey = pickle.dumps(devPubKey)
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
+            else:
+                #####No Consensus
+                bl = chainFunctions.createNewBlock(devPubKey, gwPvt, useConsensus, type=1000)
+                sendBlockToPeers(bl)
+
+            aesKey = generateAESKey(devPubKey)
+
+        theKey = base64.b64decode(devPubKey)
+        encKey = criptoFunctions.encryptRSA(theKey, aesKey)
+
+        if (not encKey):
+            return invalidPublicKeyErrorCode
+        else:
+            t2 = time.time()
+            logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+            logger.debug("|---------------------------------------------------------------------|")
+            return encKey
 
     def addTransaction(self, devPublicKey, encryptedObj):
         """ Receive a new transaction to be add to the chain, add the transaction 
@@ -575,13 +627,12 @@ class R2ac(object):
         logger.debug("added to the sync list")
         logger.debug("================================================")
 
-
-
-    def addBlock(self, devPubKey, **kwargs):
+    def addBlock(self, devPubKey):
         """ Receive a device public key from a device and link it to A block on the chain\n
             @param devPubKey - request's device public key\n
             @return encKey - RSA encrypted key for the device be able to communicate with the peers
         """
+
         global gwPub
         logger.debug("|---------------------------------------------------------------------|")
         logger.debug("Block received from device")
