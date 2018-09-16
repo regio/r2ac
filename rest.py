@@ -8,6 +8,7 @@ import base64
 import Transaction
 import DeviceInfo
 import BlockHeader
+import urllib
 
 #############################################################################
 #############################################################################
@@ -50,15 +51,18 @@ def addVote():
     else:
         return jsonify(result), 400
 
-@app.route("/votesBy/<userPublicKey>")
-def getAllVotesBy(userPublicKey):
+@app.route("/votesBy")
+def getAllVotesBy():
+    print("Requested all votes by user")
+    encodedUserPubKey = request.args.get('userPublicKey')
+    userPublicKey = urllib.unquote(encodedUserPubKey).decode('utf8')
     #get block by user public key
     allVotes = r2acSharedInstance.findDataOf(userPublicKey)
     #get all transactions
     # transactions = block.transactions
     # #decripty transactions and retrieve data
     # blocksJSONED = map(lambda transaction: json.loads(transaction.data.data), transactions)
-
+    print(allVotes)
     return jsonify(allVotes)
 
 @app.route("/votesTo/<newsURL>")
@@ -66,11 +70,12 @@ def getAllVotesTo(newsURL):
     print("Requested all votes to news")
     #get all votes
     allVotes = r2acSharedInstance.getAllTransactionsData()
-    filteredVotes = filter(lambda vote: vote.newsURL == newsURL, allVotes)
+    print(allVotes)
+    filteredVotes = filter(lambda vote: vote['newsURL'] == newsURL, allVotes)
     #return
     return jsonify(filteredVotes)
 
-uri = "PYRO:obj_699bf42d89b44c60b8b4314d42147437@192.168.25.7:54158"
+uri = "PYRO:obj_9563bc9446f848f6843454405d6ac45e@192.168.25.7:56085"
 r2acSharedInstance = Pyro4.Proxy(uri)
 
 #runs flask

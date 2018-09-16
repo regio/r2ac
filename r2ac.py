@@ -385,26 +385,23 @@ class R2ac(object):
 
     def getAllTransactionsData(self):
         chain = chainFunctions.getFullChain()
-        print("chain------")
         allData = []
 
         for block in chain:
-            print("-------- Bock")
-            print(block)
             for transaction in block.transactions:
-                print("------- Trasaction")
-                print(transaction)
                 if(not isinstance(transaction.data, basestring)):
-                    print("diz que tem----")
-                    print(transaction.data)
-                    allData.extend(transaction.data.data)
+                    allData.append(transaction.data.data)
         
         print(allData)
         return allData
 
     def findDataOf(self, pubKey):
         block = chainFunctions.findBlock(pubKey)
-        allVotes = map(lambda transaction: transaction.data.data, block.transaction)
+        print(block.transactions)
+        allVotes = []
+        for transaction in block.transactions:
+            if(not isinstance(transaction.data, basestring)):
+                allVotes.append(transaction.data.data)
         return allVotes
 
     def addVoteTransaction(self, devPublicKey, encryptedObj):
