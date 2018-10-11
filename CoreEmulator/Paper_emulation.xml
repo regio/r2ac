@@ -1,0 +1,638 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scenario compiled="true" name="Paper_emulation.xml" version="1.0" xmlns="nmfPlan" xmlns:CORE="coreSpecific">
+  <network id="n1" name="n1">
+    <point lat="47.576278236" lon="-122.127582677" type="gps"/>
+    <type>ethernet</type>
+    <host id="n1/n1" name="n1">
+      <type domain="CORE">lanswitch</type>
+      <interface id="n1/n1/e0" name="e0"/>
+      <interface id="n1/n1/e1" name="e1"/>
+      <interface id="n1/n1/e2" name="e2"/>
+      <alias domain="COREID">1</alias>
+      <point lat="47.576278236" lon="-122.127582677" type="gps"/>
+    </host>
+    <member type="interface">Gw1/eth0</member>
+    <member type="interface">n1/n1/e0</member>
+    <member type="interface">Gw2/eth0</member>
+    <member type="interface">n1/n1/e1</member>
+    <member type="interface">n7/eth4</member>
+    <member type="interface">n1/n1/e2</member>
+    <member type="channel">n1/chan0</member>
+    <member type="channel">n1/chan1</member>
+    <member type="channel">n1/chan2</member>
+    <channel id="n1/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw1/eth0</member>
+      <member index="1" type="interface">n1/n1/e0</member>
+    </channel>
+    <channel id="n1/chan1" name="chan1">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw2/eth0</member>
+      <member index="1" type="interface">n1/n1/e1</member>
+    </channel>
+    <channel id="n1/chan2" name="chan2">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth4</member>
+      <member index="1" type="interface">n1/n1/e2</member>
+    </channel>
+  </network>
+  <network id="n2" name="n2">
+    <point lat="47.5762307681" lon="-122.126665956" type="gps"/>
+    <type>ethernet</type>
+    <host id="n2/n2" name="n2">
+      <type domain="CORE">lanswitch</type>
+      <interface id="n2/n2/e0" name="e0"/>
+      <interface id="n2/n2/e1" name="e1"/>
+      <interface id="n2/n2/e2" name="e2"/>
+      <alias domain="COREID">2</alias>
+      <point lat="47.5762307681" lon="-122.126665956" type="gps"/>
+    </host>
+    <member type="interface">Gw3/eth0</member>
+    <member type="interface">n2/n2/e0</member>
+    <member type="interface">Gw4/eth0</member>
+    <member type="interface">n2/n2/e1</member>
+    <member type="interface">n7/eth0</member>
+    <member type="interface">n2/n2/e2</member>
+    <member type="channel">n2/chan0</member>
+    <member type="channel">n2/chan1</member>
+    <member type="channel">n2/chan2</member>
+    <channel id="n2/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw3/eth0</member>
+      <member index="1" type="interface">n2/n2/e0</member>
+    </channel>
+    <channel id="n2/chan1" name="chan1">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw4/eth0</member>
+      <member index="1" type="interface">n2/n2/e1</member>
+    </channel>
+    <channel id="n2/chan2" name="chan2">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth0</member>
+      <member index="1" type="interface">n2/n2/e2</member>
+    </channel>
+  </network>
+  <network id="n3" name="n3">
+    <point lat="47.5761667564" lon="-122.125350595" type="gps"/>
+    <type>ethernet</type>
+    <host id="n3/n3" name="n3">
+      <type domain="CORE">lanswitch</type>
+      <interface id="n3/n3/e0" name="e0"/>
+      <interface id="n3/n3/e1" name="e1"/>
+      <interface id="n3/n3/e2" name="e2"/>
+      <interface id="n3/n3/e3" name="e3"/>
+      <interface id="n3/n3/e4" name="e4"/>
+      <alias domain="COREID">3</alias>
+      <point lat="47.5761667564" lon="-122.125350595" type="gps"/>
+    </host>
+    <host id="n3/wlan9" name="wlan9">
+      <type domain="CORE">wlan</type>
+      <interface id="n3/wlan9/e0" name="e0"/>
+      <interface id="n3/wlan9/e1" name="e1"/>
+      <interface id="n3/wlan9/e2" name="e2"/>
+      <alias domain="COREID">9</alias>
+      <point lat="47.5781358683" lon="-122.125158226" type="gps"/>
+    </host>
+    <host id="n3/wlan8" name="wlan8">
+      <type domain="CORE">wlan</type>
+      <interface id="n3/wlan8/e0" name="e0"/>
+      <interface id="n3/wlan8/e1" name="e1"/>
+      <interface id="n3/wlan8/e2" name="e2"/>
+      <alias domain="COREID">8</alias>
+      <point lat="47.5772767547" lon="-122.122240437" type="gps"/>
+    </host>
+    <member type="interface">n7/eth1</member>
+    <member type="interface">n3/n3/e0</member>
+    <member type="interface">n3/wlan9/e0</member>
+    <member type="interface">n3/n3/e1</member>
+    <member type="interface">n3/wlan8/e0</member>
+    <member type="interface">n3/n3/e2</member>
+    <member type="interface">Gw6/eth0</member>
+    <member type="interface">n3/n3/e3</member>
+    <member type="interface">Gw5/eth0</member>
+    <member type="interface">n3/n3/e4</member>
+    <member type="channel">n3/chan0</member>
+    <member type="channel">n3/chan1</member>
+    <member type="channel">n3/chan2</member>
+    <member type="channel">n3/chan3</member>
+    <member type="channel">n3/chan4</member>
+    <channel id="n3/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth1</member>
+      <member index="1" type="interface">n3/n3/e0</member>
+    </channel>
+    <channel id="n3/chan1" name="chan1">
+      <type>ethernet</type>
+      <member index="0" type="interface">n3/wlan9/e0</member>
+      <member index="1" type="interface">n3/n3/e1</member>
+    </channel>
+    <channel id="n3/chan2" name="chan2">
+      <type>ethernet</type>
+      <member index="0" type="interface">n3/wlan8/e0</member>
+      <member index="1" type="interface">n3/n3/e2</member>
+    </channel>
+    <channel id="n3/chan3" name="chan3">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw6/eth0</member>
+      <member index="1" type="interface">n3/n3/e3</member>
+    </channel>
+    <channel id="n3/chan4" name="chan4">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw5/eth0</member>
+      <member index="1" type="interface">n3/n3/e4</member>
+    </channel>
+  </network>
+  <network id="n4" name="n4">
+    <point lat="47.5761812647" lon="-122.123714794" type="gps"/>
+    <type>ethernet</type>
+    <host id="n4/n4" name="n4">
+      <type domain="CORE">lanswitch</type>
+      <interface id="n4/n4/e0" name="e0"/>
+      <interface id="n4/n4/e1" name="e1"/>
+      <interface id="n4/n4/e2" name="e2"/>
+      <interface id="n4/n4/e3" name="e3"/>
+      <interface id="n4/n4/e4" name="e4"/>
+      <alias domain="COREID">4</alias>
+      <point lat="47.5761812647" lon="-122.123714794" type="gps"/>
+    </host>
+    <host id="n4/wlan9" name="wlan9">
+      <type domain="CORE">wlan</type>
+      <interface id="n4/wlan9/e0" name="e0"/>
+      <interface id="n4/wlan9/e1" name="e1"/>
+      <interface id="n4/wlan9/e2" name="e2"/>
+      <alias domain="COREID">9</alias>
+      <point lat="47.5781358683" lon="-122.125158226" type="gps"/>
+    </host>
+    <host id="n4/wlan8" name="wlan8">
+      <type domain="CORE">wlan</type>
+      <interface id="n4/wlan8/e0" name="e0"/>
+      <interface id="n4/wlan8/e1" name="e1"/>
+      <interface id="n4/wlan8/e2" name="e2"/>
+      <alias domain="COREID">8</alias>
+      <point lat="47.5772767547" lon="-122.122240437" type="gps"/>
+    </host>
+    <member type="interface">n7/eth2</member>
+    <member type="interface">n4/n4/e0</member>
+    <member type="interface">n4/wlan9/e1</member>
+    <member type="interface">n4/n4/e1</member>
+    <member type="interface">n4/wlan8/e1</member>
+    <member type="interface">n4/n4/e2</member>
+    <member type="interface">Gw7/eth0</member>
+    <member type="interface">n4/n4/e3</member>
+    <member type="interface">Gw8/eth0</member>
+    <member type="interface">n4/n4/e4</member>
+    <member type="channel">n4/chan0</member>
+    <member type="channel">n4/chan1</member>
+    <member type="channel">n4/chan2</member>
+    <member type="channel">n4/chan3</member>
+    <member type="channel">n4/chan4</member>
+    <channel id="n4/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth2</member>
+      <member index="1" type="interface">n4/n4/e0</member>
+    </channel>
+    <channel id="n4/chan1" name="chan1">
+      <type>ethernet</type>
+      <member index="0" type="interface">n4/wlan9/e1</member>
+      <member index="1" type="interface">n4/n4/e1</member>
+    </channel>
+    <channel id="n4/chan2" name="chan2">
+      <type>ethernet</type>
+      <member index="0" type="interface">n4/wlan8/e1</member>
+      <member index="1" type="interface">n4/n4/e2</member>
+    </channel>
+    <channel id="n4/chan3" name="chan3">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw7/eth0</member>
+      <member index="1" type="interface">n4/n4/e3</member>
+    </channel>
+    <channel id="n4/chan4" name="chan4">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw8/eth0</member>
+      <member index="1" type="interface">n4/n4/e4</member>
+    </channel>
+  </network>
+  <network id="n5" name="n5">
+    <point lat="47.5763437409" lon="-122.122016681" type="gps"/>
+    <type>ethernet</type>
+    <host id="n5/n5" name="n5">
+      <type domain="CORE">lanswitch</type>
+      <interface id="n5/n5/e0" name="e0"/>
+      <interface id="n5/n5/e1" name="e1"/>
+      <interface id="n5/n5/e2" name="e2"/>
+      <interface id="n5/n5/e3" name="e3"/>
+      <interface id="n5/n5/e4" name="e4"/>
+      <alias domain="COREID">5</alias>
+      <point lat="47.5763437409" lon="-122.122016681" type="gps"/>
+    </host>
+    <host id="n5/wlan8" name="wlan8">
+      <type domain="CORE">wlan</type>
+      <interface id="n5/wlan8/e0" name="e0"/>
+      <interface id="n5/wlan8/e1" name="e1"/>
+      <interface id="n5/wlan8/e2" name="e2"/>
+      <alias domain="COREID">8</alias>
+      <point lat="47.5772767547" lon="-122.122240437" type="gps"/>
+    </host>
+    <host id="n5/wlan9" name="wlan9">
+      <type domain="CORE">wlan</type>
+      <interface id="n5/wlan9/e0" name="e0"/>
+      <interface id="n5/wlan9/e1" name="e1"/>
+      <interface id="n5/wlan9/e2" name="e2"/>
+      <alias domain="COREID">9</alias>
+      <point lat="47.5781358683" lon="-122.125158226" type="gps"/>
+    </host>
+    <member type="interface">n7/eth3</member>
+    <member type="interface">n5/n5/e0</member>
+    <member type="interface">n5/wlan8/e2</member>
+    <member type="interface">n5/n5/e1</member>
+    <member type="interface">n5/wlan9/e2</member>
+    <member type="interface">n5/n5/e2</member>
+    <member type="interface">Gw10/eth0</member>
+    <member type="interface">n5/n5/e3</member>
+    <member type="interface">Gw9/eth0</member>
+    <member type="interface">n5/n5/e4</member>
+    <member type="channel">n5/chan0</member>
+    <member type="channel">n5/chan1</member>
+    <member type="channel">n5/chan2</member>
+    <member type="channel">n5/chan3</member>
+    <member type="channel">n5/chan4</member>
+    <channel id="n5/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth3</member>
+      <member index="1" type="interface">n5/n5/e0</member>
+    </channel>
+    <channel id="n5/chan1" name="chan1">
+      <type>ethernet</type>
+      <member index="0" type="interface">n5/wlan8/e2</member>
+      <member index="1" type="interface">n5/n5/e1</member>
+    </channel>
+    <channel id="n5/chan2" name="chan2">
+      <type>ethernet</type>
+      <member index="0" type="interface">n5/wlan9/e2</member>
+      <member index="1" type="interface">n5/n5/e2</member>
+    </channel>
+    <channel id="n5/chan3" name="chan3">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw10/eth0</member>
+      <member index="1" type="interface">n5/n5/e3</member>
+    </channel>
+    <channel id="n5/chan4" name="chan4">
+      <type>ethernet</type>
+      <member index="0" type="interface">Gw9/eth0</member>
+      <member index="1" type="interface">n5/n5/e4</member>
+    </channel>
+  </network>
+  <network id="wlan8" name="wlan8">
+    <point lat="47.5772767547" lon="-122.122240437" type="gps"/>
+    <type>wireless</type>
+    <alias domain="COREID">8</alias>
+    <member type="channel">wlan8/wireless</member>
+    <channel id="wlan8/wireless" name="wireless">
+      <type domain="CORE">basic_range</type>
+      <parameter name="range">275</parameter>
+      <parameter name="bandwidth">54000000</parameter>
+      <parameter name="jitter">0</parameter>
+      <parameter name="delay">20000</parameter>
+      <parameter name="error">0</parameter>
+      <member index="0" type="None">None</member>
+      <member index="1" type="None">None</member>
+      <member index="2" type="None">None</member>
+    </channel>
+  </network>
+  <network id="wlan9" name="wlan9">
+    <point lat="47.5781358683" lon="-122.125158226" type="gps"/>
+    <type>wireless</type>
+    <alias domain="COREID">9</alias>
+    <member type="channel">wlan9/wireless</member>
+    <channel id="wlan9/wireless" name="wireless">
+      <type domain="CORE">basic_range</type>
+      <parameter name="range">275</parameter>
+      <parameter name="bandwidth">54000000</parameter>
+      <parameter name="jitter">0</parameter>
+      <parameter name="delay">20000</parameter>
+      <parameter name="error">0</parameter>
+      <member index="0" type="None">None</member>
+      <member index="1" type="None">None</member>
+      <member index="2" type="None">None</member>
+    </channel>
+  </network>
+  <network id="net0" name="net0">
+    <type>ethernet</type>
+    <alias domain="COREID">18671</alias>
+    <member type="interface">n7/eth5</member>
+    <member type="interface">PyroNameServer/eth0</member>
+    <member type="channel">net0/chan0</member>
+    <channel id="net0/chan0" name="chan0">
+      <type>ethernet</type>
+      <member index="0" type="interface">n7/eth5</member>
+      <member index="1" type="interface">PyroNameServer/eth0</member>
+    </channel>
+  </network>
+  <host id="PyroNameServer" name="PyroNameServer">
+    <type domain="CORE">host</type>
+    <interface id="PyroNameServer/eth0" name="eth0">
+      <member index="1" type="channel">net0/chan0</member>
+      <member type="network">net0</member>
+      <address type="mac">00:00:00:aa:00:21</address>
+      <address type="IPv4">10.0.2.10/24</address>
+      <address type="IPv6">2001:2::10/64</address>
+    </interface>
+    <alias domain="COREID">6</alias>
+    <point lat="47.5737449929" lon="-122.124593128" type="gps"/>
+    <CORE:services name="PyroNameServer">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" startup_idx="50">
+        <directory name="/home/core/nodes/nameserver"/>
+        <command type="start">pyro4-ns -n 10.0.2.10</command>
+      </service>
+    </CORE:services>
+  </host>
+  <router id="n7" name="n7">
+    <type domain="CORE">router</type>
+    <interface id="n7/eth0" name="eth0">
+      <member index="0" type="channel">n2/chan2</member>
+      <member type="network">n2</member>
+      <address type="mac">00:00:00:aa:00:1b</address>
+      <address type="IPv4">10.0.1.1/24</address>
+      <address type="IPv6">2001:1::1/64</address>
+    </interface>
+    <interface id="n7/eth1" name="eth1">
+      <member index="0" type="channel">n3/chan0</member>
+      <member type="network">n3</member>
+      <address type="mac">00:00:00:aa:00:13</address>
+      <address type="IPv4">10.0.3.1/24</address>
+      <address type="IPv6">2001:3::1/64</address>
+    </interface>
+    <interface id="n7/eth2" name="eth2">
+      <member index="0" type="channel">n4/chan0</member>
+      <member type="network">n4</member>
+      <address type="mac">00:00:00:aa:00:14</address>
+      <address type="IPv4">10.0.4.1/24</address>
+      <address type="IPv6">2001:4::1/64</address>
+    </interface>
+    <interface id="n7/eth3" name="eth3">
+      <member index="0" type="channel">n5/chan0</member>
+      <member type="network">n5</member>
+      <address type="mac">00:00:00:aa:00:15</address>
+      <address type="IPv4">10.0.5.1/24</address>
+      <address type="IPv6">2001:5::1/64</address>
+    </interface>
+    <interface id="n7/eth4" name="eth4">
+      <member index="0" type="channel">n1/chan2</member>
+      <member type="network">n1</member>
+      <address type="mac">00:00:00:aa:00:1c</address>
+      <address type="IPv4">10.0.0.1/24</address>
+      <address type="IPv6">2001::1/64</address>
+    </interface>
+    <interface id="n7/eth5" name="eth5">
+      <member index="0" type="channel">net0/chan0</member>
+      <member type="network">net0</member>
+      <address type="mac">00:00:00:aa:00:20</address>
+      <address type="IPv4">10.0.2.1/24</address>
+      <address type="IPv6">2001:2::1/64</address>
+    </interface>
+    <alias domain="COREID">7</alias>
+    <point lat="47.5752432874" lon="-122.124608045" type="gps"/>
+  </router>
+  <host id="Gw1" name="Gw1">
+    <type domain="CORE">host</type>
+    <interface id="Gw1/eth0" name="eth0">
+      <member index="0" type="channel">n1/chan0</member>
+      <member type="network">n1</member>
+      <address type="mac">00:00:00:aa:00:11</address>
+      <address type="IPv4">10.0.0.10/24</address>
+      <address type="IPv6">2001::10/64</address>
+    </interface>
+    <alias domain="COREID">12</alias>
+    <point lat="47.5761826666" lon="-122.130995004" type="gps"/>
+    <CORE:services name="Gw1">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="1" startup_idx="50">
+        <directory name="/home/core/nodes/gw1"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw2" name="Gw2">
+    <type domain="CORE">host</type>
+    <interface id="Gw2/eth0" name="eth0">
+      <member index="0" type="channel">n1/chan1</member>
+      <member type="network">n1</member>
+      <address type="mac">00:00:00:aa:00:12</address>
+      <address type="IPv4">10.0.0.11/24</address>
+      <address type="IPv6">2001::11/64</address>
+    </interface>
+    <alias domain="COREID">13</alias>
+    <point lat="47.5770459204" lon="-122.130920881" type="gps"/>
+    <CORE:services name="Gw2">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="2" startup_idx="50">
+        <directory name="/home/core/nodes/gw2"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw3" name="Gw3">
+    <type domain="CORE">host</type>
+    <interface id="Gw3/eth0" name="eth0">
+      <member index="0" type="channel">n2/chan0</member>
+      <member type="network">n2</member>
+      <address type="mac">00:00:00:aa:00:16</address>
+      <address type="IPv4">10.0.1.10/24</address>
+      <address type="IPv6">2001:1::10/64</address>
+    </interface>
+    <alias domain="COREID">14</alias>
+    <point lat="47.5784021537" lon="-122.130000835" type="gps"/>
+    <CORE:services name="Gw3">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="3" startup_idx="50">
+        <directory name="/home/core/nodes/gw3"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw4" name="Gw4">
+    <type domain="CORE">host</type>
+    <interface id="Gw4/eth0" name="eth0">
+      <member index="0" type="channel">n2/chan1</member>
+      <member type="network">n2</member>
+      <address type="mac">00:00:00:aa:00:17</address>
+      <address type="IPv4">10.0.1.11/24</address>
+      <address type="IPv6">2001:1::11/64</address>
+    </interface>
+    <alias domain="COREID">15</alias>
+    <point lat="47.5787945993" lon="-122.128358693" type="gps"/>
+    <CORE:services name="Gw4">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="4" startup_idx="50">
+        <directory name="/home/core/nodes/gw4"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw5" name="Gw5">
+    <type domain="CORE">host</type>
+    <interface id="Gw5/eth0" name="eth0">
+      <member index="0" type="channel">n3/chan4</member>
+      <member type="network">n3</member>
+      <address type="mac">00:00:00:aa:00:1d</address>
+      <address type="IPv4">10.0.3.11/24</address>
+      <address type="IPv6">2001:3::11/64</address>
+    </interface>
+    <alias domain="COREID">16</alias>
+    <point lat="47.5783891218" lon="-122.126510382" type="gps"/>
+    <CORE:services name="Gw5">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="5" startup_idx="50">
+        <directory name="/home/core/nodes/gw5"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw6" name="Gw6">
+    <type domain="CORE">host</type>
+    <interface id="Gw6/eth0" name="eth0">
+      <member index="0" type="channel">n3/chan3</member>
+      <member type="network">n3</member>
+      <address type="mac">00:00:00:aa:00:18</address>
+      <address type="IPv4">10.0.3.10/24</address>
+      <address type="IPv6">2001:3::10/64</address>
+    </interface>
+    <alias domain="COREID">17</alias>
+    <point lat="47.5787272313" lon="-122.124829226" type="gps"/>
+    <CORE:services name="Gw6">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="6" startup_idx="50">
+        <directory name="/home/core/nodes/gw6"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw7" name="Gw7">
+    <type domain="CORE">host</type>
+    <interface id="Gw7/eth0" name="eth0">
+      <member index="0" type="channel">n4/chan3</member>
+      <member type="network">n4</member>
+      <address type="mac">00:00:00:aa:00:19</address>
+      <address type="IPv4">10.0.4.10/24</address>
+      <address type="IPv6">2001:4::10/64</address>
+    </interface>
+    <alias domain="COREID">18</alias>
+    <point lat="47.5787504989" lon="-122.122574847" type="gps"/>
+    <CORE:services name="Gw7">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="7" startup_idx="50">
+        <directory name="/home/core/nodes/gw7"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw8" name="Gw8">
+    <type domain="CORE">host</type>
+    <interface id="Gw8/eth0" name="eth0">
+      <member index="0" type="channel">n4/chan4</member>
+      <member type="network">n4</member>
+      <address type="mac">00:00:00:aa:00:1e</address>
+      <address type="IPv4">10.0.4.11/24</address>
+      <address type="IPv6">2001:4::11/64</address>
+    </interface>
+    <alias domain="COREID">19</alias>
+    <point lat="47.5785686906" lon="-122.119984807" type="gps"/>
+    <CORE:services name="Gw8">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="8" startup_idx="50">
+        <directory name="/home/core/nodes/gw8"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw9" name="Gw9">
+    <type domain="CORE">host</type>
+    <interface id="Gw9/eth0" name="eth0">
+      <member index="0" type="channel">n5/chan4</member>
+      <member type="network">n5</member>
+      <address type="mac">00:00:00:aa:00:1f</address>
+      <address type="IPv4">10.0.5.11/24</address>
+      <address type="IPv6">2001:5::11/64</address>
+    </interface>
+    <alias domain="COREID">20</alias>
+    <point lat="47.5769529402" lon="-122.118735329" type="gps"/>
+    <CORE:services name="Gw9">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="9" startup_idx="50">
+        <directory name="/home/core/nodes/gw9"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <host id="Gw10" name="Gw10">
+    <type domain="CORE">host</type>
+    <interface id="Gw10/eth0" name="eth0">
+      <member index="0" type="channel">n5/chan3</member>
+      <member type="network">n5</member>
+      <address type="mac">00:00:00:aa:00:1a</address>
+      <address type="IPv4">10.0.5.10/24</address>
+      <address type="IPv6">2001:5::10/64</address>
+    </interface>
+    <alias domain="COREID">21</alias>
+    <point lat="47.5760786513" lon="-122.11912897" type="gps"/>
+    <CORE:services name="Gw10">
+      <service name="DefaultRoute" startup_idx="80"/>
+      <service name="SSH" startup_idx="80"/>
+      <service custom="True" name="UserDefined" start_time="10" startup_idx="50">
+        <directory name="/home/core/nodes/gw10"/>
+        <file name="run.sh">
+file:///home/core/nodes/run.sh</file>
+        <command type="start">sh run.sh</command>
+      </service>
+    </CORE:services>
+  </host>
+  <CORE:defaultservices>
+    <device type="router">
+      <service name="zebra"/>
+      <service name="OSPFv2"/>
+      <service name="OSPFv3"/>
+      <service name="vtysh"/>
+      <service name="IPForward"/>
+    </device>
+    <device type="host">
+      <service name="DefaultRoute"/>
+      <service name="SSH"/>
+    </device>
+  </CORE:defaultservices>
+  <CORE:sessionconfig>
+    <origin alt="2.0" lat="47.5791667" lon="-122.132322" scale100="150.0"/>
+    <metadata>
+      <parameter name="global_options">interface_names=no ip_addresses=yes ipv6_addresses=no node_labels=yes link_labels=no show_api=no background_images=no annotations=yes grid=no traffic_start=0</parameter>
+      <parameter name="canvas c1">{name {Canvas1}}</parameter>
+    </metadata>
+  </CORE:sessionconfig>
+</scenario>
