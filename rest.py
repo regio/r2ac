@@ -3,12 +3,15 @@ import json
 from flask import Flask, request, jsonify
 import urllib
 import sys
+import socket
 
 #############################################################################
 #############################################################################
 #########################    REST FAKE API  #################################
 #############################################################################
 #############################################################################
+
+fname = socket.gethostname()
 
 app = Flask(__name__)
 
@@ -167,18 +170,19 @@ def getAllVotesTo(newsURL):
     return jsonify(filteredVotes)
 
 def main():
-    uri = ""
-    try:
-        uri = str(input('Enter the blockchain address: '))
-    except ValueError:
-        print ("Not acceptable")
-
-    print(uri)
-    global r2acSharedInstance
-    r2acSharedInstance = Pyro4.Proxy(uri)
+    loadConnection()
     #runs flask
-    app.run()
+    app.run(host='0.0.0.0',port=5000)
 
+def loadConnection():
+    """ Load the URI of the connection  """
+    global r2acSharedInstance
+    fname = socket.gethostname()
+    text_file = open(fname, "r")
+    uri = text_file.read()
+    print(uri)
+    r2acSharedInstance = Pyro4.Proxy(uri)
+    text_file.close()
 
 if __name__ == '__main__':
     main()
