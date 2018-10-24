@@ -22,15 +22,46 @@ createBlockPath = '/createBlock'
 votePath = '/vote'
 votesByUserPath = '/votesBy'
 votesToNewsPath = '/votesTo/<newsURL>'
+getPopularNewsPath = '/popularNews/<quantity>'
+allVotesPath = '/allVotes'
 
 # Request keys
 kUserPublicKey = 'userPublicKey'
 kEncryptedVote = 'encryptedVote'
 kNewsURL = 'newsURL'
 kDate = 'date'
+kPopularNewsQuantity = 'quantity'
 
 # Response keys
 kAESKey = 'aesKey'
+
+@app.route(allVotesPath)
+def getAllVotes():
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+    return jsonify(allTransactions)
+
+@app.route(getPopularNewsPath)
+def getPopularNews(quantity):
+
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+    allNewsRepeated = [i[kNewsURL] for i in allTransactions]
+    allNewsUnique = set(allNewsRepeated)
+
+    print(allNewsRepeated)
+    print(allNewsUnique)
+
+    newsVotes = []
+    for news in allNewsUnique:
+        votes = filter(lambda vote: vote[kNewsURL] == news, allTransactions)
+        voteCount = len(votes)
+        newsVotes.append((news, voteCount))
+
+    # sort the list in ascending order
+    newsVotes = sorted(newsVotes)
+    onlyNews = [i[0] for i in newsVotes]
+
+    return jsonify(onlyNews[:int(quantity)])
+
 
 @app.route(createBlockPath, methods=['POST'])
 def addBlock():
