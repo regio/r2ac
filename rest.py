@@ -24,6 +24,7 @@ votesByUserPath = '/votesBy'
 votesToNewsPath = '/votesTo/<newsURL>'
 getPopularNewsPath = '/popularNews/<quantity>'
 allVotesPath = '/allVotes'
+verifyCredentialsPath = '/verifyCredentials/<devPubKey>'
 
 # Request keys
 kUserPublicKey = 'userPublicKey'
@@ -34,6 +35,15 @@ kPopularNewsQuantity = 'quantity'
 
 # Response keys
 kAESKey = 'aesKey'
+
+@app.route(verifyCredentialsPath)
+def verifyCredentials(devPubKey):
+    result = r2acSharedInstance.findAESKey(devPubKey)
+    if (result == false):
+        return jsonify(), 500
+    else:
+        return jsonify(), 200
+
 
 @app.route(allVotesPath)
 def getAllVotes():
@@ -85,7 +95,7 @@ def addBlock():
     
     500 Error - For Invalid key format
     """
-    print("--------Received create block request!!")
+    print("--------Received create block request or validate block!!")
 
     pubKey = request.values[kUserPublicKey]
     aesKey = r2acSharedInstance.addBlockForVote(pubKey)
