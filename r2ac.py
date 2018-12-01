@@ -488,12 +488,17 @@ class R2ac(object):
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
                 logger.info("Using existent block data")
-                aesKey = generateAESKey(blk.publicKey)
+                aesKey = generateAESKey(devPubKey)
                 
                 theKey = base64.b64decode(devPubKey)
                 encKey = criptoFunctions.encryptRSA(theKey, aesKey)
+
+                return encKey
             else:
-                return aesKey
+                theKey = base64.b64decode(devPubKey)
+                encKey = criptoFunctions.encryptRSA(theKey, aesKey)
+                
+                return encKey
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             

@@ -163,3 +163,193 @@
 [DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T13:17:05:099', u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T13:31:24:272', u'vote': False, u'userPublicKey': u'MIGJAoGBAIq7KzEeR7ofbsl84Q/9+gpO/s4K3fDfg3GO07EnXbARJ8mEFBQVGlb3PULf76187ZJWzsEA3758hBk7LjgT4W/IHlr6OlZpGXpC97F97YfUpZ0WfMAfQv67XCOFg6gpli85w/znGHdwYkxLphBXd2PSw0IuqdyhhCKbqjTxjBwXAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
 [DEBUG-59-      getAllVotes()] ----------------------------------------
 [INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 13:31:46] "GET /allVotes HTTP/1.1" 200 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:23:34] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:23:46] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:23:57] "POST /createBlock HTTP/1.1" 200 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:27:48] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:27:55] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:27:59] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:04] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:09] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:09] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:17] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:22] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:22] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:28] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:37] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:37] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW91bC5jb20=']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:47] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:28:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:06] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW91bC5jb20=']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:11] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:11] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:11] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:31] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW91bC5jb20=']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:31] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:31] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:31] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:38] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW91bC5jb20=']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:38] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:38] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:38] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:42] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:42] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:50] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:50] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:56] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:29:56] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-200-    getAllVotesBy()]  Received all votes by user request
+[DEBUG-206-    getAllVotesBy()] [{u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-207-    getAllVotesBy()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:06] "GET /votesBy?userPublicKey=MIGJAoGBALyScQd8Ksu7pXm%2BbLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0%2FzRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l%2BSxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE%3D HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:06] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:06] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-200-    getAllVotesBy()]  Received all votes by user request
+[DEBUG-206-    getAllVotesBy()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-207-    getAllVotesBy()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:12] "GET /votesBy?userPublicKey=MIGJAoGBAKeUYpH9efpI7vhCew5vL%2BwSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF%2BdhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9%2FDAgMBAAE%3D HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:12] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:12] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:22] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T16:30:22:489', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:22] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW91bC5jb20=']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:33] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T16:30:22:489', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:33] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T16:28:09:028', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T16:28:37:136', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'vote': False, u'date': u'2018-12-01T16:29:50:009', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T16:30:22:489', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}, {u'date': u'2018-12-01T16:29:42:770', u'vote': True, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T16:29:56:018', u'vote': False, u'userPublicKey': u'MIGJAoGBALyScQd8Ksu7pXm+bLjqxTVAbjAYpZCyZqjw8wF07GVKYczVk6e22V69DrNO59LxSjn0/zRzn7YYpGnQQ01lHqUUw4yUvsx85I7N5U6yK9RtRfb0UtuRAOLrjRPUb0ElLL68JV6l+Sxxx66s0aSphEVa2ZfQlxgMV1utd4faXHX3AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW91bC5jb20='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 16:30:33] "GET /allVotes HTTP/1.1" 200 -
