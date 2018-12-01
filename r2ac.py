@@ -489,6 +489,8 @@ class R2ac(object):
             if aesKey == False:
                 logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
+            else:
+                return aesKey
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             
