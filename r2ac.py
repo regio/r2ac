@@ -489,6 +489,9 @@ class R2ac(object):
             if aesKey == False:
                 logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
+                
+                theKey = base64.b64decode(devPubKey)
+                encKey = criptoFunctions.encryptRSA(theKey, aesKey)
             else:
                 return aesKey
         else:
