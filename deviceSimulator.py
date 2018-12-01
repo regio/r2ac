@@ -196,13 +196,12 @@ def merkle():
 def loadConnection():
     """ Load the URI of the connection  """
     global server
-    fname = socket.gethostname()
-    text_file = open(fname, "r")
-    uri = text_file.read()
+    # fname = socket.gethostname()
+    # text_file = open(fname, "r")
+    uri = 'PYRO:obj_5b18dcf487b447dcb7eb29ccebe63f65@10.32.45.12:33870'
     print(uri)
     server = Pyro4.Proxy(uri)
-    text_file.close()
-    #os.remove(fname)
+    # text_file.close()
 
 
 
@@ -212,7 +211,7 @@ def loadConnection():
 #############################################################################
 #############################################################################
 def main():
-    """ Creates an interactive screen for the user with all option of a device""""
+    """ Creates an interactive screen for the user with all option of a device"""
     global server
     options = {
                1: setServer,
