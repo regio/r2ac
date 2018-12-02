@@ -2787,3 +2787,357 @@ Traceback (most recent call last):
     raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
 IOError: [Errno 5] Input/output error
 [INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:16] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:47:18] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:47:18] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:47:20] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:47:24] "GET /popularNews/10 HTTP/1.1" 500 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:48:42] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:48:47] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:48:47] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:48:48] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:48:58] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:02] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:02] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:06] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:06] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:14] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:49:14] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:02] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:02] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:02] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:07] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:07] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:13] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:13] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:24] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:24] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:24] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:29] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:29] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:29] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:31] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:31] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:35] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T10:50:35:521', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:35] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:38] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T10:50:35:521', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:38] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:42] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:42] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T10:50:35:521', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:42] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:44] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T10:50:35:521', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:50:44] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:17] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:17] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T10:49:02:087', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T10:50:35:521', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-02T10:50:12:893', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:17] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:22] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:22] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:24] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:25] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:25] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:27] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:28] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:31] "GET /popularNews/10 HTTP/1.1" 500 -
