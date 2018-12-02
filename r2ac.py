@@ -121,23 +121,6 @@ def sendTransactionToPeers(devPublicKey, transaction):
         trans = pickle.dumps(transaction)
         obj.updateBlockLedger(devPublicKey, trans)
 
-# class sendBlks(threading.Thread):
-#     def __init__(self, threadID, iotBlock):
-#         threading.Thread.__init__(self)
-#         self.threadID = threadID
-#         self.iotBlock = iotBlock
-#
-#     def run(self):
-#         print "Starting "
-#         # Get lock to synchronize threads
-#         global peers
-#         for peer in peers:
-#             print ("runnin in a thread: ")
-#             obj = peer.object
-#             #logger.debug("sending IoT Block to: " + peer.peerURI)
-#             dat = pickle.dumps(self.iotBlock)
-#             obj.updateIOTBlockLedger(dat)
-
 def sendBlockToPeers(IoTBlock):
     """  
     Receive a block and send it to all peers connected.\n
@@ -247,128 +230,6 @@ def addTrustedPeers():
         trustedPeers.append(p.peerURI)
 
 
-
-############################ Consensus PoW
-####TODO -> should create a nonce in the block and in the transaction in order to generate it
-#### we could add also a signature set (at least 5 as ethereum or 8 as bitcoin?) to do before send the block for update
-#### peers should verify both block data, hash, timestamp, etc and the signatures, very similar to what is done by verifyBlockCandidate
-#### maybe this verifications could be put in a another method... maybe something called " verifyBlockData "
- ###########################END NEW CONSENSUS @Roben
- ##########################
-
-# def peerIsTrusted(peerObj):
-#     """ Run on the trustedPeers list looking for a specific peer\n
-#         @param peerObj - peer object to search on the list\n
-#         @return True - peer founded on the list\n
-#         @return False - peer not found on the list
-#     """
-#     global trustedPeers
-#     for p in trustedPeers:
-#         if p == peerObj: return True
-#     return False
-
-# def peerIsActive(peerObj):
-#     """ Receive a peer and return if it is active on the network\n
-#         @param peerObj - peer wanted\n
-#         @return True - The peer is active\n
-#         @return False - The peer is not active
-#     """
-#     return True # TODO
-
-# def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
-#     """ Send a newBlock to be validated by the the peers\n
-#         @param newBlock - BlockHeader object\n
-#         @param getwayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#     """
-#     obj = peer.object
-#     data = pickle.dumps(newBlock)
-#     obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
-
-# def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consensus):
-#     """ Receive a block to be validated\n
-#         @param self - class param\n
-#         @param data - block data to be validated\n
-#         @param getwayPubliKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param consensus - actual state of consensus
-    
-#     """
-#     newBlock = pickle.loads(data)
-#     answer[newBlock].append(consensus)
-
-# def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
-#     """ Receive a block and verify if it is a valid block in the chain\n
-#         @param self - class param\n
-#         @param data - block data\n
-#         @param gatewayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param peer - 
-#     """
-#     newBlock = pickle.loads(data)
-#     blockIoT = chainFunctions.findBlock(devicePublicKey)
-#     consensus = True
-#     if blockIoT == False:
-#         print("Block not found in IoT ledger")
-#         consensus = False
-
-#     lastBlock = blockIoT.blockLedger[len(blockIoT.blockLedger) - 1]
-#     if newBlock.index != lastBlock.index + 1:
-#         print("New blovk Index not valid")
-#         consensus = False
-
-#     if lastBlock.calculateHashForBlockLedger(lastBlock) != newBlock.previousHash:
-#         print("New block previous hash not valid")
-#         consensus = False
-
-#     now = "{:.0f}".format(((time.time() * 1000) * 1000))
-
-#     # check time
-#     if not (newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
-#         print("New block time not valid")
-#         consensus = False
-
-#     # check device time
-#     if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
-#         print("New block device time not valid")
-#         consensus = False
-
-#     # check device signature with device public key
-#     if not (criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
-#         print("New block device signature not valid")
-#         consensus = False
-#     peer = getPeer(peer)
-#     obj = peer.object
-#     obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
-
-# def isTransactionValid(transaction,pubKey):
-#     data = str(transaction.data)[-22:-2]
-#     signature = str(transaction.data)[:-22]
-#     res = criptoFunctions.signVerify(data, signature, pubKey)
-#     return res
-
-
-# def isBlockValid(block):
-#     #Todo Fix the comparison between the hashes... for now is just a mater to simulate the time spend calculating the hashes...
-#     #global BlockHeaderChain
-#     #print(str(len(BlockHeaderChain)))
-#     lastBlk = chainFunctions.getLatestBlock()
-#     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-#     #lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
-#     lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
-#     #print ("This Hash:"+str(lastBlkHash))
-#     #print ("Last Hash:"+str(block.previousHash))
-#     if(lastBlkHash == block.previousHash):
-#         logger.info("isBlockValid == true")
-#         return True
-#     else:
-#         logger.error("isBlockValid == false")
-#         logger.error("lastBlkHash="+str(lastBlkHash))
-#         logger.error("block.previous="+str(block.previousHash))
-#         logger.error("lastBlk Index="+str(lastBlk.index))
-#         logger.error("block.index="+str(block.index))
-#         return False
-
 #############################################################################
 #############################################################################
 ######################      R2AC Class    ###################################
@@ -388,18 +249,29 @@ class R2ac(object):
     def __init__(self):
         """ Init the R2AC chain on the peer"""
         print("R2AC initialized")
-        logger.debug("R2AC initialized")
+        logger.info("R2AC initialized")
 
     def getAllTransactionsData(self):
         chain = chainFunctions.getAllBlockVotes()
         allData = []
 
+        logger.info(" ------ This is the whole chain ---------")
+        logger.info(chain)
+        logger.info(" ------ ---------- ---------")
         for block in chain:
+            logger.info(" ------ This is the block being iterated ---------")
+            logger.info(block)
+            logger.info(" ------ ---------- ---------")
             for transaction in block.transactions:
+                logger.info(" ------ This is the transaction being iterated ---------")
+                logger.info(transaction)
+                logger.info(" ------ ---------- ---------")
                 if(not isinstance(transaction.data, basestring)):
+                    logger.info(" ------ This is the transaction data data ---------")
+                    logger.info(transaction.data.data)
+                    logger.info(" ------ ---------- ---------")
                     allData.append(transaction.data.data)
         
-        print(allData)
         return allData
 
     def findDataOf(self, pubKey):
