@@ -1540,3 +1540,1250 @@ Traceback (most recent call last):
     raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
 IOError: [Errno 5] Input/output error
 [INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:06:45] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:12:47] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:12:47] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:12:49] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:12:53] "GET /popularNews/10 HTTP/1.1" 500 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:22:55] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:22:55] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:22:56] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:22:58] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:06] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:12] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:12] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:19] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:19] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:29] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:29] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:32] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:32] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:46] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:46] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:46] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:50] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:50] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:55] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:55] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:59] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:23:59] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:03] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:03] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:11] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:11] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:17] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:22] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:22] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:32] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:32] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:32] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:42] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:42] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:43] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:47] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:24:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:26:59] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:26:59] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:26:59] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:26:59] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:04] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:04] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:09] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:10] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:14] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:14] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:14] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:18] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:18] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:18] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:59] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:59] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:59] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:27:59] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:05] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:06] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:15] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:15] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:15] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:28] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:31] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:31] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t', u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ==']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:35] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:35] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:35] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:35] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t', u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ==']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:36] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:36] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:36] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:36] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:42] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:42:095', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:42] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t', u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ==']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:47] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:42:095', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:42:095', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-01T17:23:12:433', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:23:32:532', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:03:400', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:24:47:020', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:27:03:905', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:27:09:792', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:42:095', u'vote': False, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'vote': True, u'date': u'2018-12-01T17:23:55:800', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:24:22:336', u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZmFjZWJvb2suY29t'}, {u'date': u'2018-12-01T17:28:05:829', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-01T17:28:31:467', u'vote': True, u'userPublicKey': u'MIGJAoGBALPj1TTZY5Bopmf/x1WUJR/96GTIi5j+nrLpxfjGEu1J2qvlt/e966JHMSobj7MyAsuzUUrjW3j4+9/dal25d3JUxUBfeJSLqsw9+/l6i+a8avtzS3NnGOTpUJg5Mp6gZGNyJkGfiaHyNZOjN1e7qPYB0w5oPGbdxGNZng9VkY33AgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:47] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:28:57] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:00] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:04] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:43] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:43] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:45] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:49] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:51] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:53] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:29:57] "GET /popularNews/10 HTTP/1.1" 500 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:31:45] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:31:45] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:00] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:03] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:03] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:07] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:08] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:12] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:12] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:16] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T17:32:15:948', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:16] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:20] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T17:32:15:948', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:32:20:744', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:20] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:52] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:52] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'vote': True, u'date': u'2018-12-01T17:32:03:760', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': False, u'date': u'2018-12-01T17:32:15:948', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'vote': True, u'date': u'2018-12-01T17:32:20:744', u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:32:52] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:05] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:05] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:07] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:11] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:15] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:17] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:33:21] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:34:11] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:34:28] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:34:30] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 17:34:34] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 21:12:42] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 21:12:42] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 21:12:44] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [01/Dec/2018 21:12:48] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:32:15] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:32:15] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:32:17] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:32:21] "GET /popularNews/10 HTTP/1.1" 500 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:34:12] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:34:12] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:34:50] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:34:50] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:34:58] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:03] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:03] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:08] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:08] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:12] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:12] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:20] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:20] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:23] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:23] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:29] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:33] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:33:069', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:33] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] [u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t', u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ==']
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:39] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:33:069', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:39] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-58-      getAllVotes()] [{u'date': u'2018-12-02T09:35:12:490', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}, {u'date': u'2018-12-02T09:35:33:069', u'vote': True, u'userPublicKey': u'MIGJAoGBAKeUYpH9efpI7vhCew5vL+wSmBikHnE6Dxa3BXvgz3BI2RB45Fg6dsh4qyre9XldAjIFfYBpiSzwF+dhgRIg9dkpaDyA2bXpB9ECZTZZVXMrTvZEiUGeXbs9I3NZ7boLb9JL7EUVHC0DdLkn3SaGx2BbwcytnLuXnxQzJ0bhZ9/DAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cudW9sLmNvbQ=='}, {u'date': u'2018-12-02T09:35:03:731', u'vote': True, u'userPublicKey': u'MIGJAoGBAJsxZeFf7KIfBaHA5heg9/e8zS2hl8nYs3batuy8kC60zsXjjKz/kReUQEFi5TjYnbxb/o+A8Aed3dTfsd1iGKKA6D53vTiVsy2wZOCeG2mh15od67urbL8Bc1Rmv5H73iHONnYpufYy66tDiwQw3sNoEXVT8pvufaLjnYfqKDlrAgMBAAE=', u'newsURL': u'aHR0cHM6Ly9Xd3cuZ2xvYm8uY29t'}]
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:39] "GET /allVotes HTTP/1.1" 200 -
+[DEBUG-154-          addVote()] Received vote request
+[DEBUG-162-          addVote()] Successfully added
+[DEBUG-163-          addVote()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:43] "POST /vote HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:43] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:45] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[ERROR-1761-    log_exception()] Exception on /allVotes [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 57, in getAllVotes
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 09:35:49] "GET /allVotes HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:03] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:03] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:05] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:09] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:10] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:12] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 66, in getPopularNews
+    allTransactions = r2acSharedInstance.getAllTransactionsData()
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 185, in __call__
+    return self.__send(self.__name, args, kwargs)
+  File "/home/base/.local/lib/python2.7/site-packages/Pyro4/core.py", line 476, in _pyroInvoke
+    raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:37:16] "GET /popularNews/10 HTTP/1.1" 500 -
