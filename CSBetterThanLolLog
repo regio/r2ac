@@ -3813,3 +3813,58 @@ Traceback (most recent call last):
     print(allNewsRepeated)
 IOError: [Errno 5] Input/output error
 [INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 12:48:51] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 14:58:19] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 70, in getPopularNews
+    print(allNewsRepeated)
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 14:58:19] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 70, in getPopularNews
+    print(allNewsRepeated)
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 14:58:21] "GET /popularNews/10 HTTP/1.1" 500 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[ERROR-1761-    log_exception()] Exception on /popularNews/10 [GET]
+Traceback (most recent call last):
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 2292, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1815, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1718, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1813, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/base/.local/lib/python2.7/site-packages/flask/app.py", line 1799, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "rest.py", line 70, in getPopularNews
+    print(allNewsRepeated)
+IOError: [Errno 5] Input/output error
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 14:58:25] "GET /popularNews/10 HTTP/1.1" 500 -
