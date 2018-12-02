@@ -1,0 +1,32 @@
+[INFO-503-  addBlockForVote()] ***** New Block: Chain size:1
+[INFO-215-   generateAESKey()] This is the aesKey--------
+[INFO-216-   generateAESKey()] M›ÅeØŽBdˆ(	ìð[Ø%}u7†Ô!™
+[INFO-524-  addBlockForVote()] =====1=====>time to generate key: 11.881113052368
+[INFO-424-addVoteTransaction()] transaction received
+[INFO-430-addVoteTransaction()] block exists
+[INFO-434-addVoteTransaction()] Transaction will try to be appended to block#(1)
+[INFO-461-addVoteTransaction()] block added locally... now sending to peers..
+[INFO-463-addVoteTransaction()] =====2=====>time to add transaction in a block: 12.490987777710
+[INFO-503-  addBlockForVote()] ***** New Block: Chain size:2
+[INFO-215-   generateAESKey()] This is the aesKey--------
+[INFO-216-   generateAESKey()] šÃ×¨6¥R|ŒŠˆA¯n¿—ÊÇð¸š‘zæL+
+[INFO-524-  addBlockForVote()] =====1=====>time to generate key: 11.590003967285
+[INFO-424-addVoteTransaction()] transaction received
+[INFO-430-addVoteTransaction()] block exists
+[INFO-434-addVoteTransaction()] Transaction will try to be appended to block#(2)
+[INFO-461-addVoteTransaction()] block added locally... now sending to peers..
+[INFO-463-addVoteTransaction()] =====2=====>time to add transaction in a block: 12.086153030396
+[INFO-424-addVoteTransaction()] transaction received
+[INFO-430-addVoteTransaction()] block exists
+[INFO-434-addVoteTransaction()] Transaction will try to be appended to block#(1)
+[INFO-461-addVoteTransaction()] block added locally... now sending to peers..
+[INFO-463-addVoteTransaction()] =====2=====>time to add transaction in a block: 12.811899185181
+[INFO-503-  addBlockForVote()] ***** New Block: Chain size:3
+[INFO-215-   generateAESKey()] This is the aesKey--------
+[INFO-216-   generateAESKey()] ­«VXÓ,	zà÷‹IÚÑ‡Ãôu‰’ŽÌHÐ4cƒ
+[INFO-524-  addBlockForVote()] =====1=====>time to generate key: 11.412143707275
+[INFO-424-addVoteTransaction()] transaction received
+[INFO-430-addVoteTransaction()] block exists
+[INFO-434-addVoteTransaction()] Transaction will try to be appended to block#(3)
+[INFO-461-addVoteTransaction()] block added locally... now sending to peers..
+[INFO-463-addVoteTransaction()] =====2=====>time to add transaction in a block: 12.565851211548
