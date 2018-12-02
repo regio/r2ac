@@ -64,11 +64,9 @@ def getPopularNews(quantity):
     logger.debug(" Asked to getPopularNews")
 
     allTransactions = r2acSharedInstance.getAllTransactionsData()
+    logger.debug("Got all transaction data for popular news")
     allNewsRepeated = [i[kNewsURL] for i in allTransactions]
     allNewsUnique = set(allNewsRepeated)
-
-    print(allNewsRepeated)
-    print(allNewsUnique)
 
     newsVotes = []
     for news in allNewsUnique:

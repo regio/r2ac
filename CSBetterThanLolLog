@@ -3141,3 +3141,16 @@ Traceback (most recent call last):
     raise data  # if you see this in your traceback, you should probably inspect the remote traceback as well
 IOError: [Errno 5] Input/output error
 [INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:51:31] "GET /popularNews/10 HTTP/1.1" 500 -
+[INFO-88-             _log()]  * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+[DEBUG-111-         addBlock()] --------Received create block request!!
+[DEBUG-121-         addBlock()] Successfully created block
+[DEBUG-122-         addBlock()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:59:02] "POST /createBlock HTTP/1.1" 200 -
+[DEBUG-64-   getPopularNews()]  Asked to getPopularNews
+[DEBUG-84-   getPopularNews()] []
+[DEBUG-85-   getPopularNews()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:59:02] "GET /popularNews/10 HTTP/1.1" 200 -
+[DEBUG-56-      getAllVotes()]  Asked to get all data
+[DEBUG-58-      getAllVotes()] []
+[DEBUG-59-      getAllVotes()] ----------------------------------------
+[INFO-88-             _log()] 127.0.0.1 - - [02/Dec/2018 10:59:10] "GET /allVotes HTTP/1.1" 200 -
