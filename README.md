@@ -16,3 +16,9 @@ TODO List:
 - auto-generate the keys (for test purpouses only)
 - instrumentalize code and parametrize its time collect
 - change the info genesis block hash to point to the block header hash
+
+Video tutorial setting up CORE emulator infrastructure:
+https://www.youtube.com/watch?v=xCGu3r73xl4
+
+Video tutorial setting up SpeedyChain and using DeviceSimulator:
+https://www.youtube.com/watch?v=3MA8HBgbA8k
