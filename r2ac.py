@@ -1100,9 +1100,22 @@ def loadOrchestrator(selector):
     global orchestratorObject
     if(selector==0):
         firstGWblock = chainFunctions.getBlockByIndex(0)
-        firstGWpk = firstGWblock.publickey()
+        firstGWpk = firstGWblock.publickey
         uri = getPeerbyPK(firstGWpk)
         orchestratorObject=Pyro4.Proxy(uri)
+        return orchestratorObject
+    else:
+        return orchestratorObject
+
+def setNextOrchestrator(consensus, newOrchestratorIndex):
+    global orchestratorObject
+    if(consensus == 'dBFT'):
+        newOrchestratorbk=chainFunctions.getBlockByIndex(newOrchestratorIndex)
+        newOrchestratorPK=newOrchestratorbk.publickey
+        uri= getPeerbyPK(newOrchestratorbk)
+        orchestratorObject=Pyro4.Proxy(uri)
+        return orchestratorObject
+###############################################
 
 
 def loadOrchestrator():
