@@ -95,9 +95,6 @@ def getPeer(peerURI):
             return p
     return False
 
-
-
-
 def addBack(peer, isFirst):
     """ Receive a peer object add it to a list of peers.\n
         the var isFirst is used to ensure that the peer will only be added once.\n
@@ -506,7 +503,7 @@ class R2ac(object):
         if (blk != False and blk.index > 0):
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
-                logger.info("Using existent block data")l
+                logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
@@ -527,10 +524,10 @@ class R2ac(object):
             #     print("failed to execute:")
             #     logger.error("failed to execute:")
             #     exc_type, exc_value, exc_traceback = sys.exc_info()
-            #     print "*** print_exception:"    l
+            #     print "*** print_exception:"    
             #     traceback.print_exception(exc_type, exc_value, exc_traceback,
             #                           limit=6, file=sys.stdout)
-            l
+            
             logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
@@ -554,7 +551,7 @@ class R2ac(object):
             @return True - peer successfully added\n
             @return False - peer is already on the list
         """
-        global peersl
+        global peers
         if not (findPeer(peerURI)):
             newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
             peers.append(newPeer)
@@ -714,25 +711,6 @@ def getBlockFromSyncList():
     logger.debug("Removing block from list :")#+srt(len(blockConsesusCandiateList)))
     return devPubKey
 
-#@Roben return GWpub
-def getGWPubKey():
-    global gwPub
-    return gwPub
-
-#@Roben returning the peer that has a specified PK
-def getPeerbyPK(publicKey):
-    """ Receive the peer URI generated automatically by pyro4 and return the peer object\n
-        @param publicKey publicKey from the peer wanted\n
-        @return p - peer object \n
-        @return False - peer not found
-    """
-    global peers
-    for p in peers:
-        obj = p.object
-        gwPubKey= obj.getGWPubKey()
-        if p.peerURI == publicKey:
-            return p
-    return False
 
 ###########
 ###Consensus PBFT @Roben
@@ -1094,17 +1072,6 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 ######################          Main         ################################
 #############################################################################
 #############################################################################
-
-###@Roben atualizacao para carregar orchestrator na primeira vez vs nas demais
-def loadOrchestrator(selector):
-    global orchestratorObject
-    if(selector==0):
-        firstGWblock = chainFunctions.getBlockByIndex(0)
-        firstGWpk = firstGWblock.publickey()
-        uri = getPeerbyPK(firstGWpk)
-        orchestratorObject=Pyro4.Proxy(uri)
-
-
 def loadOrchestrator():
     """ Connect the peer to the orchestrator TODO automate connection with orchestrator """
     global orchestratorObject
@@ -1118,11 +1085,6 @@ def loadOrchestrator():
 
 def runMasterThread():
     """ initialize the PBFT of the peer """
-    #@Roben atualizacao para definir dinamicamente quem controla a votacao - o orchestrator -
-    #global currentOrchestrator
-    #
-    #
-    #while(currentOrchestrator == myURI):
     while(True):
         if(len(blockConsesusCandiateList)>0):
             runPBFT()
