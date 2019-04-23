@@ -23,7 +23,7 @@ import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
 
-
+#new changes in consensus will be performed in new branch 2019consensus
 def getMyIP():
     """ Return the IP from the gateway
     @return str 
