@@ -37,6 +37,7 @@ def getMyIP():
 orchestratorObject=""
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
+consensus = "dBFT" #it can be dBFT, PBFT, PoW, Witness3
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
