@@ -121,7 +121,7 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
     return blk
 
 
-def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
+def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     """ Receive the information of a new block and create it\n
     @param blockData - information of the new block\n
     @param pubKey - public key of the device how wants to generate the new block\n
@@ -133,7 +133,16 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
     nextTimestamp = time.time()
     #nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
     previousBlockHash = criptoFunctions.calculateHashForBlock(previousBlock)
-    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey)
+    nonce = 0
+    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
+    if(consensus == 'PoW'):
+        difficulty_bits = 16 #2 bytes or 4 hex or 16 bits of zeros in the left of hash
+        target = 2 ** (256 - difficulty_bits) #resulting value is lower when it has more 0 in the left of hash
+        while ((long(nextHash, difficulty_bits) > target ) & nonce < (2 ** 32)):
+          nonce=nonce+1
+          nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
+
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = Transaction.Transaction(0, nextHash, nextTimestamp, blockData, sign)
-    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey);
+
+    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey, nonce)
