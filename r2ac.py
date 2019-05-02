@@ -531,7 +531,7 @@ class R2ac(object):
             #     print "*** print_exception:"    l
             #     traceback.print_exception(exc_type, exc_value, exc_traceback,
             #                           limit=6, file=sys.stdout)
-            l
+            #l
             logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
@@ -870,6 +870,39 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             if(calcRet):
                 logger.info("Consensus was achieve, updating peers and finishing operation")
                 sendBlockToPeers(newBlock)                
+                return True
+    logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
+    return False
+
+
+####@Roben dbft
+def handledBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
+    """ Send the new block to all the peers available to be verified\n
+        @param newBlock - BlockHeader object\n
+        @param generatorGwPub - Public key from the peer who want to generate the block\n
+        @param generatorDevicePub - Public key from the device who want to generate the block\n
+        @param alivePeers - list of available peers\n
+        @return boolean - True: block sended to all peers, False: fail to send the block
+    """
+    hashblk = criptoFunctions.calculateHashForBlock(newBlock)
+    logger.debug("Running commit function to block: "+str(hashblk))
+    #@Roben for p in aliverPeers and p is a delegate
+    for p in alivePeers:
+        logger.debug("Asking for block verification from: "+str(p.peerURI))
+        #verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
+        picked = pickle.dumps(newBlock)
+        verifyRet = p.object.verifyBlockCandidateRemote(picked, generatorGwPub)
+        logger.debug("Answer received: "+str(verifyRet))
+        if(verifyRet):
+            peerPubKey = p.object.getGwPubkey()
+            #logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
+            logger.debug("Running the add vote to block")
+            addVoteBlockPBFT(newBlock, peerPubKey, verifyRet)
+            calcRet = calcBlockPBFT(newBlock, alivePeers)
+            logger.debug("Result from calcBlockPBFT:"+str(calcRet))
+            if(calcRet):
+                logger.info("Consensus was achieve, updating peers and finishing operation")
+                sendBlockToPeers(newBlock)
                 return True
     logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
     return False

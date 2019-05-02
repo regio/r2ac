@@ -127,6 +127,7 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     @param pubKey - public key of the device how wants to generate the new block\n
     @param previouBlock - BlockHeader object with the last block on the chain\n
     @param gwPvtKey - private key of the gateway\n
+    @param consensus - it is specified current consensus adopted
     @return BlockHeader - the new block
     """
     nextIndex = previousBlock.index + 1    
