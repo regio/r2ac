@@ -147,4 +147,4 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = Transaction.Transaction(0, nextHash, nextTimestamp, blockData, sign)
 
-    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey, nonce)
+    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, nonce, pubKey)
