@@ -196,7 +196,7 @@ def addPeer2(peerURI):
         print("Runnin addback...")
         addBack(newPeer, True)
         #syncChain(newPeer)
-        #print ("finished addback...")
+        print ("finished addback...")
         return True
     return False
 
