@@ -54,7 +54,7 @@ def addBlockOnChain():
     #while len(serverAESEncKey) < 10:
     #    serverAESEncKey = server.addBlock(publicKey)
     decryptAESKey(serverAESEncKey)
-    print("after decrypt aes")
+    print("###after decrypt aes")
 
 def sendDataTest():
     """ Send fake data to test the system """

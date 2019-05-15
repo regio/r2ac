@@ -394,14 +394,14 @@ class R2ac(object):
         t1 = time.time()
         blk = chainFunctions.findBlock(devPubKey)
         if (blk != False and blk.index > 0):
-            print("inside first if")
+            #print("inside first if")
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
-                print("inside second if")
+                #print("inside second if")
                 logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
             else:
-                print("inside else")
+                #print("inside else")
                 logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
                 #####No Consensus
                 # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
@@ -410,7 +410,7 @@ class R2ac(object):
                 ####Consensus uncoment the 3 lines
                 logger.debug("starting block consensus")
                 pickedKey = pickle.dumps(devPubKey)
-                orchestratorObject.addBlockConsensusCandiate(pickedKey)
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -432,7 +432,7 @@ class R2ac(object):
             # except:
             #     print "thread not working..."
             aesKey = generateAESKey(devPubKey)
-        print("Before encription of rsa2")
+        #print("Before encription of rsa2")
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -873,6 +873,10 @@ def calcBlockPBFT(newBlock,alivePeers):
         @param alivePeers - list of available peers\n
         @return boolean - True: consensus achived, False: consensus Not achieved yet
     """
+    print("Inside CalcBlockPBFT")
+    print("Consensus:   "+ consensus)
+    if (consensus=="PoW"):
+        return True
     logger.debug("Running the calc blockc pbft operation")
     blHash = criptoFunctions.calculateHashForBlock(newBlock)
     locDicCount = int(len(newBlockCandidate[blHash]))
@@ -1063,8 +1067,10 @@ def runMasterThread():
     #
     #
     #while(currentOrchestrator == myURI):
+    print("Inside runMasterThread")
     while(True):
         if(len(blockConsesusCandiateList)>0):
+            print("going to runPBFT")
             runPBFT()
         #time.sleep(0.001)
 
@@ -1111,6 +1117,7 @@ def main():
         logger.debug("Starging the Gateway Orchestrator")
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
+        print("going to master thread")
         threading.Thread(target=runMasterThread).start()
     else:
         loadOrchestrator()
