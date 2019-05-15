@@ -157,7 +157,7 @@ def bruteSend(retry):
                                       limit=2, file=sys.stdout)
             global serverAESKey
             print("the size of the serverAESKey is: "+str(len(serverAESKey)))
-            return
+            return #addBlockConsensusCandiate
 
 
 def defineAutomaNumbers():
@@ -175,7 +175,7 @@ def automa(blocks, trans):
     logger.debug("Block #:")
     for blk in range(0, blocks):
         logger.debug(str(blk))
-        print (str(blk))
+        print (str(blk))##addBlockConsensusCandiate
         newKeyPair()
         addBlockOnChain()
         #brutePairAuth(blk)
@@ -190,7 +190,7 @@ def automa(blocks, trans):
 def merkle():
     """ Calculates the hash markle tree of the block """
     blk = int(input("Which block you want to create the merkle tree:"))
-    server.calcMerkleTree(blk)
+    server.calcMerkleTree(blk)#addBlockConsensusCandiate
     print ("done")
 
 def loadConnection():
