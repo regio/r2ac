@@ -1040,7 +1040,8 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 def loadOrchestrator():
     """ Connect the peer to the orchestrator TODO automate connection with orchestrator """
     global orchestratorObject
-    text_file = open("/home/core/nodes/Gw1.txt", "r")
+    #text_file = open("/home/core/nodes/Gw1.txt", "r")#it will add a file to set gw1 as first orchestrator
+    text_file = open("Gw1.txt", "r")
     uri = text_file.read()
     print(uri)
     logger.debug("Orchestrator address loaded")
@@ -1065,7 +1066,8 @@ def saveOrchestratorURI(uri):
     """ save the uri of the orchestrator\n
         @param uri - orchestrator URI
     """
-    text_file = open("/home/core/nodes/Gw1.txt", "w")
+    #text_file = open("/home/core/nodes/Gw1.txt", "w")
+    text_file = open("Gw1.txt", "w")
     text_file.write(uri)
     text_file.close()
 
