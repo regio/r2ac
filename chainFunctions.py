@@ -6,20 +6,20 @@ import criptoFunctions
 
 BlockHeaderChain = []
 
-
+##@Roben inserted "consensus" to verify if PoW was selected
 def startBlockChain():
     """ Add the genesis block to the chain """
     BlockHeaderChain.append(getGenesisBlock())
 
 
-def createNewBlock(devPubKey, gwPvt):
+def createNewBlock(devPubKey, gwPvt, consensus):
     """ Receive the device public key and the gateway private key then it generates a new block \n
     @param devPubKey - Public key of the requesting device \n
     @param gwPvt - Private key of the gateway \n
 
     @return BlockHeader
     """
-    newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt)
+    newBlock = generateNextBlock("new block", devPubKey, getLatestBlock(), gwPvt, consensus)
     ##@Regio addBlockHeader is done during consensus! please take it off for running pbft
     #addBlockHeader(newBlock)
     return newBlock
@@ -66,7 +66,8 @@ def blockContainsTransaction(block, transaction):
     """
     for tr in block.transactions:
         if tr == transaction:
-            return True
+            return True    #print("uri=" + myURI)
+
     return False
 
 
@@ -117,23 +118,33 @@ LXbjx/JnbnRglOXpNHVu066t64py5xIP8133AnLjKrJgPfXwObAO5fECAwEAAQ==
 -----END PUBLIC KEY-----"""
     inf = Transaction.Transaction(0, "0", "0", "0", '')
     blk = BlockHeader.BlockHeader(0, "0", 1465154705, inf,
-                                        "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7", k)
+                                        "816534932c2b7154836da6afc367695e6337db8a921823784c14378abed4f7d7", k,0)
     return blk
 
 
-def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey):
+def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     """ Receive the information of a new block and create it\n
     @param blockData - information of the new block\n
     @param pubKey - public key of the device how wants to generate the new block\n
     @param previouBlock - BlockHeader object with the last block on the chain\n
     @param gwPvtKey - private key of the gateway\n
+    @param consensus - it is specified current consensus adopted
     @return BlockHeader - the new block
     """
     nextIndex = previousBlock.index + 1    
     nextTimestamp = time.time()
     #nextHash = criptoFunctions.calculateHash(nextIndex, previousBlock.hash, nextTimestamp, pubKey);
     previousBlockHash = criptoFunctions.calculateHashForBlock(previousBlock)
-    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey)
+    nonce = 0
+    nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
+    if(consensus == 'PoW'):
+        difficulty_bits = 16 #2 bytes or 4 hex or 16 bits of zeros in the left of hash
+        target = 2 ** (256 - difficulty_bits) #resulting value is lower when it has more 0 in the left of hash
+        while ((long(nextHash,16) > target ) & nonce < (2 ** 32)): #convert hash to long to verify when it achieve difficulty
+          nonce=nonce+1
+          nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
+
     sign = criptoFunctions.signInfo(gwPvtKey, nextHash)
     inf = Transaction.Transaction(0, nextHash, nextTimestamp, blockData, sign)
-    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, pubKey);
+
+    return BlockHeader.BlockHeader(nextIndex, previousBlockHash, nextTimestamp, inf, nextHash, nonce, pubKey)

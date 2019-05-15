@@ -37,7 +37,7 @@ def getMyIP():
 orchestratorObject=""
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
-consensus = "dBFT" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "PoW" #it can be dBFT, PBFT, PoW, Witness3
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
@@ -159,7 +159,7 @@ def syncChain(newPeer):
     Send the actual chain to a new peer\n
     @param newPeer - peer object
 
-    TODO atualizar este pydoc apos escrever o metodo
+    TODO update this pydoc after write this method code
     """
     #write the code to identify only a change in the iot block and insert.
     return True
@@ -189,14 +189,14 @@ def addPeer2(peerURI):
     """
     global peers
     if not (findPeer(peerURI)):
-        #print ("peer not found. Create new node and add to list")
-        #print ("[addPeer2]adding new peer:" + peerURI)
+        print ("peer not found. Create new node and add to list")
+        print ("[addPeer2]adding new peer:" + peerURI)
         newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
         peers.append(newPeer)
-        #print("Runnin addback...")
+        print("Runnin addback...")
         addBack(newPeer, True)
         #syncChain(newPeer)
-        #print ("finished addback...")
+        print ("finished addback...")
         return True
     return False
 
@@ -257,118 +257,6 @@ def addTrustedPeers():
  ###########################END NEW CONSENSUS @Roben
  ##########################
 
-# def peerIsTrusted(peerObj):
-#     """ Run on the trustedPeers list looking for a specific peer\n
-#         @param peerObj - peer object to search on the list\n
-#         @return True - peer founded on the list\n
-#         @return False - peer not found on the list
-#     """
-#     global trustedPeers
-#     for p in trustedPeers:
-#         if p == peerObj: return True
-#     return False
-
-# def peerIsActive(peerObj):
-#     """ Receive a peer and return if it is active on the network\n
-#         @param peerObj - peer wanted\n
-#         @return True - The peer is active\n
-#         @return False - The peer is not active
-#     """
-#     return True # TODO
-
-# def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
-#     """ Send a newBlock to be validated by the the peers\n
-#         @param newBlock - BlockHeader object\n
-#         @param getwayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#     """
-#     obj = peer.object
-#     data = pickle.dumps(newBlock)
-#     obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
-
-# def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consensus):
-#     """ Receive a block to be validated\n
-#         @param self - class param\n
-#         @param data - block data to be validated\n
-#         @param getwayPubliKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param consensus - actual state of consensus
-    
-#     """
-#     newBlock = pickle.loads(data)
-#     answer[newBlock].append(consensus)
-
-# def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
-#     """ Receive a block and verify if it is a valid block in the chain\n
-#         @param self - class param\n
-#         @param data - block data\n
-#         @param gatewayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param peer - 
-#     """
-#     newBlock = pickle.loads(data)
-#     blockIoT = chainFunctions.findBlock(devicePublicKey)
-#     consensus = True
-#     if blockIoT == False:
-#         print("Block not found in IoT ledger")
-#         consensus = False
-
-#     lastBlock = blockIoT.blockLedger[len(blockIoT.blockLedger) - 1]
-#     if newBlock.index != lastBlock.index + 1:
-#         print("New blovk Index not valid")
-#         consensus = False
-
-#     if lastBlock.calculateHashForBlockLedger(lastBlock) != newBlock.previousHash:
-#         print("New block previous hash not valid")
-#         consensus = False
-
-#     now = "{:.0f}".format(((time.time() * 1000) * 1000))
-
-#     # check time
-#     if not (newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
-#         print("New block time not valid")
-#         consensus = False
-
-#     # check device time
-#     if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
-#         print("New block device time not valid")
-#         consensus = False
-
-#     # check device signature with device public key
-#     if not (criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
-#         print("New block device signature not valid")
-#         consensus = False
-#     peer = getPeer(peer)
-#     obj = peer.object
-#     obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
-
-# def isTransactionValid(transaction,pubKey):
-#     data = str(transaction.data)[-22:-2]
-#     signature = str(transaction.data)[:-22]
-#     res = criptoFunctions.signVerify(data, signature, pubKey)
-#     return res
-
-
-# def isBlockValid(block):
-#     #Todo Fix the comparison between the hashes... for now is just a mater to simulate the time spend calculating the hashes...
-#     #global BlockHeaderChain
-#     #print(str(len(BlockHeaderChain)))
-#     lastBlk = chainFunctions.getLatestBlock()
-#     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-#     #lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
-#     lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
-#     #print ("This Hash:"+str(lastBlkHash))
-#     #print ("Last Hash:"+str(block.previousHash))
-#     if(lastBlkHash == block.previousHash):
-#         logger.info("isBlockValid == true")
-#         return True
-#     else:
-#         logger.error("isBlockValid == false")
-#         logger.error("lastBlkHash="+str(lastBlkHash))
-#         logger.error("block.previous="+str(block.previousHash))
-#         logger.error("lastBlk Index="+str(lastBlk.index))
-#         logger.error("block.index="+str(block.index))
-#         return False
 
 #############################################################################
 #############################################################################
@@ -499,26 +387,30 @@ class R2ac(object):
             @return encKey - RSA encrypted key for the device be able to communicate with the peers
         """
         global gwPub
+        print("addingblock... DevPubKey:" + devPubKey)
         logger.debug("|---------------------------------------------------------------------|")
         logger.debug("Block received from device")
         aesKey = ''
         t1 = time.time()
         blk = chainFunctions.findBlock(devPubKey)
         if (blk != False and blk.index > 0):
+            #print("inside first if")
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
-                logger.info("Using existent block data")l
+                #print("inside second if")
+                logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
-        else:
-            logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            #####No Consensus
-            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
-            # sendBlockToPeers(bl)
-            
-            ####Consensus uncoment the 3 lines
-            logger.debug("starting block consensus")
-            pickedKey = pickle.dumps(devPubKey)
-            orchestratorObject.addBlockConsensusCandiate(pickedKey)
+            else:
+                #print("inside else")
+                logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
+                #####No Consensus
+                # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+                # sendBlockToPeers(bl)
+
+                ####Consensus uncoment the 3 lines
+                logger.debug("starting block consensus")
+                pickedKey = pickle.dumps(devPubKey)
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -531,7 +423,7 @@ class R2ac(object):
             #     print "*** print_exception:"    l
             #     traceback.print_exception(exc_type, exc_value, exc_traceback,
             #                           limit=6, file=sys.stdout)
-            l
+            #
             logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
@@ -540,12 +432,13 @@ class R2ac(object):
             # except:
             #     print "thread not working..."
             aesKey = generateAESKey(devPubKey)
-
+        #print("Before encription of rsa2")
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
         logger.debug("|---------------------------------------------------------------------|")
         return encKey
+
 
     def addPeer(self, peerURI, isFirst):
         """ Receive a peer URI add it to a list of peers.\n
@@ -705,7 +598,7 @@ def getBlockFromSyncList():
     """
     logger.debug("running critical stuffff to get sync list......")
     global lock
-    lock.acquire(1)    
+    lock.acquire(1)
     logger.debug("lock aquired by get method......")
     global blockConsesusCandiateList
     if(len(blockConsesusCandiateList)>0):
@@ -714,11 +607,6 @@ def getBlockFromSyncList():
     lock.release()
     logger.debug("Removing block from list :")#+srt(len(blockConsesusCandiateList)))
     return devPubKey
-
-#@Roben return GWpub
-def getGWPubKey():
-    global gwPub
-    return gwPub
 
 #@Roben returning the peer that has a specified PK
 def getPeerbyPK(publicKey):
@@ -730,7 +618,7 @@ def getPeerbyPK(publicKey):
     global peers
     for p in peers:
         obj = p.object
-        gwPubKey= obj.getGWPubKey()
+        gwPubKey= obj.getGwPubkey()
         if p.peerURI == publicKey:
             return p
     return False
@@ -743,18 +631,20 @@ newTransactionCandidate = {} #same as block, for transaction
 
 def runPBFT():
     """ Run the PBFT consensus to add a new block on the chain """
+    print("I am in runPBFT")
     t1 = time.time()
     global gwPvt
     devPubKey = getBlockFromSyncList()
     #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt)
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
     logger.debug("Running PBFT function to block("+str(blk.index)+")")
     PBFTConsensus(blk, gwPub, devPubKey)
     t2 = time.time()
     logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+    print("I finished runPBFT")
 
-def preparePBFTConsensus(): 
-    """ verify all alive peers that will particpate in consensus\n 
+def preparePBFTConsensus():
+    """ verify all alive peers that will particpate in consensus\n
         @return list of available peers
     """
     alivePeers = []
@@ -780,20 +670,20 @@ def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     connectedPeers = peers
     # send the new block to the peers in order to get theirs vote.
     #commitBlockPBFT(newBlock, generatorGwPub,generatorDevicePub,connectedPeers) #send to all peers and for it self the result of validation
-    
+
     #t = threading.Thread(target=commitBlockPBFT, args=(newBlock,generatorGwPub,generatorDevicePub,connectedPeers))
     #t.start()
     commitBlockPBFT(newBlock,generatorGwPub, generatorDevicePub, connectedPeers)
 
     # threads.append(t)
     # for t in threads:
-    #     t.join()    
+    #     t.join()
 
 
     # if calcBlockPBFT(newBlock,connectedPeers):  # calculate, and if it is good, insert new block and call other peers to do the same
     #     for p in connectedPeers:
     #         logger.debug("calling to:"+str(p.peerURI))
-    #         x = p.object.calcBlockPBFTRemote(newBlock)            
+    #         x = p.object.calcBlockPBFTRemote(newBlock)
     #         logger.debug("return from peer:"+str(x))
     #     #     t = threading.Thread(target=p.object.calcBlockPBFTRemote, args=(newBlock, connectedPeers))
     #     #     t.start()
@@ -823,12 +713,12 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         if(not pbftAchieved):
             oldId = newBlock.index
             logger.info("PBFT not achieve, Recreating block="+ str(chainFunctions.getBlockchainSize()))
-            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt)
+            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
         else:
             pbftFinished = False
-    
+
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
         #if newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][gwPub] == criptoFunctions.signInfo(gwPvt, newBlock):#if it was already inserted a validation for the candidade block, abort
@@ -869,7 +759,40 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             logger.debug("Result from calcBlockPBFT:"+str(calcRet))
             if(calcRet):
                 logger.info("Consensus was achieve, updating peers and finishing operation")
-                sendBlockToPeers(newBlock)                
+                sendBlockToPeers(newBlock)
+                return True
+    logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
+    return False
+
+
+####@Roben dbft
+def handledBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
+    """ Send the new block to all the peers available to be verified\n
+        @param newBlock - BlockHeader object\n
+        @param generatorGwPub - Public key from the peer who want to generate the block\n
+        @param generatorDevicePub - Public key from the device who want to generate the block\n
+        @param alivePeers - list of available peers\n
+        @return boolean - True: block sended to all peers, False: fail to send the block
+    """
+    hashblk = criptoFunctions.calculateHashForBlock(newBlock)
+    logger.debug("Running commit function to block: "+str(hashblk))
+    #@Roben for p in aliverPeers and p is a delegate
+    for p in alivePeers:
+        logger.debug("Asking for block verification from: "+str(p.peerURI))
+        #verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
+        picked = pickle.dumps(newBlock)
+        verifyRet = p.object.verifyBlockCandidateRemote(picked, generatorGwPub)
+        logger.debug("Answer received: "+str(verifyRet))
+        if(verifyRet):
+            peerPubKey = p.object.getGwPubkey()
+            #logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
+            logger.debug("Running the add vote to block")
+            addVoteBlockPBFT(newBlock, peerPubKey, verifyRet)
+            calcRet = calcBlockPBFT(newBlock, alivePeers)
+            logger.debug("Result from calcBlockPBFT:"+str(calcRet))
+            if(calcRet):
+                logger.info("Consensus was achieve, updating peers and finishing operation")
+                sendBlockToPeers(newBlock)
                 return True
     logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
     return False
@@ -950,6 +873,10 @@ def calcBlockPBFT(newBlock,alivePeers):
         @param alivePeers - list of available peers\n
         @return boolean - True: consensus achived, False: consensus Not achieved yet
     """
+    print("Inside CalcBlockPBFT")
+    print("Consensus:   "+ consensus)
+    if (consensus=="PoW"):
+        return True
     logger.debug("Running the calc blockc pbft operation")
     blHash = criptoFunctions.calculateHashForBlock(newBlock)
     locDicCount = int(len(newBlockCandidate[blHash]))
@@ -1025,7 +952,7 @@ def verifyTransactionCandidate(block,newTransaction, generatorGwPub,generatorDev
         * The block is on the chain\n
         * The last transaction hash on the chain and the new transaction are the same\n
         * The index of the new transaction are the index of the last transaction plus one\n
-        * The generation time of the last transaction is smaller than the new one \n 
+        * The generation time of the last transaction is smaller than the new one \n
         * The data is sign by the TODO (generator device or gateway)
         @param block - BlockHeader object where the transaction will be add\n
         @param newTransaction - the transaction who will be add\n
@@ -1097,32 +1024,35 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 #############################################################################
 
 ###@Roben atualizacao para carregar orchestrator na primeira vez vs nas demais
-def loadOrchestrator(selector):
-    global orchestratorObject
-    if(selector==0):
-        firstGWblock = chainFunctions.getBlockByIndex(0)
-        firstGWpk = firstGWblock.publickey
-        uri = getPeerbyPK(firstGWpk)
-        orchestratorObject=Pyro4.Proxy(uri)
-        return orchestratorObject
-    else:
-        return orchestratorObject
+# get first gw pkey
+# def loadOrchestrator(selector):
+#     global orchestratorObject
+#     if(selector==0):
+#         firstGWblock = chainFunctions.getBlockByIndex(0)
+#         firstGWpk = firstGWblock.publickey
+#         uri = getPeerbyPK(firstGWpk)
+#         orchestratorObject=Pyro4.Proxy(uri)
+#         return orchestratorObject
+#     else:
+#         return orchestratorObject
 
-def setNextOrchestrator(consensus, newOrchestratorIndex):
-    global orchestratorObject
-    if(consensus == 'dBFT'):
-        newOrchestratorbk=chainFunctions.getBlockByIndex(newOrchestratorIndex)
-        newOrchestratorPK=newOrchestratorbk.publickey
-        uri= getPeerbyPK(newOrchestratorbk)
-        orchestratorObject=Pyro4.Proxy(uri)
-        return orchestratorObject
-###############################################
+###@Roben get the next GW PBKEY
+# def setNextOrchestrator(consensus, newOrchestratorIndex):
+#     global orchestratorObject
+#     if(consensus == 'dBFT'):
+#         newOrchestratorbk=chainFunctions.getBlockByIndex(newOrchestratorIndex)
+#         newOrchestratorPK=newOrchestratorbk.publickey
+#         uri= getPeerbyPK(newOrchestratorbk)
+#         orchestratorObject=Pyro4.Proxy(uri)
+#         return orchestratorObject
+# ###############################################
 
 
 def loadOrchestrator():
     """ Connect the peer to the orchestrator TODO automate connection with orchestrator """
     global orchestratorObject
-    text_file = open("/home/core/nodes/Gw1.txt", "r")
+    #text_file = open("/home/core/nodes/Gw1.txt", "r")#it will add a file to set gw1 as first orchestrator
+    text_file = open("/tmp/Gw1.txt", "r")
     uri = text_file.read()
     print(uri)
     logger.debug("Orchestrator address loaded")
@@ -1137,8 +1067,10 @@ def runMasterThread():
     #
     #
     #while(currentOrchestrator == myURI):
+    print("Inside runMasterThread")
     while(True):
         if(len(blockConsesusCandiateList)>0):
+            print("going to runPBFT")
             runPBFT()
         #time.sleep(0.001)
 
@@ -1147,7 +1079,8 @@ def saveOrchestratorURI(uri):
     """ save the uri of the orchestrator\n
         @param uri - orchestrator URI
     """
-    text_file = open("/home/core/nodes/Gw1.txt", "w")
+    #text_file = open("/home/core/nodes/Gw1.txt", "w")
+    text_file = open("/tmp/Gw1.txt", "w")
     text_file.write(uri)
     text_file.close()
 
@@ -1168,7 +1101,7 @@ def main():
     #create the blockchain
     bootstrapChain2()
     print ("Please copy the server address: PYRO:chain.server...... as shown and use it in deviceSimulator.py")
-    names = sys.argv[1]        
+    names = sys.argv[1]
     ns = Pyro4.locateNS(names)
     daemon = Pyro4.Daemon(getMyIP())
     uri = daemon.register(R2ac)
@@ -1179,13 +1112,15 @@ def main():
     print("uri=" + myURI)
     connectToPeers(ns)
     ####Consensus
-    if(str(socket.gethostname())=="Gw1"): #Gateway PBFT orchestrator
+    print("hostname=" + socket.gethostname())
+    if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before
         logger.debug("Starging the Gateway Orchestrator")
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
+        print("going to master thread")
         threading.Thread(target=runMasterThread).start()
-    #else:
-        #loadOrchestrator()   
+    else:
+        loadOrchestrator()
     daemon.requestLoop()
 
 if __name__ == '__main__':

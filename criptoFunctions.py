@@ -11,7 +11,7 @@ pad = lambda s: s + (BS - len(s) % BS) * chr(BS - len(s) % BS)
 unpad = lambda s: s[0:-ord(s[-1])]
 
 
-def calculateHash(index, previousHash, timestamp, key):
+def calculateHash(index, previousHash, timestamp, key, nonce):
     """ Calculate the hash of 4 infos concatenated index+previousHash+timestamp+key\n
         @param index - block index\n
         @param previousHash - previous block hash\n
@@ -20,7 +20,7 @@ def calculateHash(index, previousHash, timestamp, key):
         @return val - hash of it all
     """
     shaFunc = hashlib.sha256()
-    shaFunc.update((str(index) + str(previousHash) + str(timestamp) + str(key)).encode('utf-8'))
+    shaFunc.update((str(index) + str(previousHash) + str(timestamp) + str(key)).encode('utf-8') + str(nonce))
     val = shaFunc.hexdigest()
     return val
 
