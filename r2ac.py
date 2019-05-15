@@ -37,7 +37,7 @@ def getMyIP():
 orchestratorObject=""
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
-consensus = "dBFT" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "PoW" #it can be dBFT, PBFT, PoW, Witness3
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
@@ -159,7 +159,7 @@ def syncChain(newPeer):
     Send the actual chain to a new peer\n
     @param newPeer - peer object
 
-    TODO atualizar este pydoc apos escrever o metodo
+    TODO update this pydoc after write this method code
     """
     #write the code to identify only a change in the iot block and insert.
     return True
@@ -257,118 +257,6 @@ def addTrustedPeers():
  ###########################END NEW CONSENSUS @Roben
  ##########################
 
-# def peerIsTrusted(peerObj):
-#     """ Run on the trustedPeers list looking for a specific peer\n
-#         @param peerObj - peer object to search on the list\n
-#         @return True - peer founded on the list\n
-#         @return False - peer not found on the list
-#     """
-#     global trustedPeers
-#     for p in trustedPeers:
-#         if p == peerObj: return True
-#     return False
-
-# def peerIsActive(peerObj):
-#     """ Receive a peer and return if it is active on the network\n
-#         @param peerObj - peer wanted\n
-#         @return True - The peer is active\n
-#         @return False - The peer is not active
-#     """
-#     return True # TODO
-
-# def sendBlockToConsensus(newBlock, gatewayPublicKey, devicePublicKey):
-#     """ Send a newBlock to be validated by the the peers\n
-#         @param newBlock - BlockHeader object\n
-#         @param getwayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#     """
-#     obj = peer.object
-#     data = pickle.dumps(newBlock)
-#     obj.isValidBlock(data, gatewayPublicKey, devicePublicKey)
-
-# def receiveBlockConsensus(self, data, gatewayPublicKey, devicePublicKey, consensus):
-#     """ Receive a block to be validated\n
-#         @param self - class param\n
-#         @param data - block data to be validated\n
-#         @param getwayPubliKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param consensus - actual state of consensus
-    
-#     """
-#     newBlock = pickle.loads(data)
-#     answer[newBlock].append(consensus)
-
-# def isValidBlock(self, data, gatewayPublicKey, devicePublicKey, peer):
-#     """ Receive a block and verify if it is a valid block in the chain\n
-#         @param self - class param\n
-#         @param data - block data\n
-#         @param gatewayPublicKey - Public key from the sending peer\n
-#         @param devicePublicKey - Public key from the sending device\n
-#         @param peer - 
-#     """
-#     newBlock = pickle.loads(data)
-#     blockIoT = chainFunctions.findBlock(devicePublicKey)
-#     consensus = True
-#     if blockIoT == False:
-#         print("Block not found in IoT ledger")
-#         consensus = False
-
-#     lastBlock = blockIoT.blockLedger[len(blockIoT.blockLedger) - 1]
-#     if newBlock.index != lastBlock.index + 1:
-#         print("New blovk Index not valid")
-#         consensus = False
-
-#     if lastBlock.calculateHashForBlockLedger(lastBlock) != newBlock.previousHash:
-#         print("New block previous hash not valid")
-#         consensus = False
-
-#     now = "{:.0f}".format(((time.time() * 1000) * 1000))
-
-#     # check time
-#     if not (newBlock.timestamp > newBlock.signature.timestamp and newBlock.timestamp < now):
-#         print("New block time not valid")
-#         consensus = False
-
-#     # check device time
-#     if not (newBlock.signature.timestamp > lastBlock.signature.timestamp and newBlock.signature.timestamp < now):
-#         print("New block device time not valid")
-#         consensus = False
-
-#     # check device signature with device public key
-#     if not (criptoFunctions.signVerify(newBlock.signature.data, newBlock.signature.deviceSignature, gatewayPublicKey)):
-#         print("New block device signature not valid")
-#         consensus = False
-#     peer = getPeer(peer)
-#     obj = peer.object
-#     obj.receiveBlockConsensus(data, gatewayPublicKey, devicePublicKey, consensus)
-
-# def isTransactionValid(transaction,pubKey):
-#     data = str(transaction.data)[-22:-2]
-#     signature = str(transaction.data)[:-22]
-#     res = criptoFunctions.signVerify(data, signature, pubKey)
-#     return res
-
-
-# def isBlockValid(block):
-#     #Todo Fix the comparison between the hashes... for now is just a mater to simulate the time spend calculating the hashes...
-#     #global BlockHeaderChain
-#     #print(str(len(BlockHeaderChain)))
-#     lastBlk = chainFunctions.getLatestBlock()
-#     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-#     #lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
-#     lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
-#     #print ("This Hash:"+str(lastBlkHash))
-#     #print ("Last Hash:"+str(block.previousHash))
-#     if(lastBlkHash == block.previousHash):
-#         logger.info("isBlockValid == true")
-#         return True
-#     else:
-#         logger.error("isBlockValid == false")
-#         logger.error("lastBlkHash="+str(lastBlkHash))
-#         logger.error("block.previous="+str(block.previousHash))
-#         logger.error("lastBlk Index="+str(lastBlk.index))
-#         logger.error("block.index="+str(block.index))
-#         return False
 
 #############################################################################
 #############################################################################
@@ -512,7 +400,7 @@ class R2ac(object):
         else:
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
             #####No Consensus
-            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
             # sendBlockToPeers(bl)
             
             ####Consensus uncoment the 3 lines
@@ -531,7 +419,7 @@ class R2ac(object):
             #     print "*** print_exception:"    l
             #     traceback.print_exception(exc_type, exc_value, exc_traceback,
             #                           limit=6, file=sys.stdout)
-            #l
+            #
             logger.debug("end block consensus")
             # try:
             #     #thread.start_new_thread(sendBlockToPeers,(bl))
@@ -715,11 +603,6 @@ def getBlockFromSyncList():
     logger.debug("Removing block from list :")#+srt(len(blockConsesusCandiateList)))
     return devPubKey
 
-#@Roben return GWpub
-def getGWPubKey():
-    global gwPub
-    return gwPub
-
 #@Roben returning the peer that has a specified PK
 def getPeerbyPK(publicKey):
     """ Receive the peer URI generated automatically by pyro4 and return the peer object\n
@@ -730,7 +613,7 @@ def getPeerbyPK(publicKey):
     global peers
     for p in peers:
         obj = p.object
-        gwPubKey= obj.getGWPubKey()
+        gwPubKey= obj.getGwPubkey()
         if p.peerURI == publicKey:
             return p
     return False
@@ -747,7 +630,7 @@ def runPBFT():
     global gwPvt
     devPubKey = getBlockFromSyncList()
     #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt)
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
     logger.debug("Running PBFT function to block("+str(blk.index)+")")
     PBFTConsensus(blk, gwPub, devPubKey)
     t2 = time.time()
@@ -823,7 +706,7 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         if(not pbftAchieved):
             oldId = newBlock.index
             logger.info("PBFT not achieve, Recreating block="+ str(chainFunctions.getBlockchainSize()))
-            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt)
+            newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
         else:
@@ -1130,26 +1013,28 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 #############################################################################
 
 ###@Roben atualizacao para carregar orchestrator na primeira vez vs nas demais
-def loadOrchestrator(selector):
-    global orchestratorObject
-    if(selector==0):
-        firstGWblock = chainFunctions.getBlockByIndex(0)
-        firstGWpk = firstGWblock.publickey
-        uri = getPeerbyPK(firstGWpk)
-        orchestratorObject=Pyro4.Proxy(uri)
-        return orchestratorObject
-    else:
-        return orchestratorObject
+# get first gw pkey
+# def loadOrchestrator(selector):
+#     global orchestratorObject
+#     if(selector==0):
+#         firstGWblock = chainFunctions.getBlockByIndex(0)
+#         firstGWpk = firstGWblock.publickey
+#         uri = getPeerbyPK(firstGWpk)
+#         orchestratorObject=Pyro4.Proxy(uri)
+#         return orchestratorObject
+#     else:
+#         return orchestratorObject
 
-def setNextOrchestrator(consensus, newOrchestratorIndex):
-    global orchestratorObject
-    if(consensus == 'dBFT'):
-        newOrchestratorbk=chainFunctions.getBlockByIndex(newOrchestratorIndex)
-        newOrchestratorPK=newOrchestratorbk.publickey
-        uri= getPeerbyPK(newOrchestratorbk)
-        orchestratorObject=Pyro4.Proxy(uri)
-        return orchestratorObject
-###############################################
+###@Roben get the next GW PBKEY
+# def setNextOrchestrator(consensus, newOrchestratorIndex):
+#     global orchestratorObject
+#     if(consensus == 'dBFT'):
+#         newOrchestratorbk=chainFunctions.getBlockByIndex(newOrchestratorIndex)
+#         newOrchestratorPK=newOrchestratorbk.publickey
+#         uri= getPeerbyPK(newOrchestratorbk)
+#         orchestratorObject=Pyro4.Proxy(uri)
+#         return orchestratorObject
+# ###############################################
 
 
 def loadOrchestrator():
@@ -1217,8 +1102,8 @@ def main():
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         threading.Thread(target=runMasterThread).start()
-    #else:
-        #loadOrchestrator()   
+    else:
+        loadOrchestrator()
     daemon.requestLoop()
 
 if __name__ == '__main__':
