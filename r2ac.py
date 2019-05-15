@@ -394,21 +394,23 @@ class R2ac(object):
         t1 = time.time()
         blk = chainFunctions.findBlock(devPubKey)
         if (blk != False and blk.index > 0):
+            print("inside first if")
             aesKey = findAESKey(devPubKey)
             if aesKey == False:
+                print("inside second if")
                 logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
-        else:
-            logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            #####No Consensus
-            # bl = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
-            # sendBlockToPeers(bl)
-            
-            ####Consensus uncoment the 3 lines
-            logger.debug("starting block consensus")
-            pickedKey = pickle.dumps(devPubKey)
-            print("##### DEvice Key="+pickedKey)
-            orchestratorObject.addBlockConsensusCandidate(pickedKey)
+            else:
+                print("inside else")
+                logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
+                #####No Consensus
+                # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
+                # sendBlockToPeers(bl)
+
+                ####Consensus uncoment the 3 lines
+                logger.debug("starting block consensus")
+                pickedKey = pickle.dumps(devPubKey)
+                orchestratorObject.addBlockConsensusCandiate(pickedKey)
 
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -430,12 +432,13 @@ class R2ac(object):
             # except:
             #     print "thread not working..."
             aesKey = generateAESKey(devPubKey)
-
+        print("Before encription of rsa2")
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
         t2 = time.time()
         logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
         logger.debug("|---------------------------------------------------------------------|")
         return encKey
+
 
     def addPeer(self, peerURI, isFirst):
         """ Receive a peer URI add it to a list of peers.\n
