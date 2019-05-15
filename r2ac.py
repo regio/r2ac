@@ -189,11 +189,11 @@ def addPeer2(peerURI):
     """
     global peers
     if not (findPeer(peerURI)):
-        #print ("peer not found. Create new node and add to list")
-        #print ("[addPeer2]adding new peer:" + peerURI)
+        print ("peer not found. Create new node and add to list")
+        print ("[addPeer2]adding new peer:" + peerURI)
         newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
         peers.append(newPeer)
-        #print("Runnin addback...")
+        print("Runnin addback...")
         addBack(newPeer, True)
         #syncChain(newPeer)
         #print ("finished addback...")
