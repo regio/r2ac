@@ -225,7 +225,7 @@ def findAESKey(devPubKey):
         @return False - public key not found
     """
     global genKeysPars
-    for b in genKeysPars:29
+    for b in genKeysPars:
         if (b.publicKey == devPubKey):
             return b.AESKey
     return False
