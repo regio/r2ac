@@ -49,6 +49,7 @@ def setServer():
 def addBlockOnChain():
     """ Take the value of 'publicKey' var, and add it to the chain as a block"""
     global serverAESEncKey
+    print("###addBlockonChain in devicesimulator")
     serverAESEncKey = server.addBlock(publicKey)
     #while len(serverAESEncKey) < 10:
     #    serverAESEncKey = server.addBlock(publicKey)
