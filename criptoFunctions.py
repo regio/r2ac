@@ -29,7 +29,7 @@ def calculateHashForBlock(block):
     """ Receive a block and calulates his hash using the index, previous block hash, timestamp and the public key of the block\n
         @return result of calculateHash function - a hash
     """
-    return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey)
+    return calculateHash(block.index, block.previousHash, block.timestamp, block.publicKey, block.nonce)
 
 
 def calculateTransactionHash(blockLedger):

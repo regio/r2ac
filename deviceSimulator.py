@@ -49,8 +49,11 @@ def setServer():
 def addBlockOnChain():
     """ Take the value of 'publicKey' var, and add it to the chain as a block"""
     global serverAESEncKey
+    print("###addBlockonChain in devicesimulator, publicKey")
+    print(publicKey)
     serverAESEncKey = server.addBlock(publicKey)
-    print("###addBlockonChain in devicesimulator")
+    print("###addBlockonChain in devicesimulator, serverAESEncKey")
+    print(serverAESEncKey)
     #while len(serverAESEncKey) < 10:
     #    serverAESEncKey = server.addBlock(publicKey)
     decryptAESKey(serverAESEncKey)
@@ -78,6 +81,8 @@ def sendData():
     # print("data:"+data)
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
+    print("ServeAESKEY: ")
+    print(serverAESKey)
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
     server.addTransaction(publicKey, encobj)
 
@@ -182,11 +187,14 @@ def automa(blocks, trans):
         addBlockOnChain()
         #brutePairAuth(blk)
         for tr in range(0, trans):
+            print("###send transaction")
             #sendData()
             while (not (server.isBlockInTheChain(publicKey))):
                 continue
                 #time.sleep(1)
+            print("#outside while in automa")
             bruteSend(tr)
+    print("end of automa")
 
 
 def merkle():
@@ -236,7 +244,7 @@ def main():
         print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
         print("2 - Add Peer")
         print("3 - Authentication Request [a)Gw Generate AES Key;b)Enc key with RSA;c)Dec AES Key]")
-        print("4 - Produce Data [a)sign data;b)encrypt with AES key;c)Send to Gateway;d)GW update ledger and peers")
+        print("4 - Produce Data [a)sign data;b)encrypt with AES key;c)SendPYRO:obj_a0e5d0b9c148475dac65766b4bda71ec@10.132.253.150:42737 to Gateway;d)GW update ledger and peers")
         print("5 - List Block Headers from connected Gateway")
         print("6 - List Transactions for a given Block Header")
         print("7 - List PEERS")
