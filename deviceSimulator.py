@@ -49,6 +49,8 @@ def setServer():
 def addBlockOnChain():
     """ Take the value of 'publicKey' var, and add it to the chain as a block"""
     global serverAESEncKey
+    print("###addBlockonChain in devicesimulator, publicKey")
+    print(publicKey)
     serverAESEncKey = server.addBlock(publicKey)
     print("###addBlockonChain in devicesimulator, serverAESEncKey")
     print(serverAESEncKey)
@@ -185,11 +187,14 @@ def automa(blocks, trans):
         addBlockOnChain()
         #brutePairAuth(blk)
         for tr in range(0, trans):
+            print("###send transaction")
             #sendData()
             while (not (server.isBlockInTheChain(publicKey))):
                 continue
                 #time.sleep(1)
+            print("#outside while in automa")
             bruteSend(tr)
+    print("end of automa")
 
 
 def merkle():
