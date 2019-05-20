@@ -112,7 +112,7 @@ def listBlockHeader():
 def listTransactions():
     """ Ask for the user to input an index and show all transaction of the block with that index """
     index = input("Which IoT Block do you want to print?")
-    server.showBlockLedger(index)
+    server.showBlockLedger(int(index))
 
 def listPeers():
     """ List all peers in the network """

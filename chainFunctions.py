@@ -93,7 +93,7 @@ def getBlockchainSize():
 
 
 def getFullChain():
-    """ Return the entire chain\n
+    """ Return the entire chain\nShowing
     @return BlockHeader[] - list of all blocks on the chain
     """
     return BlockHeaderChain
@@ -104,6 +104,11 @@ def getBlockByIndex(index):
     @param index - desired block position\n
     @return BlockHeader 
     """
+    # global BlockHeaderChain
+    # for b in BlockHeaderChain:
+    #     if (b.index == index):
+    #         return b
+    # return False
     return BlockHeaderChain[index]
 
 
@@ -139,7 +144,7 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
     print("###############inside generateNextBlock")
     if(consensus == 'PoW'):
-        difficulty_bits = 16 #2 bytes or 4 hex or 16 bits of zeros in the left of hash
+        difficulty_bits = 20 #2 bytes or 4 hex or 16 bits of zeros in the left of hash
         target = 2 ** (256 - difficulty_bits) #resulting value is lower when it has more 0 in the left of hash
         while ((long(nextHash,16) > target ) and (nonce < (2 ** 32))): #convert hash to long to verify when it achieve difficulty
           nonce=nonce+1
