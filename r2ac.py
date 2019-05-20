@@ -147,12 +147,14 @@ def sendBlockToPeers(IoTBlock):
     @param IoTBlock - BlockHeader object
     """
     global peers
+    print("sending block to peers")
     logger.debug("Running through peers")
     for peer in peers:
         obj = peer.object
         logger.debug("sending IoT Block to: " + str(peer.peerURI))
         dat = pickle.dumps(IoTBlock)
         obj.updateIOTBlockLedger(dat,myName)
+    print("block sent to peers")
 
 def syncChain(newPeer):
     """
@@ -437,6 +439,7 @@ class R2ac(object):
             @param iotBlock - Block to be add\n
             @param gwName - sender peer's name
         """
+        print("Updating IoT Block Ledger, in Gw: "+str(gwName))
         logger.debug("updateIoTBlockLedger Function")
         b = pickle.loads(iotBlock)
         #print("picked....")
@@ -444,8 +447,10 @@ class R2ac(object):
         logger.debug("Received Block #:" + (str(b.index)))
         logger.info("Received block #:"+str(b.index)+" From:"+str(gwName))
         if isBlockValid(b):
+            print("updating is valid...")
             chainFunctions.addBlockHeader(b)
         t2 = time.time()
+        print("updating was done")
         logger.info("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
 
@@ -554,13 +559,18 @@ class R2ac(object):
             @return "ok" - done
         """
         logger.info("Showing Block Header data for peer: " + myURI)
+        print("Showing Block Header data for peer: " + myURI)
         size = chainFunctions.getBlockchainSize()
         logger.info("IoT Ledger size: " + str(size))
         logger.info("|-----------------------------------------|")
+        print("IoT Ledger size: " + str(size))
+        print("|-----------------------------------------|")
         theChain = chainFunctions.getFullChain()
         for b in theChain:
             logger.info(b.strBlock())
             logger.info("|-----------------------------------------|")
+            print(b.strBlock())
+            print("|-----------------------------------------|")
         return "ok"
 
     def showBlockLedger(self, index):
@@ -568,14 +578,20 @@ class R2ac(object):
             @param index - index of the block\n
             @return "ok" - done 
         """
+        print("Showing Transactions data for peer: " + myURI)
         logger.info("Showing Trasactions data for peer: " + myURI)
         blk = chainFunctions.getBlockByIndex(index)
+        print("Block for index"+str(index))
         size = len(blk.transactions)
         logger.info("Block Ledger size: " + str(size))
         logger.info("-------")
+        print("Block Ledger size: " + str(size))
+        print("-------")
         for b in blk.transactions:
             logger.info(b.strBlock())
             logger.info("-------")
+            print(b.strBlock())
+            print("-------")
         return "ok"
 
     def listPeer(self):
@@ -659,6 +675,7 @@ class R2ac(object):
             @return boolean - True: block found, False: block not found
         """
         blk = chainFunctions.findBlock(devPubKey)
+        #print("Inside inBlockInTheChain, devPubKey= " + str(devPubKey))
         if(blk == False):
             logger.debug("Block is false="+str(devPubKey))
             return False
@@ -680,6 +697,7 @@ def addNewBlockToSyncList(devPubKey):
     print("Inside Lock")
     blockConsesusCandiateList.append(devPubKey)
     lock.release()
+    print("Unlocked")
 
 
 def getBlockFromSyncList():
@@ -733,6 +751,20 @@ def runPBFT():
     logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
     print("I finished runPBFT")
 
+def rundBFT():
+    """ Run the PBFT consensus to add a new block on the chain """
+    print("I am in rundBFT")
+    t1 = time.time()
+    global gwPvt
+    devPubKey = getBlockFromSyncList()
+    #TODO: randomize selection of gw to orchestrate the block creation
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
+    logger.debug("Running PBFT function to block("+str(blk.index)+")")
+    PBFTConsensus(blk, gwPub, devPubKey)
+    t2 = time.time()
+    logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+    print("I finished rundBFT")
+
 def preparePBFTConsensus():
     """ verify all alive peers that will particpate in consensus\n
         @return list of available peers
@@ -746,7 +778,7 @@ def preparePBFTConsensus():
     return peers
 
 
-######Consensus for blocks########
+######PBFT Consensus for blocks########
 def PBFTConsensus(newBlock, generatorGwPub,generatorDevicePub):
     """ Make the configurations needed to run consensus and call the method runPBFT()\n
         @param newBlock - BlockHeader object\n
@@ -1021,6 +1053,7 @@ def PBFTConsensusTransaction(block, newTransaction, generatorGwPub,generatorDevi
         return True
     return False
 
+
 def commitTransactionPBFT(block, newTransaction, generatorGwPub, generatorDevicePub, alivePeers):
     """ Send a transaction to be validated by all peers\n
         @param block - BlockHeader object where the transaction will be add\n
@@ -1045,6 +1078,7 @@ def commitTransactionPBFT(block, newTransaction, generatorGwPub, generatorDevice
             t.join()
         return True
     return False
+
 
 def verifyTransactionCandidate(block,newTransaction, generatorGwPub,generatorDevicePub,alivePeers):
     """ Checks whether the new transaction has the following characteristics:\n
@@ -1093,6 +1127,7 @@ def verifyTransactionCandidate(block,newTransaction, generatorGwPub,generatorDev
     else:
         return False
 
+
 def addVoteTransactionPBFT(newTransaction,voterPub,voterSign):
     """ Add the vote of the peer to the transaction\n
         @param newTransaction - Transaction object\n
@@ -1103,6 +1138,7 @@ def addVoteTransactionPBFT(newTransaction,voterPub,voterSign):
     global newTransactionCandidate
     newTransactionCandidate[criptoFunctions.calculateHashForBlock(newTransaction)][voterPub] = voterSign
     return True
+
 
 def calcTransactionPBFT(block, newTransaction,alivePeers):
     """ If consensus are achivied, add the transaction to the block\n
@@ -1115,6 +1151,72 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
         chainFunctions.addBlockTransaction(block,newTransaction)
     return True
 ################################### Consensus PBFT END
+
+
+################Consensus PoW
+def runPoW():
+    """ Run the PoW consensus to add a new block on the chain """
+    print("I am in runPoW")
+    t1 = time.time()
+    global gwPvt
+    devPubKey = getBlockFromSyncList()
+    #TODO: randomize selection of gw to orchestrate the block creation
+    blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+    print("Device PubKey (insire runPoW): " + str(devPubKey))
+    logger.debug("Running PoW function to block("+str(blk.index)+")")
+    if(PoWConsensus(blk, gwPub, devPubKey)):
+        t2 = time.time()
+        logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("I finished runPoW")
+    else:
+        t2 = time.time()
+        logger.info("Something went wrong, time to execute PoW Block Consensus" + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("I finished runPoW - Wrong")
+
+        # oldId = newBlock.index
+        # logger.info("PBFT not achieve, Recreating block=" + str(chainFunctions.getBlockchainSize()))
+        # newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
+        # logger.info("Block Recriated ID was:(" + str(oldId) + ") new:(" + str(newBlock.index) + ")")
+        # i = i + 1
+        # print("####not pbftAchieved = True")
+
+
+def PoWConsensus(newBlock, generatorGwPub,generatorDevicePub):
+    """ Make the configurations needed to run consensus and call the method runPBFT()\n
+        @param newBlock - BlockHeader object\n
+        @param generatorGwPub - Public key from the peer who want to generate the block\n
+        @param generatorDevicePub - Public key from the device who want to generate the block\n
+    """
+    global peers
+    logger.debug("newBlock received for PoW Consensus")
+    signature=verifyBlockCandidate(newBlock, generatorGwPub, generatorDevicePub,peers)
+    if (signature == False):
+        logger.info("Consesus was not Achieved!!! Block(" + str(newBlock.index) + ") will not added")
+        return False
+    addVoteBlockPoW(newBlock, generatorGwPub, signature)
+    logger.info("Consensus was achieve, updating peers and finishing operation")
+    chainFunctions.addBlockHeader(newBlock)
+    sendBlockToPeers(newBlock)
+
+    return True
+
+
+def addVoteBlockPoW(newBlock,voterPub,voterSign):
+    """ add the signature of a peer into the newBlockCandidate,
+        using a list to all gw for a single hash, if the block is valid put the signature \n
+        @return True -  why not ? :P   ... TODO why return
+    """
+    global newBlockCandidate
+    blkHash = criptoFunctions.calculateHashForBlock(newBlock)
+    logger.debug("Adding the block to my local dictionary")
+    if(blkHash not in newBlockCandidate):
+        logger.debug("Block is not in the dictionary... creating a new entry for it")
+        newBlockCandidate[blkHash] = {}
+    newBlockCandidate[blkHash][voterPub] = voterSign
+    print("PoW vote added")
+    #newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)][voterPub] = voterSign
+    return True
+
 
 #############################################################################
 #############################################################################
@@ -1169,9 +1271,18 @@ def runMasterThread():
     #while(currentOrchestrator == myURI):
     print("Inside runMasterThread")
     while(True):
-        if(len(blockConsesusCandiateList)>0):
-            print("going to runPBFT")
-            runPBFT()
+        if (consensus == "PoW"):
+            if(len(blockConsesusCandiateList)>0):
+                print("going to runPoW")
+                runPoW()
+        if (consensus == "PBFT"):
+            if(len(blockConsesusCandiateList)>0):
+                print("going to runPBFT")
+                runPBFT()
+        if (consensus == "dBFT"):
+            if(len(blockConsesusCandiateList)>0):
+                print("going to rundBFT")
+                runPBFT()
         #time.sleep(0.001)
 
 
