@@ -57,6 +57,7 @@ genKeysPars = []
 myURI = ""
 gwPvt = ""
 gwPub = ""
+myOwnBlock = ""
 
 
 def bootstrapChain2():
@@ -109,6 +110,10 @@ def addBack(peer, isFirst):
     if(isFirst):
         obj = peer.object
         obj.addPeer(myURI, isFirst)
+        # pickedUri = pickle.dumps(myURI)
+        # print("Before gettin last chain blocks")
+        # print("Picked URI in addback: " + str(pickedUri))
+        # obj.getLastChainBlocks(pickedUri, 0)
     #else:
     #    print ("done adding....")
 
@@ -150,7 +155,9 @@ def sendBlockToPeers(IoTBlock):
     print("sending block to peers")
     logger.debug("Running through peers")
     for peer in peers:
+        print ("Inside for in peers")
         obj = peer.object
+        print("sending IoT Block to: " + str(peer.peerURI))
         logger.debug("sending IoT Block to: " + str(peer.peerURI))
         dat = pickle.dumps(IoTBlock)
         obj.updateIOTBlockLedger(dat,myName)
@@ -178,6 +185,7 @@ def connectToPeers(nameServer):
         if(peerURI.startswith("PYRO:") and peerURI != myURI):
             #print ("adding new peer:"+peerURI)
             addPeer2(peerURI)
+            #orchestratorObject.
         #else:
             #print ("nothing to do")
             #print (peerURI )
@@ -541,7 +549,7 @@ class R2ac(object):
             @return True - peer successfully added\n
             @return False - peer is already on the list
         """
-        global peersl
+        global peers
         if not (findPeer(peerURI)):
             newPeer = PeerInfo.PeerInfo(peerURI, Pyro4.Proxy(peerURI))
             peers.append(newPeer)
@@ -618,6 +626,32 @@ class R2ac(object):
         logger.info("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "ok"
+
+    #Get the missing blocks from orchestrator
+    def getLastChainBlocks(self, peerURI, lastBlockIndex):
+        print("Inside get last chain block...")
+        chainSize=chainFunctions.getBlockchainSize()
+        print("Chainsized: " + str(chainSize))
+        if(chainSize > 1):
+            newBlock = chainFunctions.getBlockByIndex(1)
+            print("My Key is: "+ str(newBlock.publicKey) + "My index is" + str(newBlock.index))
+        #destinationURI = pickle.loads(peerURI)
+        #peerUri= getPeerbyPK(destinationPK)
+            sendBlockToPeers(newBlock)
+        # print("Inside get last chain block... requested by URI: "+destinationURI)
+        # #peer=Pyro4.Proxy(destinationURI)
+        # peer = PeerInfo.PeerInfo(destinationURI, Pyro4.Proxy(destinationURI))
+        # obj = peer.object
+        # print("After creating obj in getlastchain")
+        # for index in range(lastBlockIndex+1, chainSize-1):
+        #     #logger.debug("sending IoT Block to: " + str(peer.peerURI))
+        #     print("Sending to peer"+ str(destinationURI) + "Block Index: "+ str(index) + "chainsize: "+ str(chainSize))
+        #     newBlock=chainFunctions.getBlockByIndex(index)
+        #     #dat = pickle.dumps(chainFunctions.getBlockByIndex(index))
+        #     #obj.updateIOTBlockLedger(dat, myName)
+        #     obj.chainFunctions.addBlockHeader(newBlock)
+
+        print("For finished")
 
 #####NEW CONSENSUS @Roben
     
@@ -717,7 +751,7 @@ def getBlockFromSyncList():
     return devPubKey
 
 #@Roben returning the peer that has a specified PK
-def getPeerbyPK(publicKey):
+def getPeerbyPK(gwPubKey):
     """ Receive the peer URI generated automatically by pyro4 and return the peer object\n
         @param publicKey publicKey from the peer wanted\n
         @return p - peer object \n
@@ -726,9 +760,9 @@ def getPeerbyPK(publicKey):
     global peers
     for p in peers:
         obj = p.object
-        gwPubKey= obj.getGwPubkey()
-        if p.peerURI == publicKey:
-            return p
+        print("Object GW PUB KEY: " + obj.getGwPubkey())
+        if obj.getGwPubkey() == gwPubKey:
+            return p.peerURI
     return False
 
 ###########
@@ -1224,18 +1258,21 @@ def addVoteBlockPoW(newBlock,voterPub,voterSign):
 #############################################################################
 #############################################################################
 
-###@Roben atualizacao para carregar orchestrator na primeira vez vs nas demais
-# get first gw pkey
-# def loadOrchestrator(selector):
-#     global orchestratorObject
-#     if(selector==0):
-#         firstGWblock = chainFunctions.getBlockByIndex(0)
-#         firstGWpk = firstGWblock.publickey
-#         uri = getPeerbyPK(firstGWpk)
-#         orchestratorObject=Pyro4.Proxy(uri)
-#         return orchestratorObject
-#     else:
-#         return orchestratorObject
+###@Roben update to load orchestrator by block index
+#get first gw pkey
+def loadOrchestratorIndex(index):
+    global orchestratorObject
+
+    orchestratorGWblock = chainFunctions.getBlockByIndex(index)
+    orchestratorGWpk = orchestratorGWblock.publicKey
+    print("Public Key inside loadOrchestratorINdex: " + orchestratorGWpk)
+    if (orchestratorGWpk == gwPub): #if I am the orchestrator, use my URI
+        uri=myURI
+    else:
+        uri = getPeerbyPK(orchestratorGWpk)
+    print("loading orchestrator URI: " + uri)
+    orchestratorObject=Pyro4.Proxy(uri)
+#    return orchestratorObject
 
 ###@Roben get the next GW PBKEY
 # def setNextOrchestrator(consensus, newOrchestratorIndex):
@@ -1322,17 +1359,38 @@ def main():
     saveURItoFile(myURI)
     print("uri=" + myURI)
     connectToPeers(ns)
+    bcSize=chainFunctions.getBlockchainSize()
+    print("Blockchain size is: "+ str(bcSize))
+    numberConnectedPeers = len(peers)
+    print("Number of connecter peers is: " + str(numberConnectedPeers))
     ####Consensus
     print("hostname=" + socket.gethostname())
-    if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before
+    #if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before -> old way, setting specific server as default orchestrator
+    if(numberConnectedPeers<1):
         logger.debug("Starging the Gateway Orchestrator")
         saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         print("going to master thread")
-        loadOrchestrator()
+        firstGwBlock = chainFunctions.createNewBlock(gwPub, gwPvt, consensus)
+
+        chainFunctions.addBlockHeader(firstGwBlock)
+        #R2ac.updateIOTBlockLedger(firstGwBlock, myName)
+#        loadOrchestrator()
+        loadOrchestratorIndex(1)
         threading.Thread(target=runMasterThread).start()
     else:
+        #time.sleep(5)
+        print("inside main else")
+        #pickedUri = pickle.dumps(myURI)
+        # for peer in peers:
+        #     obj = peer.object
+        #     print("Before gettin last chain blocks")
+        #     obj.getLastChainBlocks(pickedUri, chainFunctions.getBlockchainSize())
+        # loadOrchestratorIndex(1)
+
         loadOrchestrator()
+
+        print("after getting last chain blocks")
     daemon.requestLoop()
 
 if __name__ == '__main__':
