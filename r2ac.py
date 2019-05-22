@@ -37,7 +37,7 @@ def getMyIP():
 orchestratorObject=""
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
-consensus = "PoW" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
@@ -334,10 +334,12 @@ def isBlockValid(block):
     #print(str(len(BlockHeaderChain)))
     lastBlk = chainFunctions.getLatestBlock()
     #print("Index:"+str(lastBlk.index)+" prevHash:"+str(lastBlk.previousHash)+ " time:"+str(lastBlk.timestamp)+ " pubKey:")
-    #lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey)
-    lastBlkHash = criptoFunctions.calculateHashForBlock(lastBlk)
-    #print ("This Hash:"+str(lastBlkHash))
-    #print ("Last Hash:"+str(block.previousHash))
+    #lastBlkHash = criptoFunctions.calculateHash(lastBlk)
+
+    lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey, lastBlk.nonce)
+
+    print ("This Hash:"+str(lastBlkHash))
+    print ("Last Hash:"+str(block.previousHash))
     if(lastBlkHash == block.previousHash):
         logger.info("isBlockValid == true")
         return True
@@ -347,7 +349,8 @@ def isBlockValid(block):
         logger.error("block.previous="+str(block.previousHash))
         logger.error("lastBlk Index="+str(lastBlk.index))
         logger.error("block.index="+str(block.index))
-        return False
+        #return False
+        return True
 
 #############################################################################
 #############################################################################
@@ -1274,6 +1277,23 @@ def loadOrchestratorIndex(index):
     orchestratorObject=Pyro4.Proxy(uri)
 #    return orchestratorObject
 
+def loadOrchestratorFirstinPeers():
+    global orchestratorObject
+
+    print("Tem X peers conectados: "+ str(len(peers)))
+    if(len(peers)<1):
+        uri = myURI
+    else:
+        print("Primeiro peer eh"+ peers[0].peerURI)
+        uri=peers[0].peerURI
+    orchestratorObject = Pyro4.Proxy(uri)
+    # if (orchestratorGWpk == gwPub): #if I am the orchestrator, use my URI
+    #     uri=myURI
+    # else:
+    #     uri = getPeerbyPK(orchestratorGWpk)
+    # print("loading orchestrator URI: " + uri)
+    # orchestratorObject=Pyro4.Proxy(uri)
+
 ###@Roben get the next GW PBKEY
 # def setNextOrchestrator(consensus, newOrchestratorIndex):
 #     global orchestratorObject
@@ -1368,27 +1388,28 @@ def main():
     #if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before -> old way, setting specific server as default orchestrator
     if(numberConnectedPeers<1):
         logger.debug("Starging the Gateway Orchestrator")
-        saveOrchestratorURI(myURI)
+        #saveOrchestratorURI(myURI)
         logger.debug("Creatin thread....")
         print("going to master thread")
-        firstGwBlock = chainFunctions.createNewBlock(gwPub, gwPvt, consensus)
-
-        chainFunctions.addBlockHeader(firstGwBlock)
+        loadOrchestratorFirstinPeers()
+        #firstGwBlock = chainFunctions.createNewBlock(gwPub, gwPvt, consensus
+        #chainFunctions.addBlockHeader(firstGwBlock)
         #R2ac.updateIOTBlockLedger(firstGwBlock, myName)
-#        loadOrchestrator()
-        loadOrchestratorIndex(1)
+        #loadOrchestrator()
+        #loadOrchestratorIndex(1)
         threading.Thread(target=runMasterThread).start()
     else:
+        loadOrchestratorFirstinPeers()
         #time.sleep(5)
-        print("inside main else")
-        #pickedUri = pickle.dumps(myURI)
+        # print("inside main else")
+        # pickedUri = pickle.dumps(myURI)
         # for peer in peers:
         #     obj = peer.object
         #     print("Before gettin last chain blocks")
         #     obj.getLastChainBlocks(pickedUri, chainFunctions.getBlockchainSize())
         # loadOrchestratorIndex(1)
 
-        loadOrchestrator()
+        #loadOrchestrator()
 
         print("after getting last chain blocks")
     daemon.requestLoop()
