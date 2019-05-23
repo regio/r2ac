@@ -31,7 +31,10 @@ def generateRSAKeyPair():
         @return pub - public key\n
         @return prv - private key
     """
+    #randValue = Random.random.randrange(24)
     private = RSA.generate(1024)
+
+    #private = RSA.generate(1024,randValue)
     pubKey = private.publickey()
     prv = private.exportKey()
     pub = pubKey.exportKey()
@@ -203,6 +206,9 @@ def merkle():
     server.calcMerkleTree(blk)#addBlockConsensusCandiate
     print ("done")
 
+def newElection():
+    server.electNewOrchestor()
+
 def loadConnection():
     """ Load the URI of the connection  """
     global server
@@ -234,7 +240,8 @@ def main():
                7: listPeers,
                8: newKeyPair,
                9: defineAutomaNumbers,
-               10: merkle
+               10: merkle,
+               11: newElection
                }
 
     mode = -1
@@ -251,6 +258,7 @@ def main():
         print("8 - Recreate Device KeyPair")
         print("9 - Run a batch operation...")
         print("10 - Create Merkle Tree for a given block")
+        print("11 - Elect a new node as Orchestator (used for voting based consensus")
         try:
             mode = int(input('Input:'))
         except ValueError:

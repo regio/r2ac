@@ -10,6 +10,7 @@ import threading
 import merkle
 import traceback
 import thread
+import random
 
 from os import listdir
 from os.path import isfile, join
@@ -22,6 +23,7 @@ import PeerInfo
 import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
+from statistics import mode
 
 
 def getMyIP():
@@ -34,10 +36,9 @@ def getMyIP():
     s.close()
     return myIP
 
-orchestratorObject=""
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
-consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
+
 
 # logging.config.fileConfig('logging.conf')
 # logger = logging.getLogger(__name__)
@@ -58,6 +59,10 @@ myURI = ""
 gwPvt = ""
 gwPub = ""
 myOwnBlock = ""
+orchestratorObject=""
+consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
+votesForNewOrchestrator = [] #list of votes for new orchestrator votes are: voter gwPub, voted gwPub, signature
+myVoteForNewOrchestrator =[] # my gwPub, voted gwPub, my signed vote
 
 
 def bootstrapChain2():
@@ -96,8 +101,6 @@ def getPeer(peerURI):
         if p.peerURI == peerURI:
             return p
     return False
-
-
 
 
 def addBack(peer, isFirst):
@@ -656,6 +659,84 @@ class R2ac(object):
 
         print("For finished")
 
+    def getMyOrchestrator(self):
+        dat = pickle.dumps(orchestratorObject)
+        return dat
+
+    def addVoteOrchestrator(self, sentVote):
+        global votesForNewOrchestrator
+
+        dat = pickle.loads(sentVote)
+        print("adding vote in remote peer"+str(dat))
+        votesForNewOrchestrator.append(dat)
+        print("finished adding vote for orchetrator")
+        return True
+
+    def peerVoteNewOrchestrator(self):
+        global myVoteForNewOrchestrator
+        global votesForNewOrchestrator
+        #randomGw = random.randint(0, len(peers) - 1)
+        randomGw=1
+        votedURI = peers[randomGw].peerURI
+        print("VotedpubKey: " + str(votedURI))
+        #myVoteForNewOrchestrator = [gwPub, votedURI, criptoFunctions.signInfo(gwPvt, votedURI)]  # not safe sign, just for test
+        myVoteForNewOrchestrator = votedURI
+        votesForNewOrchestrator.append(myVoteForNewOrchestrator)
+        pickedVote = pickle.dumps(myVoteForNewOrchestrator)
+        return pickedVote
+
+    def electNewOrchestor(self):
+        global votesForNewOrchestrator
+        global orchestratorObject
+        for peer in peers:
+            print("inside for when > 2")
+            obj = peer.object
+            print("objeto criado")
+            receivedVote = obj.peerVoteNewOrchestrator()
+            votesForNewOrchestrator.append(pickle.loads(receivedVote))
+        voteNewOrchestrator()
+        newOrchestratorURI = mode(votesForNewOrchestrator)
+        print("Elected node was" + newOrchestratorURI)
+        orchestratorObject = Pyro4.Proxy(newOrchestratorURI)
+        for peer in peers:
+            obj = peer.object
+            dat = pickle.dumps(orchestratorObject)
+            obj.loadElectedOrchestrator(dat)
+        print("New Orchestator loaded is: " + str(newOrchestratorURI))
+        # orchestratorObject
+
+    def loadElectedOrchestrator(self, data):
+        global orchestratorObject
+
+        newOrchestrator = pickle.loads(data)
+        orchestratorObject = newOrchestrator
+        print("new loaded orchestrator: " + str(orchestratorObject.exposedURI()))
+        return True
+
+    def exposedURI(self):
+        return myURI
+
+    # def voteNewOrchestratorExposed(self):
+    #     global myVoteForNewOrchestrator
+    #     global votesForNewOrchestrator
+    #
+    #     randomGw = random.randint(0, len(peers) - 1)
+    #     votedpubKey = peers[randomGw].object.getGwPubkey()
+    #     # print("Selected Gw is: " + str(randomGw))
+    #     # print("My pubKey:"+ str(gwPub))
+    #     print("VotedpubKey: " + str(votedpubKey))
+    #     myVoteForNewOrchestrator = [gwPub, votedpubKey,
+    #                                 criptoFunctions.signInfo(gwPvt, votedpubKey)]  # not safe sign, just for test
+    #     votesForNewOrchestrator.append(myVoteForNewOrchestrator)
+    #     pickedVote = pickle.dumps(myVoteForNewOrchestrator)
+    #     for count in range(0, (len(peers))):
+    #         # print("testing range of peers: "+ str(count))
+    #         # if(peer != peers[0]):
+    #         obj = peers[count].object
+    #         obj.addVoteOrchestrator(pickedVote)
+    #     return True
+    #     # print(str(myVoteForNewOrchestrator))
+
 #####NEW CONSENSUS @Roben
     
     def verifyBlockCandidateRemote(self, newBlock, askerPubKey):
@@ -712,12 +793,15 @@ class R2ac(object):
             @return boolean - True: block found, False: block not found
         """
         blk = chainFunctions.findBlock(devPubKey)
-        #print("Inside inBlockInTheChain, devPubKey= " + str(devPubKey))
+        #print("Inside inBlockInTheChain, devPumyVoteForNewOrchestratorbKey= " + str(devPubKey))
         if(blk == False):
             logger.debug("Block is false="+str(devPubKey))
             return False
         else:
             return True
+
+
+
 
 
 def addNewBlockToSyncList(devPubKey):
@@ -1280,21 +1364,46 @@ def loadOrchestratorIndex(index):
 def loadOrchestratorFirstinPeers():
     global orchestratorObject
 
-    print("Tem X peers conectados: "+ str(len(peers)))
     if(len(peers)<1):
         uri = myURI
+        orchestratorObject = Pyro4.Proxy(uri)
     else:
-        print("Primeiro peer eh"+ peers[0].peerURI)
+        print("First peer is"+ peers[0].peerURI)
         uri=peers[0].peerURI
-    orchestratorObject = Pyro4.Proxy(uri)
+        obj=peers[0].object
+        dat=pickle.loads(obj.getMyOrchestrator())
+        print("##My Orchestrator orchestrator: "+str(dat))
+        orchestratorObject=dat
+    #orchestratorObject = Pyro4.Proxy(uri)
     # if (orchestratorGWpk == gwPub): #if I am the orchestrator, use my URI
     #     uri=myURI
-    # else:
+    # else:from Crypto import Random
     #     uri = getPeerbyPK(orchestratorGWpk)
     # print("loading orchestrator URI: " + uri)
     # orchestratorObject=Pyro4.Proxy(uri)
 
-###@Roben get the next GW PBKEY
+def voteNewOrchestrator():
+    global myVoteForNewOrchestrator
+    global votesForNewOrchestrator
+
+    randomGw = random.randint(0, len(peers) - 1)
+    votedURI = peers[randomGw].peerURI
+        # print("Selected Gw is: " + str(randomGw))
+        # print("My pubKey:"+ str(gwPub))
+    print("votedURI: " + str(votedURI))
+    #myVoteForNewOrchestrator = [gwPub, votedURI, criptoFunctions.signInfo(gwPvt, votedURI)]  # not safe sign, just for test
+    myVoteForNewOrchestrator=votedURI
+    votesForNewOrchestrator.append(myVoteForNewOrchestrator)
+    pickedVote = pickle.dumps(myVoteForNewOrchestrator)
+    for count in range(0, (len(peers))):
+        # print("testing range of peers: "+ str(count))
+        # if(peer != peers[0]):
+        obj = peers[count].object
+        obj.addVoteOrchestrator(pickedVote)
+    # print(str(myVoteForNewOrchestrator))
+
+
+###@Roben get the next GW PBKEYfrom Crypto import Random
 # def setNextOrchestrator(consensus, newOrchestratorIndex):
 #     global orchestratorObject
 #     if(consensus == 'dBFT'):
@@ -1304,6 +1413,9 @@ def loadOrchestratorFirstinPeers():
 #         orchestratorObject=Pyro4.Proxy(uri)
 #         return orchestratorObject
 # ###############################################
+
+
+
 
 
 def loadOrchestrator():
@@ -1343,6 +1455,8 @@ def runMasterThread():
         #time.sleep(0.001)
 
 
+
+
 def saveOrchestratorURI(uri):
     """ save the uri of the orchestrator\n
         @param uri - orchestrator URI
@@ -1365,6 +1479,7 @@ def saveURItoFile(uri):
 def main():
     """ Main function initiate the system"""
     global myURI
+    global votesForNewOrchestrator
 
     #create the blockchain
     bootstrapChain2()
@@ -1407,9 +1522,12 @@ def main():
         #     obj = peer.object
         #     print("Before gettin last chain blocks")
         #     obj.getLastChainBlocks(pickedUri, chainFunctions.getBlockchainSize())
-        # loadOrchestratorIndex(1)
-
+        # # loadOrchestratorIndex(1)
+        # if (len(peers)>3):
+        #     electNewOrchestor()
         #loadOrchestrator()
+
+        print("tamanho de todos os votos: "+str(len(votesForNewOrchestrator)))
 
         print("after getting last chain blocks")
     daemon.requestLoop()
