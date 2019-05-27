@@ -1440,19 +1440,21 @@ def runMasterThread():
     #while(currentOrchestrator == myURI):
     print("Inside runMasterThread")
     while(True):
-        if (consensus == "PoW"):
-            if(len(blockConsesusCandiateList)>0):
-                print("going to runPoW")
-                runPoW()
-        if (consensus == "PBFT"):
-            if(len(blockConsesusCandiateList)>0):
-                print("going to runPBFT")
-                runPBFT()
-        if (consensus == "dBFT"):
-            if(len(blockConsesusCandiateList)>0):
-                print("going to rundBFT")
-                runPBFT()
-        #time.sleep(0.001)
+        #print(str(orchestratorObject.exposedURI()))
+        if (orchestratorObject.exposedURI() == myURI):
+            if (consensus == "PoW"):
+                if(len(blockConsesusCandiateList)>0):
+                    print("going to runPoW")
+                    runPoW()
+            if (consensus == "PBFT"):
+                if(len(blockConsesusCandiateList)>0):
+                    print("going to runPBFT")
+                    runPBFT()
+            if (consensus == "dBFT"):
+                if(len(blockConsesusCandiateList)>0):
+                    print("going to rundBFT")
+                    runPBFT()
+        time.sleep(1)
 
 
 
