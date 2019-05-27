@@ -52,15 +52,15 @@ def setServer():
 def addBlockOnChain():
     """ Take the value of 'publicKey' var, and add it to the chain as a block"""
     global serverAESEncKey
-    print("###addBlockonChain in devicesimulator, publicKey")
-    print(publicKey)
+    #print("###addBlockonChain in devicesimulator, publicKey")
+    #print(publicKey)
     serverAESEncKey = server.addBlock(publicKey)
-    print("###addBlockonChain in devicesimulator, serverAESEncKey")
-    print(serverAESEncKey)
+    #print("###addBlockonChain in devicesimulator, serverAESEncKey")
+    #print(serverAESEncKey)
     #while len(serverAESEncKey) < 10:
     #    serverAESEncKey = server.addBlock(publicKey)
     decryptAESKey(serverAESEncKey)
-    print("###after decrypt aes")
+    #print("###after decrypt aes")
 
 def sendDataTest():
     """ Send fake data to test the system """
@@ -84,8 +84,8 @@ def sendData():
     # print("data:"+data)
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
-    print("ServeAESKEY: ")
-    print(serverAESKey)
+    #print("ServeAESKEY: ")
+    #print(serverAESKey)
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
     server.addTransaction(publicKey, encobj)
 
@@ -195,7 +195,7 @@ def automa(blocks, trans):
             while (not (server.isBlockInTheChain(publicKey))):
                 continue
                 #time.sleep(1)
-            print("#outside while in automa")
+            #print("#outside while in automa")
             bruteSend(tr)
     print("end of automa")
 
@@ -208,6 +208,13 @@ def merkle():
 
 def newElection():
     server.electNewOrchestrator()
+    return True
+
+def defineConsensus():
+    receivedConsensus = str(input('Set a consensus (PBFT, PoW, dBFT or Witness3: '))
+    server.setConsensus(receivedConsensus) #server will set its consensus and send it to all peers
+    print("Consensus " + receivedConsensus + " was defined" )
+    return True
 
 def loadConnection():
     """ Load the URI of the connection  """
@@ -241,7 +248,8 @@ def main():
                8: newKeyPair,
                9: defineAutomaNumbers,
                10: merkle,
-               11: newElection
+               11: newElection,
+                12: defineConsensus
                }
 
     mode = -1
@@ -259,6 +267,7 @@ def main():
         print("9 - Run a batch operation...")
         print("10 - Create Merkle Tree for a given block")
         print("11 - Elect a new node as Orchestator (used for voting based consensus")
+        print("12 - Set a consensus algorithm")
         try:
             mode = int(input('Input:'))
         except ValueError:

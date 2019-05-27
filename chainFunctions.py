@@ -142,7 +142,7 @@ def generateNextBlock(blockData, pubKey, previousBlock, gwPvtKey, consensus):
     previousBlockHash = criptoFunctions.calculateHashForBlock(previousBlock)
     nonce = 0
     nextHash = criptoFunctions.calculateHash(nextIndex, previousBlockHash, nextTimestamp, pubKey, nonce)
-    print("###############inside generateNextBlock")
+    #print("###############inside generateNextBlock")
     if(consensus == 'PoW'):
         difficulty_bits = 20 #2 bytes or 4 hex or 16 bits of zeros in the left of hash
         target = 2 ** (256 - difficulty_bits) #resulting value is lower when it has more 0 in the left of hash

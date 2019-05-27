@@ -59,7 +59,7 @@ gwPvt = ""
 gwPub = ""
 myOwnBlock = ""
 orchestratorObject=""
-consensus = "PoW" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
 votesForNewOrchestrator = [] #list of votes for new orchestrator votes are: voter gwPub, voted gwPub, signature
 myVoteForNewOrchestrator =[] # my gwPub, voted gwPub, my signed vote
 
@@ -692,7 +692,7 @@ class R2ac(object):
         global orchestratorObject
         for peer in peers:
             obj = peer.object
-            print("objeto criado")
+            #print("objeto criado")
             receivedVote = obj.peerVoteNewOrchestrator()
             votesForNewOrchestrator.append(pickle.loads(receivedVote))
         voteNewOrchestrator()
@@ -717,6 +717,18 @@ class R2ac(object):
 
     def exposedURI(self):
         return myURI
+
+    def setConsensus(self, receivedConsensus):
+        global consensus
+        if (receivedConsensus != consensus):
+            consensus = receivedConsensus
+            print("######")
+            print("Changed my consensus to " + consensus)
+            for p in peers:
+                obj = p.object
+                obj.setConsensus(receivedConsensus)
+        return True
+    
 
     # def voteNewOrchestratorExposed(self):
     #     global myVoteForNewOrchestrator
@@ -811,16 +823,16 @@ def addNewBlockToSyncList(devPubKey):
         @param devPubKey - Public key of the block
     """
     logger.debug("running critical stuffff......")
-    print("Inside addNewBlockToSyncLIst")
+    #print("Inside addNewBlockToSyncLIst")
     global lock
     lock.acquire(1)
     logger.debug("running critical was acquire")
     global blockConsesusCandiateList
     logger.debug("Appending block to list :")#+srt(len(blockConsesusCandiateList)))
-    print("Inside Lock")
+    #print("Inside Lock")
     blockConsesusCandiateList.append(devPubKey)
     lock.release()
-    print("Unlocked")
+    #print("Unlocked")
 
 
 def getBlockFromSyncList():
@@ -862,7 +874,7 @@ newTransactionCandidate = {} #same as block, for transaction
 
 def runPBFT():
     """ Run the PBFT consensus to add a new block on the chain """
-    print("I am in runPBFT")
+    #print("I am in runPBFT")
     t1 = time.time()
     global gwPvt
     devPubKey = getBlockFromSyncList()
@@ -877,7 +889,7 @@ def runPBFT():
 
 def rundBFT():
     """ Run the PBFT consensus to add a new block on the chain """
-    print("I am in rundBFT")
+    #print("I am in rundBFT")
     t1 = time.time()
     global gwPvt
     devPubKey = getBlockFromSyncList()
@@ -962,10 +974,10 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
-            print("####not pbftAchieved = True")
+            print("####not pbftAchieved")
         else:
             pbftFinished = False
-            print("####pbftFinished = False")
+            print("####pbftFinished")
 
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
@@ -999,7 +1011,7 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
         picked = pickle.dumps(newBlock)
         verifyRet = p.object.verifyBlockCandidateRemote(picked, generatorGwPub)
         logger.debug("Answer received: "+str(verifyRet))
-        print("######inside handlePBFT first for")
+        #print("######inside handlePBFT first for")
         if(verifyRet):
             peerPubKey = p.object.getGwPubkey()
             #logger.debug("Pub Key from gateway that voted: "+str(peerPubKey))
@@ -1125,7 +1137,7 @@ def calcBlockPBFT(newBlock,alivePeers):
         @param alivePeers - list of available peers\n
         @return boolean - True: consensus achived, False: consensus Not achieved yet
     """
-    print("Inside CalcBlockPBFT")
+    #print("Inside CalcBlockPBFT")
     print("Consensus:   "+ consensus)
     # if (consensus=="PoW"):
     #     return True
@@ -1135,8 +1147,11 @@ def calcBlockPBFT(newBlock,alivePeers):
     peerCount = int(len(alivePeers))
     logger.debug("local dictionary value:"+str(locDicCount))
     logger.debug("alivePeers: "+str(peerCount))
-    #cont = int(float(0.667)*float(peerCount))
-    cont = int(float(0.1)*float(peerCount))
+    #cont=0
+    if(consensus == "PBFT" or consensus == "dBFT"):
+        cont = int(float(0.667)*float(peerCount))
+    if(consensus == "Witness3"):
+        cont = 3
     print("##Value of cont:   "+str(cont))
     #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
     if (blHash in newBlockCandidate) and (locDicCount >= cont):
@@ -1499,9 +1514,9 @@ def main():
     print("uri=" + myURI)
     connectToPeers(ns)
     bcSize=chainFunctions.getBlockchainSize()
-    print("Blockchain size is: "+ str(bcSize))
+    #print("Blockchain size is: "+ str(bcSize))
     numberConnectedPeers = len(peers)
-    print("Number of connecter peers is: " + str(numberConnectedPeers))
+    #print("Number of connecter peers is: " + str(numberConnectedPeers))
     ####Consensus
     print("hostname=" + socket.gethostname())
     #if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before -> old way, setting specific server as default orchestrator
