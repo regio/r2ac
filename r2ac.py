@@ -23,7 +23,6 @@ import PeerInfo
 import DeviceKeyMapping
 import chainFunctions
 import criptoFunctions
-from statistics import mode
 
 
 def getMyIP():
@@ -60,7 +59,7 @@ gwPvt = ""
 gwPub = ""
 myOwnBlock = ""
 orchestratorObject=""
-consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "PoW" #it can be dBFT, PBFT, PoW, Witness3
 votesForNewOrchestrator = [] #list of votes for new orchestrator votes are: voter gwPub, voted gwPub, signature
 myVoteForNewOrchestrator =[] # my gwPub, voted gwPub, my signed vote
 
@@ -472,11 +471,11 @@ class R2ac(object):
         #TODO
         global blockConsesusCandiateList
         logger.debug("================================================")
-        print("Inside addBlockConsensusCandidate, devPubKey: ")
-        print(devPubKey)
+        #print("Inside addBlockConsensusCandidate, devPubKey: ")
+        #print(devPubKey)
         devKey = pickle.loads(devPubKey)
-        print("Inside addBlockConsensusCandidate, devKey: ")
-        print(devPubKey)
+        #print("Inside addBlockConsensusCandidate, devKey: ")
+        #print(devPubKey)
         logger.debug("This method is executed by orchestrator."+str(devKey))
         #logger.debug("received new block consensus candidate. Queue Size:"+srt(len(blockConsesusCandiateList)))
         addNewBlockToSyncList(devKey)
@@ -516,6 +515,9 @@ class R2ac(object):
             pickedKey = pickle.dumps(devPubKey)
             print("pickedKey: ")
             print(pickedKey)
+            ### PBFT elect new orchestator every time that a new block should be inserted
+            if(consensus=="PBFT"):
+                self.electNewOrchestrator()
             orchestratorObject.addBlockConsensusCandidate(pickedKey)
             print("after orchestratorObject.addBlockConsensusCandidate")
             #try:
@@ -675,8 +677,8 @@ class R2ac(object):
     def peerVoteNewOrchestrator(self):
         global myVoteForNewOrchestrator
         global votesForNewOrchestrator
-        #randomGw = random.randint(0, len(peers) - 1)
-        randomGw=1
+        randomGw = random.randint(0, len(peers) - 1)
+        #randomGw=1
         votedURI = peers[randomGw].peerURI
         print("VotedpubKey: " + str(votedURI))
         #myVoteForNewOrchestrator = [gwPub, votedURI, criptoFunctions.signInfo(gwPvt, votedURI)]  # not safe sign, just for test
@@ -685,17 +687,17 @@ class R2ac(object):
         pickedVote = pickle.dumps(myVoteForNewOrchestrator)
         return pickedVote
 
-    def electNewOrchestor(self):
+    def electNewOrchestrator(self):
         global votesForNewOrchestrator
         global orchestratorObject
         for peer in peers:
-            print("inside for when > 2")
             obj = peer.object
             print("objeto criado")
             receivedVote = obj.peerVoteNewOrchestrator()
             votesForNewOrchestrator.append(pickle.loads(receivedVote))
         voteNewOrchestrator()
-        newOrchestratorURI = mode(votesForNewOrchestrator)
+        #newOrchestratorURI = mode(votesForNewOrchestrator)
+        newOrchestratorURI = max(set(votesForNewOrchestrator), key=votesForNewOrchestrator.count)
         print("Elected node was" + newOrchestratorURI)
         orchestratorObject = Pyro4.Proxy(newOrchestratorURI)
         for peer in peers:
@@ -867,6 +869,7 @@ def runPBFT():
     #TODO: randomize selection of gw to orchestrate the block creation
     blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
     logger.debug("Running PBFT function to block("+str(blk.index)+")")
+
     PBFTConsensus(blk, gwPub, devPubKey)
     t2 = time.time()
     logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -1417,7 +1420,7 @@ def voteNewOrchestrator():
 
 
 
-
+#This method "loadOrchestrator() is deprecated... It is not used anymore...
 def loadOrchestrator():
     """ Connect the peer to the orchestrator TODO automate connection with orchestrator """
     global orchestratorObject
@@ -1440,7 +1443,6 @@ def runMasterThread():
     #while(currentOrchestrator == myURI):
     print("Inside runMasterThread")
     while(True):
-        #print(str(orchestratorObject.exposedURI()))
         if (orchestratorObject.exposedURI() == myURI):
             if (consensus == "PoW"):
                 if(len(blockConsesusCandiateList)>0):
@@ -1504,10 +1506,10 @@ def main():
     print("hostname=" + socket.gethostname())
     #if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before -> old way, setting specific server as default orchestrator
     if(numberConnectedPeers<1):
-        logger.debug("Starging the Gateway Orchestrator")
+        logger.debug("Starging the First Gateway")
         #saveOrchestratorURI(myURI)
-        logger.debug("Creatin thread....")
-        print("going to master thread")
+        #logger.debug("Creatin thread....")
+        #print("going to master thread")
         loadOrchestratorFirstinPeers()
         #firstGwBlock = chainFunctions.createNewBlock(gwPub, gwPvt, consensus
         #chainFunctions.addBlockHeader(firstGwBlock)
@@ -1528,10 +1530,10 @@ def main():
         # if (len(peers)>3):
         #     electNewOrchestor()
         #loadOrchestrator()
+        threading.Thread(target=runMasterThread).start()
+        #print("tamanho de todos os votos: "+str(len(votesForNewOrchestrator)))
 
-        print("tamanho de todos os votos: "+str(len(votesForNewOrchestrator)))
-
-        print("after getting last chain blocks")
+        #print("after getting last chain blocks")
     daemon.requestLoop()
 
 if __name__ == '__main__':

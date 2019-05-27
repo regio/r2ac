@@ -207,7 +207,7 @@ def merkle():
     print ("done")
 
 def newElection():
-    server.electNewOrchestor()
+    server.electNewOrchestrator()
 
 def loadConnection():
     """ Load the URI of the connection  """
