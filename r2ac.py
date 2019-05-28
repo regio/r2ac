@@ -35,6 +35,12 @@ def getMyIP():
     s.close()
     return myIP
 
+def getTime():
+    """ Return the IP from the gateway
+    @return str
+    """
+    return time.time()
+
 lock=thread.allocate_lock()
 blockConsesusCandiateList = []
 
@@ -44,7 +50,7 @@ blockConsesusCandiateList = []
 #https://docs.python.org/3/library/logging.html#logrecord-attributes
 FORMAT = "[%(levelname)s-%(lineno)s-%(funcName)17s()] %(message)s"
 #logger.basicConfig(filename=getMyIP()+str(time.time()),level=logging.DEBUG, format=FORMAT)
-logger.basicConfig(filename=getMyIP(),level=logging.INFO, format=FORMAT)
+logger.basicConfig(filename=getMyIP()+str(getTime()),level=logging.INFO, format=FORMAT)
 
 # Enable/Disable the  transaction validation when peer receives a transaction
 validatorClient = True
@@ -704,6 +710,7 @@ class R2ac(object):
             obj = peer.object
             dat = pickle.dumps(orchestratorObject)
             obj.loadElectedOrchestrator(dat)
+        logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("New Orchestator loaded is: " + str(newOrchestratorURI))
         # orchestratorObject
 
@@ -712,6 +719,7 @@ class R2ac(object):
 
         newOrchestrator = pickle.loads(data)
         orchestratorObject = newOrchestrator
+        logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("new loaded orchestrator: " + str(orchestratorObject.exposedURI()))
         return True
 
@@ -1385,12 +1393,14 @@ def loadOrchestratorFirstinPeers():
     if(len(peers)<1):
         uri = myURI
         orchestratorObject = Pyro4.Proxy(uri)
+        logger.info("I am my own orchestrator....")
     else:
         print("First peer is"+ peers[0].peerURI)
-        uri=peers[0].peerURI
+        #uri=peers[0].peerURI
         obj=peers[0].object
         dat=pickle.loads(obj.getMyOrchestrator())
         print("##My Orchestrator orchestrator: "+str(dat))
+        logger.info("##My Orchestrator orchestrator: "+str(dat))
         orchestratorObject=dat
     #orchestratorObject = Pyro4.Proxy(uri)
     # if (orchestratorGWpk == gwPub): #if I am the orchestrator, use my URI
@@ -1521,9 +1531,9 @@ def main():
     print("hostname=" + socket.gethostname())
     #if(str(socket.gethostname())=="conseg-Inspiron-5570"): #Gateway PBFT orchestrator --Gw1 before -> old way, setting specific server as default orchestrator
     if(numberConnectedPeers<1):
-        logger.debug("Starging the First Gateway")
+        logger.info("Starging the First Gateway")
         #saveOrchestratorURI(myURI)
-        #logger.debug("Creatin thread....")
+        logger.info("Creatin thread....")
         #print("going to master thread")
         loadOrchestratorFirstinPeers()
         #firstGwBlock = chainFunctions.createNewBlock(gwPub, gwPvt, consensus
