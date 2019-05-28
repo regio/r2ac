@@ -696,6 +696,8 @@ class R2ac(object):
     def electNewOrchestrator(self):
         global votesForNewOrchestrator
         global orchestratorObject
+
+        t1 = time.time()
         for peer in peers:
             obj = peer.object
             #print("objeto criado")
@@ -710,8 +712,11 @@ class R2ac(object):
             obj = peer.object
             dat = pickle.dumps(orchestratorObject)
             obj.loadElectedOrchestrator(dat)
+        t2 = time.time()
+        logger.info("=====7=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("New Orchestator loaded is: " + str(newOrchestratorURI))
+        print("=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         # orchestratorObject
 
     def loadElectedOrchestrator(self, data):
