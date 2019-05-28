@@ -719,7 +719,7 @@ class R2ac(object):
 
         newOrchestrator = pickle.loads(data)
         orchestratorObject = newOrchestrator
-        logger.info("New Orchestator loaded is: " + + str(orchestratorObject.exposedURI()))
+        logger.info("New Orchestator loaded is: " + str(orchestratorObject.exposedURI()))
         print("new loaded orchestrator: " + str(orchestratorObject.exposedURI()))
         return True
 
