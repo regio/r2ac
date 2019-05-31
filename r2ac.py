@@ -496,7 +496,7 @@ class R2ac(object):
 
     def releaseLockRemote(self):
         global consensusLock
-        consensusLock.release(1)
+        consensusLock.release()
 
     def addBlock(self, devPubKey):
         """ Receive a device public key from a device and link it to A block on the chain\n
@@ -531,19 +531,37 @@ class R2ac(object):
             pickedKey = pickle.dumps(devPubKey)
             print("pickedKey: ")
             print(pickedKey)
-            ### PBFT elect new orchestator every time that a new block should be inserted
+
+            #############LockCONSENSUS STARTS HERE###############
             if(consensus=="PBFT"):
+                ### PBFT elect new orchestator every time that a new block should be inserted
                 self.electNewOrchestrator()
                 # while(lockisNotAvailabe):
                 consensusLock.acquire(1)
                 for p in peers:
-                    p.acquireLockRemote()
+                    obj=p.object
+                    obj.acquireLockRemote()
                 print("ConsensusLocks acquired!")
-                #     trylockEverypeersLocks
-                #     sleep(0.001)
-                #
-                #orchestratorObject.runPBFT(pickedKey)
-            orchestratorObject.addBlockConsensusCandidate(pickedKey)
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
+                orchestratorObject.runPBFT()
+            if(consensus=="dBFT"):
+
+                consensusLock.acquire(1) # only 1 consensus can be running at same time
+                for p in peers:
+                    obj=p.object
+                    obj.acquireLockRemote()
+                print("ConsensusLocks acquired!")
+                orchestratorObject.addBlockConsensusCandidate(pickedKey)
+                orchestratorObject.rundBFT()
+            if(consensus=="PoW"):
+                consensusLock.acquire(1) # only 1 consensus can be running at same time
+                for p in peers:
+                    obj=p.object
+                    obj.acquireLockRemote()
+                print("ConsensusLocks acquired!")
+                #orchestratorObject.addBlockConsensusCandidate(pickedKey)
+                self.runPoW()
+
             #print("after orchestratorObject.addBlockConsensusCandidate")
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
@@ -564,10 +582,16 @@ class R2ac(object):
             #     t1.start()
             # except:
             #     print "thread not working..."
-            consensusLock.release(1)
-            for p in peers:
-                p.releaseLockRemote()
-            print("ConsensusLocks released!")
+
+
+            if(consensus=="PBFT" or consensus=="dBFT" or consensus=="Witness3" or consensus=="PoW"):
+                consensusLock.release()
+                for p in peers:
+                    obj = p.object
+                    obj.releaseLockRemote()
+                print("ConsensusLocks released!")
+            ######end of lock consensus################
+
             aesKey = generateAESKey(devPubKey)
         #print("Before encription of rsa2")
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
@@ -768,7 +792,55 @@ class R2ac(object):
                 obj = p.object
                 obj.setConsensus(receivedConsensus)
         return True
-    
+
+    def runPBFT(self):
+        """ Run the PBFT consensus to add a new block on the chain """
+        # print("I am in runPBFT")
+        t1 = time.time()
+        global gwPvt
+        devPubKey = getBlockFromSyncList()
+
+        blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+        logger.debug("Running PBFT function to block(" + str(blk.index) + ")")
+
+        PBFTConsensus(blk, gwPub, devPubKey)
+        t2 = time.time()
+        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("I finished runPBFT")
+
+    def rundBFT():
+        """ Run the dBFT consensus to add a new block on the chain """
+        # print("I am in rundBFT")
+        t1 = time.time()
+        global gwPvt
+        devPubKey = getBlockFromSyncList()
+
+        blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+        logger.debug("Running dBFT function to block(" + str(blk.index) + ")")
+        PBFTConsensus(blk, gwPub, devPubKey)
+        t2 = time.time()
+        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("I finished rundBFT")
+
+    ################Consensus PoW
+    def runPoW():
+        """ Run the PoW consensus to add a new block on the chain """
+        print("I am in runPoW")
+        t1 = time.time()
+        global gwPvt
+        devPubKey = getBlockFromSyncList()
+        blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+        print("Device PubKey (insire runPoW): " + str(devPubKey))
+
+        if (PoWConsensus(blk, gwPub, devPubKey)):
+            t2 = time.time()
+            logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+            print("I finished runPoW")
+        else:
+            t2 = time.time()
+            logger.info(
+                "Something went wrong, time to execute PoW Block Consensus" + '{0:.12f}'.format((t2 - t1) * 1000))
+            print("I finished runPoW - Wrong")
 
     # def voteNewOrchestratorExposed(self):
     #     global myVoteForNewOrchestrator
@@ -912,34 +984,34 @@ def getPeerbyPK(gwPubKey):
 newBlockCandidate = {} ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
 newTransactionCandidate = {} #same as block, for transaction
 
-def runPBFT():
-    """ Run the PBFT consensus to add a new block on the chain """
-    #print("I am in runPBFT")
-    t1 = time.time()
-    global gwPvt
-    devPubKey = getBlockFromSyncList()
-    #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
-    logger.debug("Running PBFT function to block("+str(blk.index)+")")
+# def runPBFT():
+#     """ Run the PBFT consensus to add a new block on the chain """
+#     #print("I am in runPBFT")
+#     t1 = time.time()
+#     global gwPvt
+#     devPubKey = getBlockFromSyncList()
+#
+#     blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
+#     logger.debug("Running PBFT function to block("+str(blk.index)+")")
+#
+#     PBFTConsensus(blk, gwPub, devPubKey)
+#     t2 = time.time()
+#     logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+#     print("I finished runPBFT")
 
-    PBFTConsensus(blk, gwPub, devPubKey)
-    t2 = time.time()
-    logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-    print("I finished runPBFT")
-
-def rundBFT():
-    """ Run the PBFT consensus to add a new block on the chain """
-    #print("I am in rundBFT")
-    t1 = time.time()
-    global gwPvt
-    devPubKey = getBlockFromSyncList()
-    #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
-    logger.debug("Running PBFT function to block("+str(blk.index)+")")
-    PBFTConsensus(blk, gwPub, devPubKey)
-    t2 = time.time()
-    logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-    print("I finished rundBFT")
+# def rundBFT():
+#     """ Run the PBFT consensus to add a new block on the chain """
+#     #print("I am in rundBFT")
+#     t1 = time.time()
+#     global gwPvt
+#     devPubKey = getBlockFromSyncList()
+#
+#     blk = chainFunctions.createNewBlock(devPubKey, gwPvt,consensus)
+#     logger.debug("Running PBFT function to block("+str(blk.index)+")")
+#     PBFTConsensus(blk, gwPub, devPubKey)
+#     t2 = time.time()
+#     logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+#     print("I finished rundBFT")
 
 def preparePBFTConsensus():
     """ verify all alive peers that will particpate in consensus\n
@@ -1332,32 +1404,25 @@ def calcTransactionPBFT(block, newTransaction,alivePeers):
 ################################### Consensus PBFT END
 
 
-################Consensus PoW
-def runPoW():
-    """ Run the PoW consensus to add a new block on the chain """
-    print("I am in runPoW")
-    t1 = time.time()
-    global gwPvt
-    devPubKey = getBlockFromSyncList()
-    #TODO: randomize selection of gw to orchestrate the block creation
-    blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
-    print("Device PubKey (insire runPoW): " + str(devPubKey))
+# ################Consensus PoW
+# def runPoW():
+#     """ Run the PoW consensus to add a new block on the chain """
+#     print("I am in runPoW")
+#     t1 = time.time()
+#     global gwPvt
+#     devPubKey = getBlockFromSyncList()
+#     blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+#     print("Device PubKey (insire runPoW): " + str(devPubKey))
+#
+#     if(PoWConsensus(blk, gwPub, devPubKey)):
+#         t2 = time.time()
+#         logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+#         print("I finished runPoW")
+#     else:
+#         t2 = time.time()
+#         logger.info("Something went wrong, time to execute PoW Block Consensus" + '{0:.12f}'.format((t2 - t1) * 1000))
+#         print("I finished runPoW - Wrong")
 
-    if(PoWConsensus(blk, gwPub, devPubKey)):
-        t2 = time.time()
-        logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        print("I finished runPoW")
-    else:
-        t2 = time.time()
-        logger.info("Something went wrong, time to execute PoW Block Consensus" + '{0:.12f}'.format((t2 - t1) * 1000))
-        print("I finished runPoW - Wrong")
-
-        # oldId = newBlock.index
-        # logger.info("PBFT not achieve, Recreating block=" + str(chainFunctions.getBlockchainSize()))
-        # newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
-        # logger.info("Block Recriated ID was:(" + str(oldId) + ") new:(" + str(newBlock.index) + ")")
-        # i = i + 1
-        # print("####not pbftAchieved = True")
 
 
 def PoWConsensus(newBlock, generatorGwPub,generatorDevicePub):
@@ -1573,7 +1638,7 @@ def main():
         #R2ac.updateIOTBlockLedger(firstGwBlock, myName)
         #loadOrchestrator()
         #loadOrchestratorIndex(1)
-        threading.Thread(target=runMasterThread).start()
+        #threading.Thread(target=runMasterThread).start()
     else:
         loadOrchestratorFirstinPeers()
         #time.sleep(5)
@@ -1587,7 +1652,7 @@ def main():
         # if (len(peers)>3):
         #     electNewOrchestor()
         #loadOrchestrator()
-        threading.Thread(target=runMasterThread).start()
+        #threading.Thread(target=runMasterThread).start()
         #print("tamanho de todos os votos: "+str(len(votesForNewOrchestrator)))
 
         #print("after getting last chain blocks")
