@@ -559,7 +559,7 @@ class R2ac(object):
                     obj=p.object
                     obj.acquireLockRemote()
                 print("ConsensusLocks acquired!")
-                #orchestratorObject.addBlockConsensusCandidate(pickedKey)
+                self.addBlockConsensusCandidate(pickedKey)
                 self.runPoW()
 
             #print("after orchestratorObject.addBlockConsensusCandidate")
