@@ -42,6 +42,7 @@ def getTime():
     return time.time()
 
 lock=thread.allocate_lock()
+consensusLock=thread.allocate_lock()
 blockConsesusCandiateList = []
 
 
@@ -163,13 +164,13 @@ def sendBlockToPeers(IoTBlock):
     print("sending block to peers")
     logger.debug("Running through peers")
     for peer in peers:
-        print ("Inside for in peers")
+        #print ("Inside for in peers")
         obj = peer.object
         print("sending IoT Block to: " + str(peer.peerURI))
         logger.debug("sending IoT Block to: " + str(peer.peerURI))
         dat = pickle.dumps(IoTBlock)
         obj.updateIOTBlockLedger(dat,myName)
-    print("block sent to peers")
+    print("block sent to all peers")
 
 def syncChain(newPeer):
     """
@@ -346,8 +347,8 @@ def isBlockValid(block):
 
     lastBlkHash = criptoFunctions.calculateHash(lastBlk.index, lastBlk.previousHash, lastBlk.timestamp, lastBlk.publicKey, lastBlk.nonce)
 
-    print ("This Hash:"+str(lastBlkHash))
-    print ("Last Hash:"+str(block.previousHash))
+    #print ("This Hash:"+str(lastBlkHash))
+    #print ("Last Hash:"+str(block.previousHash))
     if(lastBlkHash == block.previousHash):
         logger.info("isBlockValid == true")
         return True
@@ -488,7 +489,14 @@ class R2ac(object):
         logger.debug("added to the sync list")
         logger.debug("================================================")
 
+    def acquireLockRemote(self):
+        global consensusLock
+        consensusLock.acquire(1)
+        return True
 
+    def releaseLockRemote(self):
+        global consensusLock
+        consensusLock.release(1)
 
     def addBlock(self, devPubKey):
         """ Receive a device public key from a device and link it to A block on the chain\n
@@ -496,6 +504,8 @@ class R2ac(object):
             @return encKey - RSA encrypted key for the device be able to communicate with the peers
         """
         global gwPub
+        global consensusLock
+
         print("addingblock... DevPubKey:" + devPubKey)
         logger.debug("|---------------------------------------------------------------------|")
         logger.debug("Block received from device")
@@ -524,8 +534,17 @@ class R2ac(object):
             ### PBFT elect new orchestator every time that a new block should be inserted
             if(consensus=="PBFT"):
                 self.electNewOrchestrator()
+                # while(lockisNotAvailabe):
+                consensusLock.acquire(1)
+                for p in peers:
+                    p.acquireLockRemote()
+                print("ConsensusLocks acquired!")
+                #     trylockEverypeersLocks
+                #     sleep(0.001)
+                #
+                #orchestratorObject.runPBFT(pickedKey)
             orchestratorObject.addBlockConsensusCandidate(pickedKey)
-            print("after orchestratorObject.addBlockConsensusCandidate")
+            #print("after orchestratorObject.addBlockConsensusCandidate")
             #try:
             #PBFTConsensus(bl, gwPub, devPubKey)
             # except KeyboardInterrupt:
@@ -545,6 +564,10 @@ class R2ac(object):
             #     t1.start()
             # except:
             #     print "thread not working..."
+            consensusLock.release(1)
+            for p in peers:
+                p.releaseLockRemote()
+            print("ConsensusLocks released!")
             aesKey = generateAESKey(devPubKey)
         #print("Before encription of rsa2")
         encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
@@ -640,6 +663,10 @@ class R2ac(object):
         logger.info("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "ok"
+
+    def getRemotePeerBlockChain(self):
+        pickledChain = pickle.dumps(chainFunctions.getFullChain())
+        return pickledChain
 
     #Get the missing blocks from orchestrator
     def getLastChainBlocks(self, peerURI, lastBlockIndex):
@@ -1017,7 +1044,7 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
     """
     hashblk = criptoFunctions.calculateHashForBlock(newBlock)
     logger.debug("Running commit function to block: "+str(hashblk))
-    print("######before handlePBFT first for")
+    #print("######before handlePBFT first for")
     for p in alivePeers:
         logger.debug("Asking for block verification from: "+str(p.peerURI))
         #verifyRet = p.object.verifyBlockCandidateRemote(pickle.dumps(newBlock), generatorGwPub, generatorDevicePub)
@@ -1035,7 +1062,7 @@ def handlePBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             if(calcRet):
                 logger.info("Consensus was achieve, updating peers and finishing operation")
                 sendBlockToPeers(newBlock)
-                print("handlePBFT = true")
+                #print("handlePBFT = true")
                 return True
     logger.info("Consesus was not Achieved!!! Block("+str(newBlock.index)+") will not added")
     print("handlePBFT = false")
@@ -1315,7 +1342,7 @@ def runPoW():
     #TODO: randomize selection of gw to orchestrate the block creation
     blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
     print("Device PubKey (insire runPoW): " + str(devPubKey))
-    logger.debug("Running PoW function to block("+str(blk.index)+")")
+
     if(PoWConsensus(blk, gwPub, devPubKey)):
         t2 = time.time()
         logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -1485,7 +1512,7 @@ def runMasterThread():
             if (consensus == "dBFT"):
                 if(len(blockConsesusCandiateList)>0):
                     print("going to rundBFT")
-                    runPBFT()
+                    rundBFT()
         time.sleep(1)
 
 
