@@ -808,7 +808,7 @@ class R2ac(object):
         logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("I finished runPBFT")
 
-    def rundBFT():
+    def rundBFT(self):
         """ Run the dBFT consensus to add a new block on the chain """
         # print("I am in rundBFT")
         t1 = time.time()
@@ -823,7 +823,7 @@ class R2ac(object):
         print("I finished rundBFT")
 
     ################Consensus PoW
-    def runPoW():
+    def runPoW(self):
         """ Run the PoW consensus to add a new block on the chain """
         print("I am in runPoW")
         t1 = time.time()
