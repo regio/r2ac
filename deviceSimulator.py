@@ -241,13 +241,13 @@ def showLastTransactionData():
     server.showLastTransactionData(blockIndex)
     return True
 
-def createSmartContract():
+def callEVM():
     return True
 
 def evmConnector():
     return True
 
-def evmExecutor():
+def executeEVM():
     return True
 
 def loadConnection():
@@ -286,9 +286,9 @@ def main():
                 12: defineConsensus,
                 13: createBlockForSC,
                 14: showLastTransactionData,
-                15: createSmartContract,
+                15: callEVM,
                 16: evmConnector,
-                17: evmExecutor
+                17: executeEVM
                }
 
     mode = -1
