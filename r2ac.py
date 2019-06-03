@@ -457,7 +457,7 @@ class R2ac(object):
                 signature = plainObject[:-(16+len(deviceData))] # remove the last 20 chars
                 print("###Signature after receiving: "+signature)
                 print("###Device Data: "+deviceData)
-                devTime = plainObject[172:-len(deviceData)] # remove the 16 char of timestamp
+                devTime = plainObject[-(16+len(deviceData)):-len(deviceData)] # remove the 16 char of timestamp
                 print("###devTime: "+devTime)
 
                 d = devTime+deviceData
@@ -703,6 +703,16 @@ class R2ac(object):
             print(b.strBlock())
             print("|-----------------------------------------|")
         return "ok"
+
+    def showLastTransactionData(self,blockIndex):
+        print("Showing Data from Last Transaction from block #: " + str(blockIndex))
+        blk = chainFunctions.getBlockByIndex(blockIndex)
+        lastTransactionInfo = chainFunctions.getLatestBlockTransaction(blk).data
+        transactionData=lastTransactionInfo.strInfoData()
+
+        print("My data is: "+str(transactionData))
+
+        return transactionData
 
     def showBlockLedger(self, index):
         """ Log all transactions of a block\n

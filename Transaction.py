@@ -18,3 +18,6 @@ class Transaction:
             self.timestamp) + "\n Data: " + str(self.data) + "\n Signature: " + str(
             self.signature) + "\n"
         return txt
+
+    def strData(self):
+        return str(self.data)

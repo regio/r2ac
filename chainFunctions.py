@@ -66,7 +66,7 @@ def blockContainsTransaction(block, transaction):
     """
     for tr in block.transactions:
         if tr == transaction:
-            return True    #print("uri=" + myURI)
+            return True
 
     return False
 

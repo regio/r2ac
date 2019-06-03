@@ -93,10 +93,9 @@ def sendDataSC(stringSC):
     t = ((time.time() * 1000) * 1000)
     timeStr = "{:.0f}".format(t)
     data= timeStr + stringSC
-    signedData = criptoFunctions.signInfo(privateKey,timeStr)
+    signedData = criptoFunctions.signInfo(privateKey,data)
     print("###Printing Signing Data before sending: "+signedData)
     print ("###Signature lenght: " + str(len(signedData)))
-    signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + stringSC
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
     server.addTransactionSC(publicKey, encobj)
@@ -237,6 +236,10 @@ def createBlockForSC():
     firstTransactionSC='{ "Tipo" : "", "Data": "", "From": "", "To" : "", "Root" : "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421" }'
     sendDataSC(firstTransactionSC)
 
+def showLastTransactionData():
+    blockIndex = int(input('Type the index to show the last transaction data: '))
+    server.showLastTransactionData(blockIndex)
+    return True
 
 def createSmartContract():
     return True
@@ -282,9 +285,10 @@ def main():
                11: newElection,
                 12: defineConsensus,
                 13: createBlockForSC,
-                14: createSmartContract,
-                15: evmConnector,
-                16: evmExecutor
+                14: showLastTransactionData,
+                15: createSmartContract,
+                16: evmConnector,
+                17: evmExecutor
                }
 
     mode = -1
@@ -304,9 +308,10 @@ def main():
         print("11 - Elect a new node as Orchestator (used for voting based consensus")
         print("12 - Set a consensus algorithm")
         print("13 - Create a block for Smart Contract")
-        print("14 - Smart Contract inclusion")
-        print("15 - EVM connector")
-        print("16 - execute EVM code")
+        print("14 - Show data from last transaction from block Index")
+        print("15 - Smart Contract inclusion")
+        print("16 - EVM connector")
+        print("17 - execute EVM code")
 
         try:
             mode = int(input('Input:'))
