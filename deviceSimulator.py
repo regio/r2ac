@@ -93,6 +93,9 @@ def sendDataSC(stringSC):
     t = ((time.time() * 1000) * 1000)
     timeStr = "{:.0f}".format(t)
     data= timeStr + stringSC
+    signedData = criptoFunctions.signInfo(privateKey,timeStr)
+    print("###Printing Signing Data before sending: "+signedData)
+    print ("###Signature lenght: " + str(len(signedData)))
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + stringSC
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)

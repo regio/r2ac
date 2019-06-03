@@ -453,10 +453,11 @@ class R2ac(object):
                 # plainObject contains [Signature + Time + Data]
 
                 plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
-                signature = plainObject[:-20] # remove the last 20 chars
-                deviceData = plainObject[-36:] # retrieve the las 4 chars which are the data
+                deviceData = plainObject[(172+16):] # retrieve the last chars, excluding timestamp and signature
+                signature = plainObject[:-(16+len(deviceData))] # remove the last 20 chars
+                print("###Signature after receiving: "+signature)
                 print("###Device Data: "+deviceData)
-                devTime = plainObject[-20:len(deviceData)] # remove the 16 char of timestamp
+                devTime = plainObject[172:-len(deviceData)] # remove the 16 char of timestamp
                 print("###devTime: "+devTime)
 
                 d = devTime+deviceData
