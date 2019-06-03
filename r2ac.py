@@ -432,6 +432,65 @@ class R2ac(object):
             logger.debug("--Transaction not appended--Key not found")
             return "key not found"
 
+    def addTransactionSC(self, devPublicKey, encryptedObj):
+        """ Receive a new transaction to be add to the chain, add the transaction
+            to a block and send it to all peers\n
+            @param devPublicKey - Public key from the sender device\n
+            @param encryptedObj - Info of the transaction encrypted with AES 256\n
+            @return "ok!" - all done\n
+            @return "Invalid Signature" - an invalid key are found\n
+            @return "Key not found" - the device's key are not found
+        """
+        logger.debug("transaction received")
+        global gwPvt
+        global gwPub
+        t1 = time.time()
+        blk = chainFunctions.findBlock(devPublicKey)
+        if (blk != False and blk.index > 0):
+            devAESKey = findAESKey(devPublicKey)
+            if (devAESKey != False):
+                logger.debug("Transaction is going to be appended to block#("+str(blk.index)+")")
+                # plainObject contains [Signature + Time + Data]
+
+                plainObject = criptoFunctions.decryptAES(encryptedObj, devAESKey)
+                signature = plainObject[:-20] # remove the last 20 chars
+                deviceData = plainObject[-36:] # retrieve the las 4 chars which are the data
+                print("###Device Data: "+deviceData)
+                devTime = plainObject[-20:len(deviceData)] # remove the 16 char of timestamp
+                print("###devTime: "+devTime)
+
+                d = devTime+deviceData
+                isSigned = criptoFunctions.signVerify(d, signature, devPublicKey)
+
+                if isSigned:
+                    deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
+                    nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
+                    signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
+                    gwTime = "{:.0f}".format(((time.time() * 1000) * 1000))
+                    # code responsible to create the hash between Info nodes.
+                    prevInfoHash = criptoFunctions.calculateTransactionHash(chainFunctions.getLatestBlockTransaction(blk))
+
+                    transaction = Transaction.Transaction(nextInt, prevInfoHash, gwTime, deviceInfo, signData)
+
+                    # send to consensus
+                    #if not consensus(newBlockLedger, gwPub, devPublicKey):
+                    #    return "Not Approved"
+                    # if not PBFTConsensus(blk, gwPub, devPublicKey):
+                    #     return "Consensus Not Reached"
+
+                    chainFunctions.addBlockTransaction(blk, transaction)
+                    logger.info("block added locally... now sending to peers..")
+                    t2 = time.time()
+                    logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
+                    #print("all done")
+                    return "ok!"
+                else:
+                    logger.debug("--Transaction not appended--Transaction Invalid Signature")
+                    return "Invalid Signature"
+            logger.debug("--Transaction not appended--Key not found")
+            return "key not found"
+
     #update local bockchain adding a new transaction
     def updateBlockLedger(self, pubKey, transaction):
         """ Recive a new transaction and add it to the chain\n
@@ -541,16 +600,16 @@ class R2ac(object):
                 for p in peers:
                     obj=p.object
                     obj.acquireLockRemote()
-                print("ConsensusLocks acquired!")
+                #print("ConsensusLocks acquired!")
                 orchestratorObject.addBlockConsensusCandidate(pickedKey)
                 orchestratorObject.runPBFT()
-            if(consensus=="dBFT"):
+            if(consensus=="dBFT" or consensus == "Witness3"):
 
                 consensusLock.acquire(1) # only 1 consensus can be running at same time
                 for p in peers:
                     obj=p.object
                     obj.acquireLockRemote()
-                print("ConsensusLocks acquired!")
+                #print("ConsensusLocks acquired!")
                 orchestratorObject.addBlockConsensusCandidate(pickedKey)
                 orchestratorObject.rundBFT()
             if(consensus=="PoW"):
@@ -558,7 +617,7 @@ class R2ac(object):
                 for p in peers:
                     obj=p.object
                     obj.acquireLockRemote()
-                print("ConsensusLocks acquired!")
+                #print("ConsensusLocks acquired!")
                 self.addBlockConsensusCandidate(pickedKey)
                 self.runPoW()
 
@@ -589,7 +648,7 @@ class R2ac(object):
                 for p in peers:
                     obj = p.object
                     obj.releaseLockRemote()
-                print("ConsensusLocks released!")
+                #print("ConsensusLocks released!")
             ######end of lock consensus################
 
             aesKey = generateAESKey(devPubKey)
@@ -1574,7 +1633,7 @@ def runMasterThread():
                 if(len(blockConsesusCandiateList)>0):
                     print("going to runPBFT")
                     runPBFT()
-            if (consensus == "dBFT"):
+            if (consensus == "dBFT" or consensus =="Witness3"):
                 if(len(blockConsesusCandiateList)>0):
                     print("going to rundBFT")
                     rundBFT()

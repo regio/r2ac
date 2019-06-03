@@ -89,6 +89,15 @@ def sendData():
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
     server.addTransaction(publicKey, encobj)
 
+def sendDataSC(stringSC):
+    t = ((time.time() * 1000) * 1000)
+    timeStr = "{:.0f}".format(t)
+    data= timeStr + stringSC
+    signedData = criptoFunctions.signInfo(privateKey, data)
+    toSend = signedData + timeStr + stringSC
+    encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
+    server.addTransaction(publicKey, encobj)
+    #server.addTransaction(toSend)
 
 def decryptAESKey(data):
     """ Receive a encrypted data, decrypt it and put it in the global var 'serverAESKey' """
@@ -165,8 +174,8 @@ def bruteSend(retry):
             print "*** print_exception:"
             traceback.print_exception(exc_type, exc_value, exc_traceback,
                                       limit=2, file=sys.stdout)
-            global serverAESKey
-            print("the size of the serverAESKey is: "+str(len(serverAESKey)))
+            #global serverAESKey
+            #print("the size of the serverAESKey is: "+str(len(serverAESKey)))
             return #addBlockConsensusCandiate
 
 
@@ -185,7 +194,7 @@ def automa(blocks, trans):
     logger.debug("Block #:")
     for blk in range(0, blocks):
         logger.debug(str(blk))
-        print (str(blk))##addBlockConsensusCandiate
+        print (str(blk))
         newKeyPair()
         addBlockOnChain()
         #brutePairAuth(blk)
@@ -214,6 +223,19 @@ def defineConsensus():
     receivedConsensus = str(input('Set a consensus (PBFT, PoW, dBFT or Witness3: '))
     server.setConsensus(receivedConsensus) #server will set its consensus and send it to all peers
     print("Consensus " + receivedConsensus + " was defined" )
+    return True
+
+def createBlockForSC():
+    newKeyPair()
+    addBlockOnChain()
+    while (not (server.isBlockInTheChain(publicKey))):
+        continue
+        # time.sleep(1)
+    firstTransactionSC='{ "Tipo" : "", "Data": "", "From": "", "To" : "", "Root" : "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421" }'
+    sendDataSC(firstTransactionSC)
+
+
+def createSmartContract():
     return True
 
 def loadConnection():
@@ -249,7 +271,11 @@ def main():
                9: defineAutomaNumbers,
                10: merkle,
                11: newElection,
-                12: defineConsensus
+                12: defineConsensus,
+                13: createBlockForSC,
+                14: createSmartContract,
+                15: evmConnector,
+                16: evmExecutor
                }
 
     mode = -1
@@ -268,6 +294,11 @@ def main():
         print("10 - Create Merkle Tree for a given block")
         print("11 - Elect a new node as Orchestator (used for voting based consensus")
         print("12 - Set a consensus algorithm")
+        print("13 - Create a block for Smart Contract")
+        print("14 - Smart Contract inclusion")
+        print("15 - EVM connector")
+        print("16 - execute EVM code")
+
         try:
             mode = int(input('Input:'))
         except ValueError:
