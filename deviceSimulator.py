@@ -96,7 +96,7 @@ def sendDataSC(stringSC):
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + stringSC
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
-    server.addTransaction(publicKey, encobj)
+    server.addTransactionSC(publicKey, encobj)
     #server.addTransaction(toSend)
 
 def decryptAESKey(data):
