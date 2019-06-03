@@ -238,10 +238,76 @@ def createBlockForSC():
 
 def showLastTransactionData():
     blockIndex = int(input('Type the index to show the last transaction data: '))
-    server.showLastTransactionData(blockIndex)
-    return True
+    lastDataTransactionData=server.showLastTransactionData(blockIndex)
+    return lastDataTransactionData
 
 def callEVM():
+    # Create a TCP
+    # IP socket
+    global privateKey
+    global publicKey
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # ROBEN
+    # Coleta o data da ultima transacao um json
+    ultimaTrans = showLastTransactionData()
+    ultimaTransJSON = json.loads(ultimaTrans)
+
+    print("###Insira os dados da chamada do contrato###")
+    tipo=str(input("Type (1,2,3,4): "))
+    data=str(input("Data (binary in hexa: "))
+    origin = str(input("From account: "))
+    dest= str(input("Destination account: "))
+
+    transAtual = json.loads('{"Tipo":"%s","Data":"%s","From":"%s","To":"%s"}' % (tipo, data, origin, dest))
+
+    #chamada =  '{"Tipo":"%s","Data":"%s","From":"%s","To":"%s","Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], transAtual['From'], transAtual['To'], ultimaTransJSON['Root'])
+    chamada =  '{"Tipo":"%s","Data":"%s","From":null,"To":null,"Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], ultimaTransJSON['Root'])
+    chamadaJSON =  json.loads(chamada)
+
+    #chamada = '{"Tipo":"Exec","Data":"YAFgQFNgAWBA8w==","From":null,"To":null,"Root":null}'  # Comentar
+    #chamadaJSON = json.loads(chamada)  # Comentar
+
+    try:
+        # Tamanho maximo do JSON 6 caracteres
+        s.connect(('localhost', 6666))
+        tamanhoSmartContract = str(len(chamada))
+        for i in range(6 - len(tamanhoSmartContract)):
+            tamanhoSmartContract = '0' + tamanhoSmartContract
+        print("Enviando tamanho " + tamanhoSmartContract + "\n")
+        # Envia o SC
+        s.send(tamanhoSmartContract)
+        time.sleep(1)
+        # print(json.dumps(chamadaJSON))
+        s.send(chamada)
+
+        # Recebe tamanho da resposta
+        tamanhoResposta = s.recv(6)
+        print("Tamanho da resposta: " + tamanhoResposta)
+        # Recebe resposta
+        resposta = s.recv(int(tamanhoResposta))
+        print(resposta + "\n")
+
+        # Decodifica resposta
+        respsotaJSON = json.loads(resposta)
+        # print(respsotaJSON['Ret'])
+
+        if respsotaJSON['Erro'] != "":
+            print("Erro: Transacao nao inserida")
+        elif chamadaJSON['Tipo'] == "Exec":
+            print("Execucao, sem insercao de dados na blockchain")
+        else:
+            transacao = '{ "Tipo" : "%s", "Data": "%s", "From": "%s", "To" : "%s", "Root" : "%s" }' % (
+            chamadaJSON['Tipo'], chamadaJSON['Data'], chamadaJSON['From'], chamadaJSON['To'], respsotaJSON['Root'])
+            print("Transacao sendo inserida: %s \n" % transacao)
+            # ROBENNNNN
+            sendDataSC(transacao)
+            # pass
+
+
+    finally:
+        print("fim\n")
+        s.close()
     return True
 
 def evmConnector():
