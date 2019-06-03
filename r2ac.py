@@ -463,6 +463,7 @@ class R2ac(object):
                 isSigned = criptoFunctions.signVerify(d, signature, devPublicKey)
 
                 if isSigned:
+                    print("it is signed!!!")
                     deviceInfo = DeviceInfo.DeviceInfo(signature, devTime, deviceData)
                     nextInt = blk.transactions[len(blk.transactions) - 1].index + 1
                     signData = criptoFunctions.signInfo(gwPvt, str(deviceInfo))
@@ -483,9 +484,10 @@ class R2ac(object):
                     t2 = time.time()
                     logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
                     sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
-                    #print("all done")
+                    print("all done in transations")
                     return "ok!"
                 else:
+                    print("Signature is not ok")
                     logger.debug("--Transaction not appended--Transaction Invalid Signature")
                     return "Invalid Signature"
             logger.debug("--Transaction not appended--Key not found")
