@@ -238,6 +238,12 @@ def createBlockForSC():
 def createSmartContract():
     return True
 
+def evmConnector():
+    return True
+
+def evmExecutor():
+    return True
+
 def loadConnection():
     """ Load the URI of the connection  """
     global server
