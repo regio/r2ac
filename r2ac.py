@@ -1179,10 +1179,10 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
             logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
-            print("####not pbftAchieved")
+            #print("####not pbftAchieved")
         else:
             pbftFinished = False
-            print("####pbftFinished")
+            #print("####pbftFinished")
 
 
     #if (hashblk in newBlockCandidate) and (newBlockCandidate[hashblk] == criptoFunctions.signInfo(gwPvt, newBlock)):
@@ -1356,7 +1356,7 @@ def calcBlockPBFT(newBlock,alivePeers):
     if(consensus == "PBFT" or consensus == "dBFT"):
         cont = int(float(0.667)*float(peerCount))
     if(consensus == "Witness3"):
-        cont = 3
+        cont = 2
     print("##Value of cont:   "+str(cont))
     #if len(newBlockCandidate[criptoFunctions.calculateHashForBlock(newBlock)]) > ((2/3)*len(alivePeers)):
     if (blHash in newBlockCandidate) and (locDicCount >= cont):

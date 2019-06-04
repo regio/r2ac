@@ -208,7 +208,7 @@ def automa(blocks, trans):
                 #time.sleep(1)
             #print("#outside while in automa")
             bruteSend(tr)
-    print("end of automa")
+    #print("end of automa")
 
 
 def merkle():
