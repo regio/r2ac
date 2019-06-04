@@ -553,8 +553,9 @@ class R2ac(object):
 
     def acquireLockRemote(self):
         global consensusLock
-        consensusLock.acquire(1)
-        return True
+        return consensusLock.acquire(False)  #with False argument, it will return true if it was locked or false if it could not be locked
+        #consensusLock.acquire(1)
+        #return True
 
     def releaseLockRemote(self):
         global consensusLock
@@ -601,29 +602,28 @@ class R2ac(object):
             #############LockCONSENSUS STARTS HERE###############
             if(consensus=="PBFT"):
                 ### PBFT elect new orchestator every time that a new block should be inserted
-                # while(lockisNotAvailabe):
-                consensusLock.acquire(1)
-                for p in peers:
-                    obj=p.object
-                    obj.acquireLockRemote()
+                #allPeersAreLocked = False
+                self.lockForConsensus()
                 #print("ConsensusLocks acquired!")
                 self.electNewOrchestrator()
                 orchestratorObject.addBlockConsensusCandidate(pickedKey)
                 orchestratorObject.runPBFT()
             if(consensus=="dBFT" or consensus == "Witness3"):
 
-                consensusLock.acquire(1) # only 1 consensus can be running at same time
-                for p in peers:
-                    obj=p.object
-                    obj.acquireLockRemote()
+                # consensusLock.acquire(1) # only 1 consensus can be running at same time
+                # for p in peers:
+                #     obj=p.object
+                #     obj.acquireLockRemote()
+                self.lockForConsensus()
                 #print("ConsensusLocks acquired!")
                 orchestratorObject.addBlockConsensusCandidate(pickedKey)
                 orchestratorObject.rundBFT()
             if(consensus=="PoW"):
-                consensusLock.acquire(1) # only 1 consensus can be running at same time
-                for p in peers:
-                    obj=p.object
-                    obj.acquireLockRemote()
+                # consensusLock.acquire(1) # only 1 consensus can be running at same time
+                # for p in peers:
+                #     obj=p.object
+                #     obj.acquireLockRemote()
+                self.lockForConsensus()
                 #print("ConsensusLocks acquired!")
                 self.addBlockConsensusCandidate(pickedKey)
                 self.runPoW()
@@ -940,6 +940,43 @@ class R2ac(object):
         print("Finish adding Block without consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
         return True
 
+    def lockForConsensus(self):
+        """ lock the consensusLock without resulting in deadlocks """
+
+        global consensusLock
+        global peers
+
+        counter = 0
+        while (counter < len(peers)):
+            while (consensusLock.acquire(
+                    False) == False):  # in this mode (with False value) it will lock the execution and return true if it was locked or false if not
+                logger.info("I can't lock my lock, waiting for it")
+                time.sleep(0.01)
+            # print("##Before for and after acquire my lock")
+            for p in peers:
+                obj = p.object
+                thisPeerIsNotAvailableToLock = obj.acquireLockRemote()
+                counter = counter + 1
+                # print("On counter = "+str(counter)+" lock result was: "+str(thisPeerIsNotAvailableToLock))
+                if (thisPeerIsNotAvailableToLock == False):
+                    counter = counter - 1  # I have to unlock the locked ones, the last was not locked
+                    logger.info("Almost got a deadlock")
+                    consensusLock.release()
+                    if (counter > 0):
+                        for p in peers:
+                            obj = p.object
+                            obj.releaseLockRemote()
+                            logger.info("released lock counter: " + str(counter))
+                            counter = counter - 1
+                            if (counter == 0):
+                                logger.info("released locks")
+                                break
+                            print("After first break PBFT")
+                            logger.info("After first break PBFT")
+                    logger.info("sleeping 0.01")
+                    time.sleep(0.01)
+                    break
+        return True
     # def voteNewOrchestratorExposed(self):
     #     global myVoteForNewOrchestrator
     #     global votesForNewOrchestrator
@@ -1081,6 +1118,8 @@ def getPeerbyPK(gwPubKey):
 ###########
 newBlockCandidate = {} ## the idea newBlockCandidate[newBlockHash][gwPubKey] = signature, if the gateway put its signature, it is voting for YES
 newTransactionCandidate = {} #same as block, for transaction
+
+
 
 # def runPBFT():
 #     """ Run the PBFT consensus to add a new block on the chain """
