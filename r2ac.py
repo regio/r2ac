@@ -791,7 +791,7 @@ class R2ac(object):
         #     #obj.updateIOTBlockLedger(dat, myName)
         #     obj.chainFunctions.addBlockHeader(newBlock)
 
-        print("For finished")
+        #print("For finished")
 
     def getMyOrchestrator(self):
         dat = pickle.dumps(orchestratorObject)
@@ -801,9 +801,9 @@ class R2ac(object):
         global votesForNewOrchestrator
 
         dat = pickle.loads(sentVote)
-        print("adding vote in remote peer"+str(dat))
+        #print("adding vote in remote peer"+str(dat))
         votesForNewOrchestrator.append(dat)
-        print("finished adding vote for orchetrator")
+        #print("finished adding vote for orchetrator")
         return True
 
     def peerVoteNewOrchestrator(self):
@@ -812,7 +812,7 @@ class R2ac(object):
         randomGw = random.randint(0, len(peers) - 1)
         #randomGw=1
         votedURI = peers[randomGw].peerURI
-        print("VotedpubKey: " + str(votedURI))
+        print("VotedURI: " + str(votedURI))
         #myVoteForNewOrchestrator = [gwPub, votedURI, criptoFunctions.signInfo(gwPvt, votedURI)]  # not safe sign, just for test
         myVoteForNewOrchestrator = votedURI
         votesForNewOrchestrator.append(myVoteForNewOrchestrator)
@@ -881,7 +881,7 @@ class R2ac(object):
         PBFTConsensus(blk, gwPub, devPubKey)
         t2 = time.time()
         logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        print("I finished runPBFT")
+        print("Finish PBFT consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
 
     def rundBFT(self):
         """ Run the dBFT consensus to add a new block on the chain """
@@ -895,7 +895,7 @@ class R2ac(object):
         PBFTConsensus(blk, gwPub, devPubKey)
         t2 = time.time()
         logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        print("I finished rundBFT")
+        print("Finish dBFT consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
 
     ################Consensus PoW
     def runPoW(self):
@@ -909,8 +909,8 @@ class R2ac(object):
 
         if (PoWConsensus(blk, gwPub, devPubKey)):
             t2 = time.time()
-            logger.info("=====6=====>time to execute PoW block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-            print("I finished runPoW")
+            logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+            print("Finish PoW consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
         else:
             t2 = time.time()
             logger.info(
@@ -931,7 +931,7 @@ class R2ac(object):
         chainFunctions.addBlockHeader(newBlock)
         sendBlockToPeers(newBlock)
         t2 = time.time()
-        logger.info("=====6=====>time to execute add block without consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("Finish adding Block without consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
         return True
 
