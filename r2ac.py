@@ -568,7 +568,7 @@ class R2ac(object):
         global gwPub
         global consensusLock
 
-        print("addingblock... DevPubKey:" + devPubKey)
+        #print("addingblock... DevPubKey:" + devPubKey)
         logger.debug("|---------------------------------------------------------------------|")
         logger.debug("Block received from device")
         aesKey = ''
@@ -581,19 +581,23 @@ class R2ac(object):
                 #print("inside second if")
                 logger.info("Using existent block data")
                 aesKey = generateAESKey(blk.publicKey)
+                encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
+                t2 = time.time()
         else:
             #print("inside else")
             logger.info("***** New Block: Chain size:" + str(chainFunctions.getBlockchainSize()))
-            #####No Consensus
+
+            pickedKey = pickle.dumps(devPubKey)
+            aesKey = generateAESKey(devPubKey)
+            #print("pickedKey: ")
+            #print(pickedKey)
+
+            encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
+            t2 = time.time()
+            #####Old No Consensus
             # bl = chainFunctions.createNewBlock(devPubKey, gwPvt)
             # sendBlockToPeers(bl)
-
-            ####Consensus uncoment the 3 lines
             logger.debug("starting block consensus")
-            pickedKey = pickle.dumps(devPubKey)
-            print("pickedKey: ")
-            print(pickedKey)
-
             #############LockCONSENSUS STARTS HERE###############
             if(consensus=="PBFT"):
                 ### PBFT elect new orchestator every time that a new block should be inserted
@@ -657,11 +661,12 @@ class R2ac(object):
                 #print("ConsensusLocks released!")
             ######end of lock consensus################
 
-            aesKey = generateAESKey(devPubKey)
+
         #print("Before encription of rsa2")
-        encKey = criptoFunctions.encryptRSA2(devPubKey, aesKey)
-        t2 = time.time()
+
+        t3 = time.time()
         logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("=====8=====>Time to add block (perform consensus and update all peers): " + '{0:.12f}'.format((t3 - t1) * 1000))
         logger.debug("|---------------------------------------------------------------------|")
         print("block added")
         return encKey
@@ -840,7 +845,7 @@ class R2ac(object):
             obj.loadElectedOrchestrator(dat)
         t2 = time.time()
         logger.info("=====7=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
+        #logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         # orchestratorObject
