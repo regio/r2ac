@@ -66,7 +66,7 @@ gwPvt = ""
 gwPub = ""
 myOwnBlock = ""
 orchestratorObject=""
-consensus = "PBFT" #it can be dBFT, PBFT, PoW, Witness3
+consensus = "None" #it can be None, dBFT, PBFT, PoW, Witness3
 votesForNewOrchestrator = [] #list of votes for new orchestrator votes are: voter gwPub, voted gwPub, signature
 myVoteForNewOrchestrator =[] # my gwPub, voted gwPub, my signed vote
 
@@ -623,6 +623,9 @@ class R2ac(object):
                 #print("ConsensusLocks acquired!")
                 self.addBlockConsensusCandidate(pickedKey)
                 self.runPoW()
+            if(consensus=="None"):
+                self.addBlockConsensusCandidate(pickedKey)
+                self.runNoConsesus()
 
             #print("after orchestratorObject.addBlockConsensusCandidate")
             #try:
@@ -902,7 +905,7 @@ class R2ac(object):
         global gwPvt
         devPubKey = getBlockFromSyncList()
         blk = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
-        print("Device PubKey (insire runPoW): " + str(devPubKey))
+        #print("Device PubKey (insire runPoW): " + str(devPubKey))
 
         if (PoWConsensus(blk, gwPub, devPubKey)):
             t2 = time.time()
@@ -913,6 +916,24 @@ class R2ac(object):
             logger.info(
                 "Something went wrong, time to execute PoW Block Consensus" + '{0:.12f}'.format((t2 - t1) * 1000))
             print("I finished runPoW - Wrong")
+
+    def runNoConsesus(self):
+        print("Running without consensus")
+        t1=time.time()
+
+        global peers
+        devPubKey = getBlockFromSyncList()
+        newBlock = chainFunctions.createNewBlock(devPubKey, gwPvt, consensus)
+        signature = verifyBlockCandidate(newBlock, gwPub, devPubKey, peers)
+        if (signature == False):
+            logger.info("Consesus was not Achieved!!! Block(" + str(newBlock.index) + ") will not added")
+            return False
+        chainFunctions.addBlockHeader(newBlock)
+        sendBlockToPeers(newBlock)
+        t2 = time.time()
+        logger.info("=====6=====>time to execute add block without consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        print("Finish adding Block without consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
+        return True
 
     # def voteNewOrchestratorExposed(self):
     #     global myVoteForNewOrchestrator

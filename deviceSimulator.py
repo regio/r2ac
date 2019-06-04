@@ -222,7 +222,7 @@ def newElection():
     return True
 
 def defineConsensus():
-    receivedConsensus = str(input('Set a consensus (PBFT, PoW, dBFT or Witness3: '))
+    receivedConsensus = str(input('Set a consensus (None, PBFT, PoW, dBFT or Witness3) (None is default) : '))
     server.setConsensus(receivedConsensus) #server will set its consensus and send it to all peers
     print("Consensus " + receivedConsensus + " was defined" )
     return True
