@@ -601,13 +601,13 @@ class R2ac(object):
             #############LockCONSENSUS STARTS HERE###############
             if(consensus=="PBFT"):
                 ### PBFT elect new orchestator every time that a new block should be inserted
-                self.electNewOrchestrator()
                 # while(lockisNotAvailabe):
                 consensusLock.acquire(1)
                 for p in peers:
                     obj=p.object
                     obj.acquireLockRemote()
                 #print("ConsensusLocks acquired!")
+                self.electNewOrchestrator()
                 orchestratorObject.addBlockConsensusCandidate(pickedKey)
                 orchestratorObject.runPBFT()
             if(consensus=="dBFT" or consensus == "Witness3"):
