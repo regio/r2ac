@@ -248,7 +248,6 @@ def callEVM():
     global publicKey
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    # ROBEN
     # Coleta o data da ultima transacao um json
     ultimaTrans = showLastTransactionData()
     ultimaTransJSON = json.loads(ultimaTrans)
@@ -300,7 +299,7 @@ def callEVM():
             transacao = '{ "Tipo" : "%s", "Data": "%s", "From": "%s", "To" : "%s", "Root" : "%s" }' % (
             chamadaJSON['Tipo'], chamadaJSON['Data'], chamadaJSON['From'], chamadaJSON['To'], respsotaJSON['Root'])
             print("Transacao sendo inserida: %s \n" % transacao)
-            # ROBENNNNN
+
             sendDataSC(transacao)
             # pass
 
