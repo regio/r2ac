@@ -253,16 +253,16 @@ def callEVM():
     ultimaTrans = showLastTransactionData()
     ultimaTransJSON = json.loads(ultimaTrans)
 
-    print("###Insira os dados da chamada do contrato###")
-    tipo=str(input("Type (1,2,3,4): "))
-    data=str(input("Data (binary in hexa: "))
+    print("###Please, insert data to call the Smart Contract###")
+    tipo=str(input("Type (Exec,Criar,Cham): "))
+    data=str(input("Data (binary in hexa): "))
     origin = str(input("From account: "))
     dest= str(input("Destination account: "))
 
     transAtual = json.loads('{"Tipo":"%s","Data":"%s","From":"%s","To":"%s"}' % (tipo, data, origin, dest))
 
-    #chamada =  '{"Tipo":"%s","Data":"%s","From":"%s","To":"%s","Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], transAtual['From'], transAtual['To'], ultimaTransJSON['Root'])
-    chamada =  '{"Tipo":"%s","Data":"%s","From":null,"To":null,"Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], ultimaTransJSON['Root'])
+    chamada =  '{"Tipo":"%s","Data":"%s","From":"%s","To":"%s","Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], transAtual['From'], transAtual['To'], ultimaTransJSON['Root'])
+    #chamada =  '{"Tipo":"%s","Data":"%s","From":null,"To":null,"Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], ultimaTransJSON['Root'])
     chamadaJSON =  json.loads(chamada)
 
     #chamada = '{"Tipo":"Exec","Data":"YAFgQFNgAWBA8w==","From":null,"To":null,"Root":null}'  # Comentar
@@ -375,9 +375,9 @@ def main():
         print("12 - Set a consensus algorithm")
         print("13 - Create a block for Smart Contract")
         print("14 - Show data from last transaction from block Index")
-        print("15 - Smart Contract inclusion")
-        print("16 - EVM connector")
-        print("17 - execute EVM code")
+        print("15 - Call Smart Contract")
+        #print("16 - EVM connector")
+        #print("17 - execute EVM code")
 
         try:
             mode = int(input('Input:'))
