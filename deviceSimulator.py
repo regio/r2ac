@@ -212,18 +212,18 @@ def automa(blocks, trans):
 
 
 def merkle():
-    """ Calculates the hash markle tree of the block """    global publicKey
+    """ Calculates the hash markle tree of the block """
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     blk = int(input("Which block you want to create the merkle tree:"))
     server.calcMerkleTree(blk)#addBlockConsensusCandiate
-    print ("done")    global publicKey
+    print ("done")
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
 def newElection():
     server.electNewOrchestrator()
-    return True    global publicKey
+    return True
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 
@@ -241,7 +241,6 @@ def createBlockForSC():
         # time.sleep(1)
     firstTransactionSC='{ "Tipo" : "", "Data": "", "From": "", "To" : "", "Root" : "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421" }'
     sendDataSC(firstTransactionSC)
-    global publicKey
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
 def showLastTransactionData():
