@@ -422,7 +422,7 @@ class R2ac(object):
                     chainFunctions.addBlockTransaction(blk, transaction)
                     #logger.info("block added locally... now sending to peers..")
                     t2 = time.time()
-                    logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    logger.info("==2=>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
                     sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
                     #print("all done")
                     return "ok!"
@@ -483,7 +483,7 @@ class R2ac(object):
                     chainFunctions.addBlockTransaction(blk, transaction)
                     #logger.info("block added locally... now sending to peers..")
                     t2 = time.time()
-                    logger.info("=====2=====>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
+                    logger.info("==2=>time to add transaction in a block: " + '{0:.12f}'.format((t2 - t1) * 1000))
                     sendTransactionToPeers(devPublicKey, transaction) # --->> this function should be run in a different thread.
                     print("all done in transations")
                     return "ok!"
@@ -512,7 +512,7 @@ class R2ac(object):
                     isTransactionValid(trans, pubKey)
                 chainFunctions.addBlockTransaction(blk, trans)
         t2 = time.time()
-        logger.info("=====3=====>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==3=>time to update transaction received: " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "done"
 
     # update local bockchain adding a new block
@@ -533,7 +533,7 @@ class R2ac(object):
             chainFunctions.addBlockHeader(b)
         t2 = time.time()
         print("updating was done")
-        logger.info("=====4=====>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==4=>time to add new block in peers: " + '{0:.12f}'.format((t2 - t1) * 1000))
 
 
     def addBlockConsensusCandidate(self, devPubKey):
@@ -665,8 +665,8 @@ class R2ac(object):
         #print("Before encription of rsa2")
 
         t3 = time.time()
-        logger.info("=====1=====>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
-        logger.info("=====8=====>Time to add block (perform consensus and update all peers): " + '{0:.12f}'.format((t3 - t1) * 1000))
+        logger.info("==1=>time to generate key: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==8=>Time to add block (perform consensus and update all peers): " + '{0:.12f}'.format((t3 - t1) * 1000))
         logger.debug("|---------------------------------------------------------------------|")
         print("block added")
         return encKey
@@ -764,8 +764,8 @@ class R2ac(object):
         mt.add_leaf(trans, True)
         mt.make_tree()
         t2 = time.time()
-        logger.info("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
-        print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==5=>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
+        #print("=====5=====>time to generate Merkle Tree size (" + str(size) + ") : " + '{0:.12f}'.format((t2 - t1) * 1000))
         return "ok"
 
     def getRemotePeerBlockChain(self):
@@ -844,7 +844,7 @@ class R2ac(object):
             dat = pickle.dumps(orchestratorObject)
             obj.loadElectedOrchestrator(dat)
         t2 = time.time()
-        logger.info("=====7=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==7=>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         #logger.info("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("New Orchestator loaded is: " + str(newOrchestratorURI))
         print("=====>time to execute New Election block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
@@ -885,7 +885,7 @@ class R2ac(object):
 
         PBFTConsensus(blk, gwPub, devPubKey)
         t2 = time.time()
-        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==6=>time to exec block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("Finish PBFT consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
 
     def rundBFT(self):
@@ -899,7 +899,7 @@ class R2ac(object):
         logger.debug("Running dBFT function to block(" + str(blk.index) + ")")
         PBFTConsensus(blk, gwPub, devPubKey)
         t2 = time.time()
-        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==6=>time to exec block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("Finish dBFT consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
 
     ################Consensus PoW
@@ -914,7 +914,7 @@ class R2ac(object):
 
         if (PoWConsensus(blk, gwPub, devPubKey)):
             t2 = time.time()
-            logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+            logger.info("==6=>time to exec block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
             print("Finish PoW consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
         else:
             t2 = time.time()
@@ -936,7 +936,7 @@ class R2ac(object):
         chainFunctions.addBlockHeader(newBlock)
         sendBlockToPeers(newBlock)
         t2 = time.time()
-        logger.info("=====6=====>time to execute block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
+        logger.info("==6=>time to exec block consensus: " + '{0:.12f}'.format((t2 - t1) * 1000))
         print("Finish adding Block without consensus in: "+ '{0:.12f}'.format((t2 - t1) * 1000))
         return True
 
@@ -966,10 +966,10 @@ class R2ac(object):
                         for p in peers:
                             obj = p.object
                             obj.releaseLockRemote()
-                            logger.info("released lock counter: " + str(counter))
+                            #logger.info("released lock counter: " + str(counter))
                             counter = counter - 1
                             if (counter == 0):
-                                logger.info("released locks")
+                                #logger.info("released locks")
                                 break
                             print("After first break PBFT")
                             #logger.info("After first break PBFT")
