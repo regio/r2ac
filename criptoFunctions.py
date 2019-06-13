@@ -129,6 +129,7 @@ def generateRSAKeyPair():
         @return pub, prv - public and private key
     """
     private = RSA.generate(1024)
+
     pubKey = private.publickey()
     prv = private.exportKey()
     pub = pubKey.exportKey()

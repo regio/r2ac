@@ -31,7 +31,10 @@ def generateRSAKeyPair():
         @return pub - public key\n
         @return prv - private key
     """
+    #randValue = Random.random.randrange(24)
     private = RSA.generate(1024)
+
+    #private = RSA.generate(1024,randValue)
     pubKey = private.publickey()
     prv = private.exportKey()
     pub = pubKey.exportKey()
@@ -49,15 +52,15 @@ def setServer():
 def addBlockOnChain():
     """ Take the value of 'publicKey' var, and add it to the chain as a block"""
     global serverAESEncKey
-    print("###addBlockonChain in devicesimulator, publicKey")
-    print(publicKey)
+    #print("###addBlockonChain in devicesimulator, publicKey")
+    #print(publicKey)
     serverAESEncKey = server.addBlock(publicKey)
-    print("###addBlockonChain in devicesimulator, serverAESEncKey")
-    print(serverAESEncKey)
+    #print("###addBlockonChain in devicesimulator, serverAESEncKey")
+    #print(serverAESEncKey)
     #while len(serverAESEncKey) < 10:
     #    serverAESEncKey = server.addBlock(publicKey)
     decryptAESKey(serverAESEncKey)
-    print("###after decrypt aes")
+    #print("###after decrypt aes")
 
 def sendDataTest():
     """ Send fake data to test the system """
@@ -81,11 +84,22 @@ def sendData():
     # print("data:"+data)
     signedData = criptoFunctions.signInfo(privateKey, data)
     toSend = signedData + timeStr + temperature
-    print("ServeAESKEY: ")
-    print(serverAESKey)
+    #print("ServeAESKEY: ")
+    #print(serverAESKey)
     encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
     server.addTransaction(publicKey, encobj)
 
+def sendDataSC(stringSC):
+    t = ((time.time() * 1000) * 1000)
+    timeStr = "{:.0f}".format(t)
+    data= timeStr + stringSC
+    signedData = criptoFunctions.signInfo(privateKey,data)
+    print("###Printing Signing Data before sending: "+signedData)
+    print ("###Signature lenght: " + str(len(signedData)))
+    toSend = signedData + timeStr + stringSC
+    encobj = criptoFunctions.encryptAES(toSend, serverAESKey)
+    server.addTransactionSC(publicKey, encobj)
+    #server.addTransaction(toSend)
 
 def decryptAESKey(data):
     """ Receive a encrypted data, decrypt it and put it in the global var 'serverAESKey' """
@@ -162,8 +176,8 @@ def bruteSend(retry):
             print "*** print_exception:"
             traceback.print_exception(exc_type, exc_value, exc_traceback,
                                       limit=2, file=sys.stdout)
-            global serverAESKey
-            print("the size of the serverAESKey is: "+str(len(serverAESKey)))
+            #global serverAESKey
+            #print("the size of the serverAESKey is: "+str(len(serverAESKey)))
             return #addBlockConsensusCandiate
 
 
@@ -182,7 +196,7 @@ def automa(blocks, trans):
     logger.debug("Block #:")
     for blk in range(0, blocks):
         logger.debug(str(blk))
-        print (str(blk))##addBlockConsensusCandiate
+        print (str(blk))
         newKeyPair()
         addBlockOnChain()
         #brutePairAuth(blk)
@@ -192,16 +206,121 @@ def automa(blocks, trans):
             while (not (server.isBlockInTheChain(publicKey))):
                 continue
                 #time.sleep(1)
-            print("#outside while in automa")
+            #print("#outside while in automa")
             bruteSend(tr)
-    print("end of automa")
+    #print("end of automa")
 
 
 def merkle():
     """ Calculates the hash markle tree of the block """
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
     blk = int(input("Which block you want to create the merkle tree:"))
     server.calcMerkleTree(blk)#addBlockConsensusCandiate
     print ("done")
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
+def newElection():
+    server.electNewOrchestrator()
+    return True
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
+def defineConsensus():
+    receivedConsensus = str(input('Set a consensus (None, PBFT, PoW, dBFT or Witness3) (None is default) : '))
+    server.setConsensus(receivedConsensus) #server will set its consensus and send it to all peers
+    print("Consensus " + receivedConsensus + " was defined" )
+    return True
+
+def createBlockForSC():
+    newKeyPair()
+    addBlockOnChain()
+    while (not (server.isBlockInTheChain(publicKey))):
+        continue
+        # time.sleep(1)
+    firstTransactionSC='{ "Tipo" : "", "Data": "", "From": "", "To" : "", "Root" : "56e81f171bcc55a6ff8345e692c0f86e5b48e01b996cadc001622fb5e363b421" }'
+    sendDataSC(firstTransactionSC)
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+def showLastTransactionData():
+    blockIndex = int(input('Type the index to show the last transaction data: '))
+    lastDataTransactionData=server.showLastTransactionData(blockIndex)
+    return lastDataTransactionData
+
+def callEVM():
+    # Create a TCP
+    # IP socket
+    global privateKey
+    global publicKey
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+    # Coleta o data da ultima transacao um json
+    ultimaTrans = showLastTransactionData()
+    ultimaTransJSON = json.loads(ultimaTrans)
+
+    print("###Please, insert data to call the Smart Contract###")
+    tipo=str(input("Type (Exec,Criar,Cham): "))
+    data=str(input("Data (binary in hexa): "))
+    origin = str(input("From account: "))
+    dest= str(input("Destination account: "))
+
+    transAtual = json.loads('{"Tipo":"%s","Data":"%s","From":"%s","To":"%s"}' % (tipo, data, origin, dest))
+
+    chamada =  '{"Tipo":"%s","Data":"%s","From":"%s","To":"%s","Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], transAtual['From'], transAtual['To'], ultimaTransJSON['Root'])
+    #chamada =  '{"Tipo":"%s","Data":"%s","From":null,"To":null,"Root":"%s"}' % (transAtual['Tipo'], transAtual['Data'], ultimaTransJSON['Root'])
+    chamadaJSON =  json.loads(chamada)
+
+    #chamada = '{"Tipo":"Exec","Data":"YAFgQFNgAWBA8w==","From":null,"To":null,"Root":null}'  # Comentar
+    #chamadaJSON = json.loads(chamada)  # Comentar
+
+    try:
+        # Tamanho maximo do JSON 6 caracteres
+        s.connect(('localhost', 6666))
+        tamanhoSmartContract = str(len(chamada))
+        for i in range(6 - len(tamanhoSmartContract)):
+            tamanhoSmartContract = '0' + tamanhoSmartContract
+        print("Enviando tamanho " + tamanhoSmartContract + "\n")
+        # Envia o SC
+        s.send(tamanhoSmartContract)
+        time.sleep(1)
+        # print(json.dumps(chamadaJSON))
+        s.send(chamada)
+
+        # Recebe tamanho da resposta
+        tamanhoResposta = s.recv(6)
+        print("Tamanho da resposta: " + tamanhoResposta)
+        # Recebe resposta
+        resposta = s.recv(int(tamanhoResposta))
+        print(resposta + "\n")
+
+        # Decodifica resposta
+        respsotaJSON = json.loads(resposta)
+        # print(respsotaJSON['Ret'])
+
+        if respsotaJSON['Erro'] != "":
+            print("Erro: Transacao nao inserida")
+        elif chamadaJSON['Tipo'] == "Exec":
+            print("Execucao, sem insercao de dados na blockchain")
+        else:
+            transacao = '{ "Tipo" : "%s", "Data": "%s", "From": "%s", "To" : "%s", "Root" : "%s" }' % (
+            chamadaJSON['Tipo'], chamadaJSON['Data'], chamadaJSON['From'], chamadaJSON['To'], respsotaJSON['Root'])
+            print("Transacao sendo inserida: %s \n" % transacao)
+
+            sendDataSC(transacao)
+            # pass
+
+
+    finally:
+        print("fim\n")
+        s.close()
+    return True
+
+def evmConnector():
+    return True
+
+def executeEVM():
+    return True
 
 def loadConnection():
     """ Load the URI of the connection  """
@@ -234,7 +353,14 @@ def main():
                7: listPeers,
                8: newKeyPair,
                9: defineAutomaNumbers,
-               10: merkle
+               10: merkle,
+               11: newElection,
+                12: defineConsensus,
+                13: createBlockForSC,
+                14: showLastTransactionData,
+                15: callEVM,
+                16: evmConnector,
+                17: executeEVM
                }
 
     mode = -1
@@ -244,13 +370,21 @@ def main():
         print("1 - Set Server Address[ex:PYRO:chain.server@blablabala:00000]")
         print("2 - Add Peer")
         print("3 - Authentication Request [a)Gw Generate AES Key;b)Enc key with RSA;c)Dec AES Key]")
-        print("4 - Produce Data [a)sign data;b)encrypt with AES key;c)SendPYRO:obj_a0e5d0b9c148475dac65766b4bda71ec@10.132.253.150:42737 to Gateway;d)GW update ledger and peers")
+        print("4 - Produce Data [a)sign data;b)encrypt with AES key;c)Send to Gateway;d)GW update ledger and peers")
         print("5 - List Block Headers from connected Gateway")
         print("6 - List Transactions for a given Block Header")
         print("7 - List PEERS")
         print("8 - Recreate Device KeyPair")
         print("9 - Run a batch operation...")
         print("10 - Create Merkle Tree for a given block")
+        print("11 - Elect a new node as Orchestator (used for voting based consensus")
+        print("12 - Set a consensus algorithm")
+        print("13 - Create a block for Smart Contract")
+        print("14 - Show data from last transaction from block Index")
+        print("15 - Call Smart Contract")
+        #print("16 - EVM connector")
+        #print("17 - execute EVM code")
+
         try:
             mode = int(input('Input:'))
         except ValueError:

@@ -1,0 +1,11 @@
+1 - tempo de pedir adição de bloco e receber retorno
+2 - tempo para adicionar transação no bloco do gw responsavel pelo device
+3 - tempo para os demais peers atualizarem a blockchain com as transações
+4 - tempo que peers demoram para atualizar blockchain com bloco enviado pelo orquestrador
+ 
+
+
+
+TODO:
+- Sortear orquestrador (orquestrador sempre inicia o consenso dos blocos e transacoes dos seus devices)
+- colocar lista de transações candidatas em cada gw
