@@ -1223,7 +1223,7 @@ def commitBlockPBFT(newBlock,generatorGwPub,generatorDevicePub,alivePeers):
             newBlock = chainFunctions.createNewBlock(generatorDevicePub, gwPvt, consensus)
             #logger.info("Block Recriated ID was:("+str(oldId)+") new:("+str(newBlock.index)+")")
             i = i + 1
-            #print("####not pbftAchieved")
+            #print("####nopen(ot pbftAchieved")
         else:
             pbftFinished = False
             #print("####pbftFinished")
