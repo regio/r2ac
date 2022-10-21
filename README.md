@@ -5,9 +5,12 @@ It was wrote in Python 2.7
 Dependencies:
 - pyCrypto
 - flask
-- request 
+- requests
 - merkle 
 - pyro4
+
+In order to instal pyCripto first install python-dev (linux)
+```sudo apt-get install python-dev```
 
 to install use: sudo ./installDependencies.sh
 
